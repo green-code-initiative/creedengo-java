@@ -26,6 +26,7 @@ import javax.annotation.Nonnull;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.semantic.MethodMatchers;
+import org.sonar.plugins.java.api.tree.Arguments;
 import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
 import org.sonar.plugins.java.api.tree.MethodInvocationTree;
 import org.sonar.plugins.java.api.tree.MethodTree;
@@ -67,7 +68,9 @@ public class AvoidRegexPatternNotStatic extends IssuableSubscriptionVisitor {
 
         @Override
         public void visitMethodInvocation(@Nonnull MethodInvocationTree tree) {
-            if (PATTERN_COMPILE.matches(tree)) {
+            Arguments arguments = tree.arguments();
+            boolean isArgumentStringLitteral = !arguments.isEmpty() && arguments.get(0).is(Tree.Kind.STRING_LITERAL);
+            if (PATTERN_COMPILE.matches(tree) && isArgumentStringLitteral){
                 reportIssue(tree, MESSAGE_RULE);
             } else {
                 super.visitMethodInvocation(tree);
