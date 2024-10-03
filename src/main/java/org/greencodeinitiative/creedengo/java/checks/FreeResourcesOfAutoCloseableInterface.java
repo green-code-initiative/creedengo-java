@@ -74,6 +74,9 @@ public class FreeResourcesOfAutoCloseableInterface extends IssuableSubscriptionV
     @Override
     public void leaveNode(Tree tree) {
         if (tree.is(Tree.Kind.TRY_STATEMENT)) {
+            if(!withinTry.isEmpty()) {
+                withinTry.pop();
+            }
             List<Tree> secondaryTrees = toReport.pop();
             if (!secondaryTrees.isEmpty()) {
                 reportIssue(tree, MESSAGE_RULE);
