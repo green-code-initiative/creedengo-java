@@ -17,27 +17,26 @@
  */
 package org.greencodeinitiative.creedengo.java;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.Plugin;
 import org.sonar.api.SonarRuntime;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-
 class JavaPluginTest {
   private Plugin.Context context;
 
-    @BeforeEach
-    void init() {
-        SonarRuntime sonarRuntime = mock(SonarRuntime.class);
-        context = new Plugin.Context(sonarRuntime);
-        new JavaPlugin().define(context);
-    }
+  @BeforeEach
+  void init() {
+    SonarRuntime sonarRuntime = mock(SonarRuntime.class);
+    context = new Plugin.Context(sonarRuntime);
+    new JavaPlugin().define(context);
+  }
 
-    @Test
-    void test() {
-        assertThat(context.getExtensions()).hasSize(2);
-    }
-
+  @Test
+  void test() {
+    assertThat(context.getExtensions()).hasSize(2);
+  }
 }

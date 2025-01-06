@@ -17,35 +17,41 @@
  */
 package org.greencodeinitiative.creedengo.java;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.junit.jupiter.api.Test;
-import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
-import org.sonar.check.Rule;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.greencodeinitiative.creedengo.java.JavaCheckRegistrarTest.getDefinedRules;
 import static org.greencodeinitiative.creedengo.java.JavaCreedengoWayProfile.PROFILE_NAME;
 import static org.greencodeinitiative.creedengo.java.JavaCreedengoWayProfile.PROFILE_PATH;
 import static org.greencodeinitiative.creedengo.java.JavaRulesDefinition.LANGUAGE;
-import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import org.junit.jupiter.api.Test;
+import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
+import org.sonar.check.Rule;
 
 class JavaCreedengoWayProfileTest {
-	@Test
-	void should_create_creedengo_profile() {
-		BuiltInQualityProfilesDefinition.Context context = new BuiltInQualityProfilesDefinition.Context();
+  @Test
+  void should_create_creedengo_profile() {
+    BuiltInQualityProfilesDefinition.Context context =
+        new BuiltInQualityProfilesDefinition.Context();
 
-		JavaCreedengoWayProfile definition = new JavaCreedengoWayProfile();
-		definition.define(context);
+    JavaCreedengoWayProfile definition = new JavaCreedengoWayProfile();
+    definition.define(context);
 
-		BuiltInQualityProfilesDefinition.BuiltInQualityProfile profile = context.profile(LANGUAGE, PROFILE_NAME);
+    BuiltInQualityProfilesDefinition.BuiltInQualityProfile profile =
+        context.profile(LANGUAGE, PROFILE_NAME);
 
-		assertThat(profile.language()).isEqualTo(LANGUAGE);
-		assertThat(profile.name()).isEqualTo(PROFILE_NAME);
-		List<String> definedRuleIds = getDefinedRules().stream().map(c -> c.getAnnotation(Rule.class).key()).collect(Collectors.toList());
-		assertThat(profile.rules())
-				.describedAs("All implemented rules must be declared in '%s' profile file: %s", PROFILE_NAME, PROFILE_PATH)
-				.map(BuiltInQualityProfilesDefinition.BuiltInActiveRule::ruleKey)
-				.containsExactlyInAnyOrderElementsOf(definedRuleIds);
-	}
+    assertThat(profile.language()).isEqualTo(LANGUAGE);
+    assertThat(profile.name()).isEqualTo(PROFILE_NAME);
+    List<String> definedRuleIds =
+        getDefinedRules().stream()
+            .map(c -> c.getAnnotation(Rule.class).key())
+            .collect(Collectors.toList());
+    assertThat(profile.rules())
+        .describedAs(
+            "All implemented rules must be declared in '%s' profile file: %s",
+            PROFILE_NAME, PROFILE_PATH)
+        .map(BuiltInQualityProfilesDefinition.BuiltInActiveRule::ruleKey)
+        .containsExactlyInAnyOrderElementsOf(definedRuleIds);
+  }
 }

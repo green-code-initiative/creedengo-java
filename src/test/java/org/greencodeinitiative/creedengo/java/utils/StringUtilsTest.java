@@ -18,24 +18,22 @@
 package org.greencodeinitiative.creedengo.java.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 class StringUtilsTest {
 
-    @Test
-    void spaces() {
-        assertThat(StringUtils.spaces(5))
-                .hasSize(5)
-                .containsOnlyWhitespaces();
-    }
+  @Test
+  void spaces() {
+    assertThat(StringUtils.spaces(5)).hasSize(5).containsOnlyWhitespaces();
+  }
 
-    @Test
-    void isNotEmpty() {
-        assertThat(StringUtils.isNotEmpty(null)).isFalse();
-        assertThat(StringUtils.isNotEmpty("")).isFalse();
-        assertThat(StringUtils.isNotEmpty(" ")).isTrue();
-        assertThat(StringUtils.isNotEmpty("bob")).isTrue();
-        assertThat(StringUtils.isNotEmpty("   bob   ")).isTrue();
-    }
-
+  @Test
+  void isNotEmpty() {
+    assertThat(StringUtils.isNotEmpty(null)).isFalse();
+    assertThat(StringUtils.isNotEmpty("")).isFalse();
+    assertThat(StringUtils.isNotEmpty(" ")).isTrue();
+    assertThat(StringUtils.isNotEmpty("bob")).isTrue();
+    assertThat(StringUtils.isNotEmpty("   bob   ")).isTrue();
+  }
 }

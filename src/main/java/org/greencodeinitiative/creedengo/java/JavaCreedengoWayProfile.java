@@ -17,24 +17,27 @@
  */
 package org.greencodeinitiative.creedengo.java;
 
-import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
-import org.sonarsource.analyzer.commons.BuiltInQualityProfileJsonLoader;
-
 import static org.greencodeinitiative.creedengo.java.JavaRulesDefinition.LANGUAGE;
 import static org.greencodeinitiative.creedengo.java.JavaRulesDefinition.REPOSITORY_KEY;
 
+import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
+import org.sonarsource.analyzer.commons.BuiltInQualityProfileJsonLoader;
+
 public final class JavaCreedengoWayProfile implements BuiltInQualityProfilesDefinition {
-	static final String PROFILE_NAME = "creedengo way";
-	static final String PROFILE_PATH = JavaCreedengoWayProfile.class.getPackageName().replace('.', '/') + "/creedengo_way_profile.json";
+  static final String PROFILE_NAME = "creedengo way";
+  static final String PROFILE_PATH =
+      JavaCreedengoWayProfile.class.getPackageName().replace('.', '/')
+          + "/creedengo_way_profile.json";
 
-	@Override
-	public void define(Context context) {
-		NewBuiltInQualityProfile creedengoProfile = context.createBuiltInQualityProfile(PROFILE_NAME, LANGUAGE);
-		loadProfile(creedengoProfile);
-		creedengoProfile.done();
-	}
+  @Override
+  public void define(Context context) {
+    NewBuiltInQualityProfile creedengoProfile =
+        context.createBuiltInQualityProfile(PROFILE_NAME, LANGUAGE);
+    loadProfile(creedengoProfile);
+    creedengoProfile.done();
+  }
 
-	private void loadProfile(NewBuiltInQualityProfile profile) {
-		BuiltInQualityProfileJsonLoader.load(profile, REPOSITORY_KEY, PROFILE_PATH);
-	}
+  private void loadProfile(NewBuiltInQualityProfile profile) {
+    BuiltInQualityProfileJsonLoader.load(profile, REPOSITORY_KEY, PROFILE_PATH);
+  }
 }

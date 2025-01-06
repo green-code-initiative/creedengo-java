@@ -17,33 +17,30 @@
  */
 package org.greencodeinitiative.creedengo.java;
 
-import java.util.Set;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.CheckRegistrar;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class JavaCheckRegistrarTest {
 
-    @Test
-    void checkNumberRules() {
-        final CheckRegistrar.RegistrarContext context = new CheckRegistrar.RegistrarContext();
+  @Test
+  void checkNumberRules() {
+    final CheckRegistrar.RegistrarContext context = new CheckRegistrar.RegistrarContext();
 
-        final JavaCheckRegistrar registrar = new JavaCheckRegistrar();
-        registrar.register(context);
-        assertThat(context.checkClasses())
-                .describedAs("All implemented rules must be registered into " + JavaCheckRegistrar.class)
-                .containsExactlyInAnyOrder(getDefinedRules().toArray(new Class[0]));
-        assertThat(context.testCheckClasses()).isEmpty();
+    final JavaCheckRegistrar registrar = new JavaCheckRegistrar();
+    registrar.register(context);
+    assertThat(context.checkClasses())
+        .describedAs("All implemented rules must be registered into " + JavaCheckRegistrar.class)
+        .containsExactlyInAnyOrder(getDefinedRules().toArray(new Class[0]));
+    assertThat(context.testCheckClasses()).isEmpty();
+  }
 
-    }
-
-    static Set<Class<?>> getDefinedRules() {
-        Reflections r = new Reflections(JavaCheckRegistrar.class.getPackageName() + ".checks");
-        return r.getTypesAnnotatedWith(Rule.class);
-    }
-
+  static Set<Class<?>> getDefinedRules() {
+    Reflections r = new Reflections(JavaCheckRegistrar.class.getPackageName() + ".checks");
+    return r.getTypesAnnotatedWith(Rule.class);
+  }
 }

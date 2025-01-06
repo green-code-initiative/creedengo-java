@@ -1,507 +1,540 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.green-code-initiative</groupId>
-    <artifactId>creedengo-java-plugin</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+  <groupId>org.green-code-initiative</groupId>
+  <artifactId>creedengo-java-plugin</artifactId>
+  <version>2.0.1-SNAPSHOT</version>
 
-    <packaging>sonar-plugin</packaging>
+  <packaging>sonar-plugin</packaging>
 
-    <name>creedengo - Java language</name>
-    <description>Provides rules to reduce the environmental footprint of your Java programs</description>
-    <inceptionYear>2024</inceptionYear>
+  <name>creedengo - Java language</name>
+  <description>Provides rules to reduce the environmental footprint of your Java programs</description>
 
+  <url>https://github.com/green-code-initiative/creedengo-java</url>
+  <inceptionYear>2024</inceptionYear>
+  <organization>
+    <name>green-code-initiative</name>
+    <url>https://github.com/green-code-initiative</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>GPL v3</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:https://github.com/green-code-initiative/creedengo-java</connection>
+    <developerConnection>scm:git:https://github.com/green-code-initiative/creedengo-java</developerConnection>
+    <tag>HEAD</tag>
     <url>https://github.com/green-code-initiative/creedengo-java</url>
-    <organization>
-        <name>green-code-initiative</name>
-        <url>https://github.com/green-code-initiative</url>
-    </organization>
+  </scm>
 
-    <licenses>
-        <license>
-            <name>GPL v3</name>
-            <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/green-code-initiative/creedengo-java/issues</url>
+  </issueManagement>
 
-    <scm>
-        <connection>scm:git:https://github.com/green-code-initiative/creedengo-java</connection>
-        <developerConnection>scm:git:https://github.com/green-code-initiative/creedengo-java</developerConnection>
-        <url>https://github.com/green-code-initiative/creedengo-java</url>
-        <tag>HEAD</tag>
-    </scm>
+  <properties>
 
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/green-code-initiative/creedengo-java/issues</url>
-    </issueManagement>
+    <java.version>11</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <!-- to prevent message: system modules path not set in conjunction with -source 11 -->
+    <maven.compiler.release>${java.version}</maven.compiler.release>
 
-    <properties>
+    <encoding>UTF-8</encoding>
+    <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
-        <java.version>11</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <!-- to prevent message: system modules path not set in conjunction with -source 11 -->
-        <maven.compiler.release>${java.version}</maven.compiler.release>
+    <sonar.organization>green-code-initiative</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
-        <encoding>UTF-8</encoding>
-        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+    <!-- Version of SonarQube for integration tests -->
+    <sonarqube.version>9.9.7.96285</sonarqube.version>
+    <!-- Version of the SonarQube APIs used by `creedengo-java-plugin` -->
+    <sonar.plugin.api.version>9.8.0.203</sonar.plugin.api.version>
 
-        <sonar.organization>green-code-initiative</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
+    <sonarjava.version>7.16.0.30901</sonarjava.version>
 
-        <!-- Version of SonarQube for integration tests -->
-        <sonarqube.version>9.9.7.96285</sonarqube.version>
-        <!-- Version of the SonarQube APIs used by `creedengo-java-plugin` -->
-        <sonar.plugin.api.version>9.8.0.203</sonar.plugin.api.version>
+    <sonar-analyzer-commons.version>2.5.0.1358</sonar-analyzer-commons.version>
 
-        <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
-        <sonarjava.version>7.16.0.30901</sonarjava.version>
+    <sonar-packaging.version>1.23.0.740</sonar-packaging.version>
 
-        <sonar-analyzer-commons.version>2.5.0.1358</sonar-analyzer-commons.version>
+    <junit.jupiter.version>5.9.1</junit.jupiter.version>
+    <assertJ.version>3.23.1</assertJ.version>
+    <mockito.version>5.3.1</mockito.version>
 
-        <sonar-packaging.version>1.23.0.740</sonar-packaging.version>
+    <google.re2j>1.7</google.re2j>
 
-        <junit.jupiter.version>5.9.1</junit.jupiter.version>
-        <assertJ.version>3.23.1</assertJ.version>
-        <mockito.version>5.3.1</mockito.version>
+    <!-- Version of creedengo rules specifications implemented by this plugin -->
+    <creedengo-rules-specifications.version>2.1.0</creedengo-rules-specifications.version>
 
-        <google.re2j>1.7</google.re2j>
+    <!-- URL of the Maven repository where sonarqube will be downloaded -->
+    <test-it.orchestrator.artifactory.url>https://repo1.maven.org/maven2</test-it.orchestrator.artifactory.url>
+    <!-- You can override this property to keep SonarQube instance running and to manually use it -->
+    <test-it.sonarqube.keepRunning>false</test-it.sonarqube.keepRunning>
 
-        <!-- Version of creedengo rules specifications implemented by this plugin -->
-        <creedengo-rules-specifications.version>2.1.0</creedengo-rules-specifications.version>
+    <!-- Version of `sonarqube` used by integration tests (you can override this value to perform matrix compatibility tests) -->
+    <test-it.sonarqube.version>${sonarqube.version}</test-it.sonarqube.version>
 
-        <!-- URL of the Maven repository where sonarqube will be downloaded -->
-        <test-it.orchestrator.artifactory.url>https://repo1.maven.org/maven2</test-it.orchestrator.artifactory.url>
-        <!-- You can override this property to keep SonarQube instance running and to manually use it -->
-        <test-it.sonarqube.keepRunning>false</test-it.sonarqube.keepRunning>
+    <!-- Version of `sonar-java-plugin` used by integration tests (you can override this value to perform matrix compatibility tests) -->
+    <test-it.sonarjava.version>${sonarjava.version}</test-it.sonarjava.version>
 
-        <!-- Version of `sonarqube` used by integration tests (you can override this value to perform matrix compatibility tests) -->
-        <test-it.sonarqube.version>${sonarqube.version}</test-it.sonarqube.version>
+    <!-- SonarQube server listening port. Leave this property blank to automatically choose an available port. -->
+    <test-it.sonarqube.port></test-it.sonarqube.port>
+  </properties>
 
-        <!-- Version of `sonar-java-plugin` used by integration tests (you can override this value to perform matrix compatibility tests) -->
-        <test-it.sonarjava.version>${sonarjava.version}</test-it.sonarjava.version>
+  <dependencies>
+    <dependency>
+      <groupId>org.green-code-initiative</groupId>
+      <artifactId>creedengo-rules-specifications</artifactId>
+      <version>${creedengo-rules-specifications.version}</version>
+      <classifier>java</classifier>
+    </dependency>
 
-        <!-- SonarQube server listening port. Leave this property blank to automatically choose an available port. -->
-        <test-it.sonarqube.port />
-    </properties>
+    <dependency>
+      <groupId>org.sonarsource.java</groupId>
+      <artifactId>sonar-java-plugin</artifactId>
+      <version>${sonarjava.version}</version>
+      <type>sonar-plugin</type>
+      <scope>provided</scope>
+    </dependency>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.green-code-initiative</groupId>
-            <artifactId>creedengo-rules-specifications</artifactId>
-            <version>${creedengo-rules-specifications.version}</version>
-            <classifier>java</classifier>
-        </dependency>
+    <dependency>
+      <groupId>org.sonarsource.api.plugin</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <version>${sonar.plugin.api.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>org.sonarsource.java</groupId>
-            <artifactId>sonar-java-plugin</artifactId>
-            <version>${sonarjava.version}</version>
-            <type>sonar-plugin</type>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.sonarsource.analyzer-commons</groupId>
+      <artifactId>sonar-analyzer-commons</artifactId>
+      <version>${sonar-analyzer-commons.version}</version>
+    </dependency>
 
-        <dependency>
-            <groupId>org.sonarsource.api.plugin</groupId>
-            <artifactId>sonar-plugin-api</artifactId>
-            <version>${sonar.plugin.api.version}</version>
-            <scope>provided</scope>
-        </dependency>
+    <!-- for security on regex patterns : https://github.com/google/re2j -->
+    <dependency>
+      <groupId>com.google.re2j</groupId>
+      <artifactId>re2j</artifactId>
+      <version>${google.re2j}</version>
+    </dependency>
 
-        <dependency>
-            <groupId>org.sonarsource.analyzer-commons</groupId>
-            <artifactId>sonar-analyzer-commons</artifactId>
-            <version>${sonar-analyzer-commons.version}</version>
-        </dependency>
+    <!-- TEST sources dependencies -->
+    <dependency>
+      <groupId>org.sonarsource.java</groupId>
+      <artifactId>java-checks-testkit</artifactId>
+      <version>${sonarjava.version}</version>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- for security on regex patterns : https://github.com/google/re2j -->
-        <dependency>
-            <groupId>com.google.re2j</groupId>
-            <artifactId>re2j</artifactId>
-            <version>${google.re2j}</version>
-        </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- TEST sources dependencies -->
-        <dependency>
-            <groupId>org.sonarsource.java</groupId>
-            <artifactId>java-checks-testkit</artifactId>
-            <version>${sonarjava.version}</version>
-            <scope>test</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertJ.version}</version>
+      <scope>test</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertJ.version}</version>
-            <scope>test</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>0.10.2</version>
+      <scope>test</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
+    <!-- Dependencies used by integration tests -->
+    <dependency>
+      <groupId>org.sonarsource.orchestrator</groupId>
+      <artifactId>sonar-orchestrator-junit5</artifactId>
+      <version>5.1.0.2254</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.java</groupId>
+      <artifactId>test-classpath-reader</artifactId>
+      <version>8.8.0.37665</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-ws</artifactId>
+      <version>${sonarqube.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.github.jycr</groupId>
+      <artifactId>java-data-url-handler</artifactId>
+      <version>0.0.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.13</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.5.6</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.36</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.10.2</version>
-            <scope>test</scope>
-        </dependency>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.43.0</version>
+        <configuration>
+          <pom>
+            <includes>
+              <include>pom.xml</include>
+            </includes>
+            <sortPom></sortPom>
+          </pom>
+          <java>
+            <googleJavaFormat>
+              <version>1.23.0</version>
+            </googleJavaFormat>
+          </java>
+          <formats>
+            <format>
+              <includes>
+                <include>src/**/*.json</include>
+              </includes>
+              <eclipseWtp>
+                <type>JSON</type>
+              </eclipseWtp>
+              <endWithNewline></endWithNewline>
+              <indent>
+                <spaces>true</spaces>
+                <spacesPerTab>2</spacesPerTab>
+              </indent>
+            </format>
+          </formats>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>process-sources</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
+        <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <version>${sonar-packaging.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <pluginKey>creedengojava</pluginKey>
+          <pluginClass>org.greencodeinitiative.creedengo.java.JavaPlugin</pluginClass>
+          <sonarLintSupported>true</sonarLintSupported>
+          <pluginApiMinVersion>${sonarqube.version}</pluginApiMinVersion>
+          <skipDependenciesPackaging>true</skipDependenciesPackaging>
+          <jreMinVersion>${java.version}</jreMinVersion>
+          <requiredForLanguages>java</requiredForLanguages>
+          <archive>
+            <manifestEntries>
+              <Implementation-Build>${buildNumber}</Implementation-Build>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- plugin to generate a unique build number for sonar-packaging-maven-plugin : usage of buildNumber variable -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>3.2.1</version>
+        <configuration>
+          <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+          <revisionOnScmFailure>0</revisionOnScmFailure>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>create</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- shade plugin configuration is on parent pom.xml because of use for other modules -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <minimizeJar>true</minimizeJar>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <filters>
+                <filter>
+                  <artifact>org.sonarsource.analyzer-commons:sonar-analyzer-commons:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/**</exclude>
+                  </excludes>
+                </filter>
+                <filter>
+                  <artifact>com.google.re2j:re2j:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/**</exclude>
+                  </excludes>
+                </filter>
+                <filter>
+                  <artifact>org.green-code-initiative:creedengo-rules-specifications:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/**</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.8.1</version>
+        <executions>
+          <!-- only for unit tests ("test-jars" directory used in classpath) -->
+          <execution>
+            <id>copy</id>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <phase>test-compile</phase>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-api</artifactId>
+                  <version>1.7.30</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.commons</groupId>
+                  <artifactId>commons-collections4</artifactId>
+                  <version>4.0</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>javax</groupId>
+                  <artifactId>javaee-api</artifactId>
+                  <version>6.0</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-webmvc</artifactId>
+                  <version>5.2.3.RELEASE</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-web</artifactId>
+                  <version>5.2.3.RELEASE</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-context</artifactId>
+                  <version>5.2.3.RELEASE</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.springframework.data</groupId>
+                  <artifactId>spring-data-jpa</artifactId>
+                  <version>2.2.4.RELEASE</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.springframework.data</groupId>
+                  <artifactId>spring-data-commons</artifactId>
+                  <version>2.2.4.RELEASE</version>
+                  <type>jar</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>4.6</version>
+        <configuration>
+          <properties>
+            <owner>Green Code Initiative</owner>
+            <email>https://green-code-initiative.org</email>
+          </properties>
+          <licenseSets>
+            <licenseSet>
+              <header>com/mycila/maven/plugin/license/templates/GPL-3.txt</header>
+              <includes>
+                <include>${project.basedir}/src/**/*.java</include>
+              </includes>
+              <excludes>
+                <exclude>${project.basedir}/src/it/test-projects/**</exclude>
+              </excludes>
+            </licenseSet>
+          </licenseSets>
+        </configuration>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- activate integration tests -->
+      <plugin>
+        <!-- add integration test sources into test classpath -->
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <id>add-integration-test-sources</id>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <phase>process-test-sources</phase>
+            <configuration>
+              <sources>
+                <source>${project.basedir}/src/it/java</source>
+              </sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-integration-test-resources</id>
+            <goals>
+              <goal>add-test-resource</goal>
+            </goals>
+            <phase>generate-test-resources</phase>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/it/resources</directory>
+                </resource>
+                <resource>
+                  <filtering>true</filtering>
+                  <directory>${project.basedir}/src/it/resources-filtered</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- Execute integration tests -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.5.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+            <configuration>
+              <systemPropertyVariables>
+                <test-it.sonarqube.keepRunning>${test-it.sonarqube.keepRunning}</test-it.sonarqube.keepRunning>
+                <test-it.orchestrator.artifactory.url>${test-it.orchestrator.artifactory.url}</test-it.orchestrator.artifactory.url>
+                <test-it.sonarqube.version>${test-it.sonarqube.version}</test-it.sonarqube.version>
+                <test-it.sonarqube.port>${test-it.sonarqube.port}</test-it.sonarqube.port>
+                <!-- Comma separated list of plugins (`groupId|artifactId|version` or `file:///`) to install in SonarQube instance before lunching integration tests -->
+                <test-it.plugins>${project.baseUri}/target/${project.artifactId}-${project.version}.jar,
+                                    org.sonarsource.java:sonar-java-plugin:${test-it.sonarjava.version},</test-it.plugins>
+                <!-- Comma separated JSON profile file URIs to load -->
+                <test-it.additional-profile-uris>${project.baseUri}/src/main/resources/org/greencodeinitiative/creedengo/java/creedengo_way_profile.json,</test-it.additional-profile-uris>
+                <!-- Comma separated paths of "test projects" to analyze. Syntaxe: `sonar.projectKey|sonar.projectName|project.pomUri` -->
+                <test-it.test-projects>org.green-code-initiative:creedengo-java-plugin-test-project|creedengo Java Sonar Plugin Test Project|${project.baseUri}/src/it/test-projects/creedengo-java-plugin-test-project/pom.xml,</test-it.test-projects>
+                <!-- Comma separated list of profiles to associate to each "test project". Syntaxe: `language:profileName` -->
+                <test-it.test-project-profile-by-language>java|creedengo way,</test-it.test-project-profile-by-language>
+              </systemPropertyVariables>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
-        <!-- Dependencies used by integration tests -->
-        <dependency>
-            <groupId>org.sonarsource.orchestrator</groupId>
-            <artifactId>sonar-orchestrator-junit5</artifactId>
-            <version>5.1.0.2254</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.sonarsource.java</groupId>
-            <artifactId>test-classpath-reader</artifactId>
-            <version>8.8.0.37665</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.sonarsource.sonarqube</groupId>
-            <artifactId>sonar-ws</artifactId>
-            <version>${sonarqube.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.jycr</groupId>
-            <artifactId>java-data-url-handler</artifactId>
-            <version>0.0.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.13</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.5.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.36</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
-                <artifactId>sonar-packaging-maven-plugin</artifactId>
-                <version>${sonar-packaging.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <pluginKey>creedengojava</pluginKey>
-                    <pluginClass>org.greencodeinitiative.creedengo.java.JavaPlugin</pluginClass>
-                    <sonarLintSupported>true</sonarLintSupported>
-                    <pluginApiMinVersion>${sonarqube.version}</pluginApiMinVersion>
-                    <skipDependenciesPackaging>true</skipDependenciesPackaging>
-                    <jreMinVersion>${java.version}</jreMinVersion>
-                    <requiredForLanguages>java</requiredForLanguages>
-                    <archive>
-                        <manifestEntries>
-                            <Implementation-Build>${buildNumber}</Implementation-Build>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <!-- plugin to generate a unique build number for sonar-packaging-maven-plugin : usage of buildNumber variable -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>3.2.1</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-                    <revisionOnScmFailure>0</revisionOnScmFailure>
-                </configuration>
-            </plugin>
-            <plugin>
-                <!-- shade plugin configuration is on parent pom.xml because of use for other modules -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>false</shadedArtifactAttached>
-                            <minimizeJar>true</minimizeJar>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <filters>
-                                <filter>
-                                    <artifact>org.sonarsource.analyzer-commons:sonar-analyzer-commons:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/**</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>com.google.re2j:re2j:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/**</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>org.green-code-initiative:creedengo-rules-specifications:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/**</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.8.1</version>
-                <executions>
-                    <!-- only for unit tests ("test-jars" directory used in classpath) -->
-                    <execution>
-                        <id>copy</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.slf4j</groupId>
-                                    <artifactId>slf4j-api</artifactId>
-                                    <version>1.7.30</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.commons</groupId>
-                                    <artifactId>commons-collections4</artifactId>
-                                    <version>4.0</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>javax</groupId>
-                                    <artifactId>javaee-api</artifactId>
-                                    <version>6.0</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.springframework</groupId>
-                                    <artifactId>spring-webmvc</artifactId>
-                                    <version>5.2.3.RELEASE</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.springframework</groupId>
-                                    <artifactId>spring-web</artifactId>
-                                    <version>5.2.3.RELEASE</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.springframework</groupId>
-                                    <artifactId>spring-context</artifactId>
-                                    <version>5.2.3.RELEASE</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.springframework.data</groupId>
-                                    <artifactId>spring-data-jpa</artifactId>
-                                    <version>2.2.4.RELEASE</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.springframework.data</groupId>
-                                    <artifactId>spring-data-commons</artifactId>
-                                    <version>2.2.4.RELEASE</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>4.6</version>
-                <configuration>
-                    <properties>
-                        <owner>Green Code Initiative</owner>
-                        <email>https://green-code-initiative.org</email>
-                    </properties>
-                    <licenseSets>
-                        <licenseSet>
-                            <header>com/mycila/maven/plugin/license/templates/GPL-3.txt</header>
-                            <includes>
-                                <include>${project.basedir}/src/**/*.java</include>
-                            </includes>
-                            <excludes>
-                                <exclude>${project.basedir}/src/it/test-projects/**</exclude>
-                            </excludes>
-                        </licenseSet>
-                    </licenseSets>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <phase>validate</phase>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- activate integration tests -->
-            <plugin>
-                <!-- add integration test sources into test classpath -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.6.0</version>
-                <executions>
-                    <execution>
-                        <id>add-integration-test-sources</id>
-                        <phase>process-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.basedir}/src/it/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>add-integration-test-resources</id>
-                        <phase>generate-test-resources</phase>
-                        <goals>
-                            <goal>add-test-resource</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${project.basedir}/src/it/resources</directory>
-                                </resource>
-                                <resource>
-                                    <filtering>true</filtering>
-                                    <directory>${project.basedir}/src/it/resources-filtered</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- Execute integration tests -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.5.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                        <configuration>
-                            <systemPropertyVariables>
-                                <test-it.sonarqube.keepRunning>${test-it.sonarqube.keepRunning}</test-it.sonarqube.keepRunning>
-                                <test-it.orchestrator.artifactory.url>${test-it.orchestrator.artifactory.url}</test-it.orchestrator.artifactory.url>
-                                <test-it.sonarqube.version>${test-it.sonarqube.version}</test-it.sonarqube.version>
-                                <test-it.sonarqube.port>${test-it.sonarqube.port}</test-it.sonarqube.port>
-                                <!-- Comma separated list of plugins (`groupId|artifactId|version` or `file:///`) to install in SonarQube instance before lunching integration tests -->
-                                <test-it.plugins>
-                                    ${project.baseUri}/target/${project.artifactId}-${project.version}.jar,
-                                    org.sonarsource.java:sonar-java-plugin:${test-it.sonarjava.version},
-                                </test-it.plugins>
-                                <!-- Comma separated JSON profile file URIs to load -->
-                                <test-it.additional-profile-uris>
-                                    ${project.baseUri}/src/main/resources/org/greencodeinitiative/creedengo/java/creedengo_way_profile.json,
-                                </test-it.additional-profile-uris>
-                                <!-- Comma separated paths of "test projects" to analyze. Syntaxe: `sonar.projectKey|sonar.projectName|project.pomUri` -->
-                                <test-it.test-projects>
-                                    org.green-code-initiative:creedengo-java-plugin-test-project|creedengo Java Sonar Plugin Test Project|${project.baseUri}/src/it/test-projects/creedengo-java-plugin-test-project/pom.xml,
-                                </test-it.test-projects>
-                                <!-- Comma separated list of profiles to associate to each "test project". Syntaxe: `language:profileName` -->
-                                <test-it.test-project-profile-by-language>
-                                    java|creedengo way,
-                                </test-it.test-project-profile-by-language>
-                            </systemPropertyVariables>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <id>keep-running</id>
-            <properties>
-                <test-it.sonarqube.keepRunning>true</test-it.sonarqube.keepRunning>
-<!--                <test-it.sonarqube.port>9000</test-it.sonarqube.port>-->
-                <test-it.sonarqube.port>33333</test-it.sonarqube.port>
-            </properties>
-        </profile>
-    </profiles>
+  <profiles>
+    <profile>
+      <id>keep-running</id>
+      <properties>
+        <test-it.sonarqube.keepRunning>true</test-it.sonarqube.keepRunning>
+        <!--                <test-it.sonarqube.port>9000</test-it.sonarqube.port>-->
+        <test-it.sonarqube.port>33333</test-it.sonarqube.port>
+      </properties>
+    </profile>
+  </profiles>
 </project>
