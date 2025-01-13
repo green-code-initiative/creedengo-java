@@ -22,23 +22,22 @@ import org.sonar.java.checks.verifier.CheckVerifier;
 
 class AvoidRegexPatternNotStaticTest {
 
-    @Test
-    void testHasIssues() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidRegexPatternNotStatic.java")
-                .withCheck(new AvoidRegexPatternNotStatic())
-                .verifyIssues();
-    }
+  @Test
+  void testHasIssues() {
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/AvoidRegexPatternNotStatic.java")
+        .withCheck(new AvoidRegexPatternNotStatic())
+        .verifyIssues();
+  }
 
-    @Test
-    void testHasNoIssues() {
-        CheckVerifier.newVerifier()
-                .onFiles(
-                        "src/test/files/ValidRegexPattern.java",
-                        "src/test/files/ValidRegexPattern2.java",
-                        "src/test/files/ValidRegexPattern3.java"
-                )
-                .withCheck(new AvoidRegexPatternNotStatic())
-                .verifyNoIssues();
-    }
+  @Test
+  void testHasNoIssues() {
+    CheckVerifier.newVerifier()
+        .onFiles(
+            "src/test/files/ValidRegexPattern.java",
+            "src/test/files/ValidRegexPattern2.java",
+            "src/test/files/ValidRegexPattern3.java")
+        .withCheck(new AvoidRegexPatternNotStatic())
+        .verifyNoIssues();
+  }
 }

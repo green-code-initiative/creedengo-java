@@ -22,15 +22,14 @@ import org.sonar.java.checks.verifier.CheckVerifier;
 
 class ArrayCopyCheckTest {
 
-    /**
-     * @formatter:off
-     */
-    @Test
-    void test() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/ArrayCopyCheck.java")
-                .withCheck(new ArrayCopyCheck())
-                .verifyIssues();
-    }
-
+  /**
+   * @formatter:off
+   */
+  @Test
+  void test() {
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/ArrayCopyCheck.java")
+        .withCheck(new ArrayCopyCheck())
+        .verifyIssues();
+  }
 }

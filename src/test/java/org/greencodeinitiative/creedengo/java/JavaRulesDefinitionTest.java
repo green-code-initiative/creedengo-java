@@ -17,6 +17,11 @@
  */
 package org.greencodeinitiative.creedengo.java;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.greencodeinitiative.creedengo.java.JavaCheckRegistrar.ANNOTATED_RULE_CLASSES;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,64 +33,61 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
 import org.sonar.api.utils.Version;
 
-import static org.greencodeinitiative.creedengo.java.JavaCheckRegistrar.ANNOTATED_RULE_CLASSES;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-
 class JavaRulesDefinitionTest {
 
-    private RulesDefinition.Repository repository;
+  private RulesDefinition.Repository repository;
 
-    @BeforeEach
-    void init() {
-        final SonarRuntime sonarRuntime = mock(SonarRuntime.class);
-        doReturn(Version.create(0, 0)).when(sonarRuntime).getApiVersion();
-        JavaRulesDefinition rulesDefinition = new JavaRulesDefinition(sonarRuntime);
-        RulesDefinition.Context context = new RulesDefinition.Context();
-        rulesDefinition.define(context);
-        repository = context.repository(rulesDefinition.repositoryKey());
-    }
+  @BeforeEach
+  void init() {
+    final SonarRuntime sonarRuntime = mock(SonarRuntime.class);
+    doReturn(Version.create(0, 0)).when(sonarRuntime).getApiVersion();
+    JavaRulesDefinition rulesDefinition = new JavaRulesDefinition(sonarRuntime);
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    rulesDefinition.define(context);
+    repository = context.repository(rulesDefinition.repositoryKey());
+  }
 
-    @Test
-    @DisplayName("Test repository metadata")
-    void testMetadata() {
-        assertThat(repository.name()).isEqualTo("creedengo");
-        assertThat(repository.language()).isEqualTo("java");
-        assertThat(repository.key()).isEqualTo("creedengo-java");
-    }
+  @Test
+  @DisplayName("Test repository metadata")
+  void testMetadata() {
+    assertThat(repository.name()).isEqualTo("creedengo");
+    assertThat(repository.language()).isEqualTo("java");
+    assertThat(repository.key()).isEqualTo("creedengo-java");
+  }
 
-    @Test
-    void testRegistredRules() {
-        assertThat(repository.rules()).hasSize(ANNOTATED_RULE_CLASSES.size());
-    }
+  @Test
+  void testRegistredRules() {
+    assertThat(repository.rules()).hasSize(ANNOTATED_RULE_CLASSES.size());
+  }
 
-    @Test
-    @DisplayName("All rule keys must be prefixed by 'GCI'")
-    void testRuleKeyPrefix() {
-        SoftAssertions assertions = new SoftAssertions();
-        repository.rules().forEach(
-                rule -> assertions.assertThat(rule.key()).startsWith("GCI")
-        );
-        assertions.assertAll();
-    }
+  @Test
+  @DisplayName("All rule keys must be prefixed by 'GCI'")
+  void testRuleKeyPrefix() {
+    SoftAssertions assertions = new SoftAssertions();
+    repository.rules().forEach(rule -> assertions.assertThat(rule.key()).startsWith("GCI"));
+    assertions.assertAll();
+  }
 
-    @Test
-    void assertRuleProperties() {
-        Rule rule = repository.rule("GCI67");
-        assertThat(rule).isNotNull();
-        assertThat(rule.name()).isEqualTo("Use ++i instead of i++");
-        assertThat(rule.debtRemediationFunction().type()).isEqualTo(Type.CONSTANT_ISSUE);
-        assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL);
-    }
+  @Test
+  void assertRuleProperties() {
+    Rule rule = repository.rule("GCI67");
+    assertThat(rule).isNotNull();
+    assertThat(rule.name()).isEqualTo("Use ++i instead of i++");
+    assertThat(rule.debtRemediationFunction().type()).isEqualTo(Type.CONSTANT_ISSUE);
+    assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL);
+  }
 
-    @Test
-    void testAllRuleParametersHaveDescription() {
-        SoftAssertions assertions = new SoftAssertions();
-        repository.rules().stream()
-                .flatMap(rule -> rule.params().stream())
-                .forEach(param -> assertions.assertThat(param.description()).as("description for " + param.key()).isNotEmpty());
-        assertions.assertAll();
-    }
-
+  @Test
+  void testAllRuleParametersHaveDescription() {
+    SoftAssertions assertions = new SoftAssertions();
+    repository.rules().stream()
+        .flatMap(rule -> rule.params().stream())
+        .forEach(
+            param ->
+                assertions
+                    .assertThat(param.description())
+                    .as("description for " + param.key())
+                    .isNotEmpty());
+    assertions.assertAll();
+  }
 }

@@ -1,0 +1,6 @@
+# Ignore all
+*
+# Except those files
+!.gitignore
+!externalDependencies.xml
+!google-java-format.xml

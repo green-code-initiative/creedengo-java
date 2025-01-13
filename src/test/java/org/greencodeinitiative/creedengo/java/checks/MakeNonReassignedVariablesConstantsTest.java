@@ -22,12 +22,11 @@ import org.sonar.java.checks.verifier.CheckVerifier;
 
 class MakeNonReassignedVariablesConstantsTest {
 
-    @Test
-    void test() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/MakeNonReassignedVariablesConstants.java")
-                .withCheck(new MakeNonReassignedVariablesConstants())
-                .verifyIssues();
-    }
-
+  @Test
+  void test() {
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/MakeNonReassignedVariablesConstants.java")
+        .withCheck(new MakeNonReassignedVariablesConstants())
+        .verifyIssues();
+  }
 }

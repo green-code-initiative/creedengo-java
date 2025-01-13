@@ -21,41 +21,39 @@ import org.junit.jupiter.api.Test;
 import org.sonar.java.checks.verifier.CheckVerifier;
 
 class AvoidMultipleIfElseStatementTest {
-    @Test
-    void test() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatement.java")
-                .withCheck(new AvoidMultipleIfElseStatement())
-                .verifyIssues();
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatementNoIssue.java")
-                .withCheck(new AvoidMultipleIfElseStatement())
-                .verifyNoIssues();
-    }
+  @Test
+  void test() {
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/AvoidMultipleIfElseStatement.java")
+        .withCheck(new AvoidMultipleIfElseStatement())
+        .verifyIssues();
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/AvoidMultipleIfElseStatementNoIssue.java")
+        .withCheck(new AvoidMultipleIfElseStatement())
+        .verifyNoIssues();
+  }
 
-    @Test
-    void testInterfaceMethodStatement() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatementInterface.java")
-                .withCheck(new AvoidMultipleIfElseStatement())
-                .verifyNoIssues();
-    }
+  @Test
+  void testInterfaceMethodStatement() {
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/AvoidMultipleIfElseStatementInterface.java")
+        .withCheck(new AvoidMultipleIfElseStatement())
+        .verifyNoIssues();
+  }
 
-    @Test
-    void testNotBlockStatement() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatementNotBlock.java")
-                .withCheck(new AvoidMultipleIfElseStatement())
-                .verifyNoIssues();
-    }
+  @Test
+  void testNotBlockStatement() {
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/AvoidMultipleIfElseStatementNotBlock.java")
+        .withCheck(new AvoidMultipleIfElseStatement())
+        .verifyNoIssues();
+  }
 
-    @Test
-    void testCompareMethod() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatementCompareMethod.java")
-                .withCheck(new AvoidMultipleIfElseStatement())
-                .verifyNoIssues();
-    }
-
-
+  @Test
+  void testCompareMethod() {
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/AvoidMultipleIfElseStatementCompareMethod.java")
+        .withCheck(new AvoidMultipleIfElseStatement())
+        .verifyNoIssues();
+  }
 }

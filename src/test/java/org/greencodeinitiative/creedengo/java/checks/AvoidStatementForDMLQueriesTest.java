@@ -21,11 +21,11 @@ import org.junit.jupiter.api.Test;
 import org.sonar.java.checks.verifier.CheckVerifier;
 
 class AvoidStatementForDMLQueriesTest {
-    @Test
-    void test() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidStatementForDMLQueries.java")
-                .withCheck(new AvoidStatementForDMLQueries())
-                .verifyIssues();
-    }
+  @Test
+  void test() {
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/AvoidStatementForDMLQueries.java")
+        .withCheck(new AvoidStatementForDMLQueries())
+        .verifyIssues();
+  }
 }

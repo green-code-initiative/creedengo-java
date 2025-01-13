@@ -23,13 +23,12 @@ import org.sonar.java.checks.verifier.CheckVerifier;
 
 class AvoidSpringRepositoryCallInStreamCheckTest {
 
-    @Test
-    void test() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidSpringRepositoryCallInStreamCheck.java")
-                .withCheck(new AvoidSpringRepositoryCallInLoopOrStreamCheck())
-                .withClassPath(FilesUtils.getClassPath("target/test-jars"))
-                .verifyIssues();
-    }
-
+  @Test
+  void test() {
+    CheckVerifier.newVerifier()
+        .onFile("src/test/files/AvoidSpringRepositoryCallInStreamCheck.java")
+        .withCheck(new AvoidSpringRepositoryCallInLoopOrStreamCheck())
+        .withClassPath(FilesUtils.getClassPath("target/test-jars"))
+        .verifyIssues();
+  }
 }
