@@ -5,6 +5,8 @@
 !.gitattributes
 !.github/
 !.default.docker.env
+!.vscode/
+!.idea/
 
 # Ignore generated files
 target
