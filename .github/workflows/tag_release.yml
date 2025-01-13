@@ -43,7 +43,7 @@ jobs:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
       - name: Export plugin Jar files
         id: export_jar_files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: creedengo-plugins
           path: target
@@ -58,7 +58,7 @@ jobs:
     steps:
       - name: Import plugin JAR files
         id: import_jar_files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: creedengo-plugins
           path: target

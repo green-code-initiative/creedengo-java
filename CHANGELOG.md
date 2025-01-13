@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Deleted
+
+## [2.1.0] - 2025-01-07
+
+### Added
+
 - [#88](https://github.com/green-code-initiative/creedengo-java/pull/88) Add new Java rule GCI94 - Use orElseGet instead of orElse
 - [#89](https://github.com/green-code-initiative/creedengo-java/pull/89) Add new Java rule GCI82 - Make non reassigned variables constants
 
@@ -17,8 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - upgrade some libraries versions
 - improve Integration Tests system to be more flexible (add new IT for each rule)
 - [#21](https://github.com/green-code-initiative/creedengo-java/issues/21) Improvement: some method calls are legitimate in a for loop expression
-
-### Deleted
+- check compatibility with SonarQube 10.7.0 and 24.12.0
+- upgrade actions/upload-artifact and actions/download-artifact from v3 to v4)
 
 ## [2.0.0] - 2024-12-18
 
@@ -82,7 +90,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update ecocode-rules-specifications to 1.4.6
 
-[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.0.0...HEAD)
+[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.1.0...HEAD)
+[2.1.0](https://github.com/green-code-initiative/creedengo-java/compare/2.0.0...2.1.0)
 [2.0.0](https://github.com/green-code-initiative/creedengo-java/compare/1.6.2...2.0.0)
 [1.6.2](https://github.com/green-code-initiative/creedengo-java/compare/1.6.1...1.6.2)
 [1.6.1](https://github.com/green-code-initiative/creedengo-java/compare/1.6.0...1.6.1)
