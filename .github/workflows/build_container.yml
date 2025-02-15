@@ -14,12 +14,12 @@ on:
 
 env:
   # github.repository as <account>/<repo>
-#  IMAGE_NAME: sonarqube-ecocode
+#  IMAGE_NAME: sonarqube-creedengo
 #  IMAGES: |
-#    ghcr.io/${{ github.repository_owner }}/sonarqube-ecocode
-  IMAGE_NAME: sonarqube-ecocode-java
+#    ghcr.io/${{ github.repository_owner }}/sonarqube-creedengo
+  IMAGE_NAME: sonarqube-creedengo-java
   IMAGES: |
-    ghcr.io/${{ github.repository_owner }}/sonarqube-ecocode-java
+    ghcr.io/${{ github.repository_owner }}/sonarqube-creedengo-java
 
 jobs:
   Build:

@@ -29,7 +29,7 @@ jobs:
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v1
       - name: Build project
-        run: mvn -e -B clean package -DskipTests
+        run: ./mvnw -e -B clean package -DskipTests
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -43,9 +43,9 @@ jobs:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
       - name: Export plugin Jar files
         id: export_jar_files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: ecocode-plugins
+          name: creedengo-plugins
           path: target
       - name: Export UPLOAD_URL
         id: export_upload_url
@@ -58,9 +58,9 @@ jobs:
     steps:
       - name: Import plugin JAR files
         id: import_jar_files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: ecocode-plugins
+          name: creedengo-plugins
           path: target
       - name: Upload Release Asset - Java Plugin
         id: upload-release-asset
@@ -69,6 +69,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{needs.build.outputs.upload_url}}
-          asset_path: target/ecocode-java-plugin-${{ github.ref_name }}.jar
-          asset_name: ecocode-java-plugin-${{ github.ref_name }}.jar
+          asset_path: target/creedengo-java-plugin-${{ github.ref_name }}.jar
+          asset_name: creedengo-java-plugin-${{ github.ref_name }}.jar
           asset_content_type: application/zip

@@ -5,9 +5,9 @@
 ###
 
 # creation of 2 commits with release and next SNAPSHOT
-mvn release:prepare -B -ff -DpushChanges=false -DtagNameFormat=@{project.version}
+./mvnw release:prepare -B -ff -DpushChanges=false -DtagNameFormat=@{project.version}
 
 sleep 2
 
 # clean temporary files
-mvn release:clean
+./mvnw release:clean

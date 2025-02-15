@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-mvn clean package -DskipTests
+./mvnw clean package -DskipTests

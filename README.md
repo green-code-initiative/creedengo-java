@@ -1,12 +1,12 @@
-EcoCode-java
+creedengo-java
 ===========
 
-_ecoCode_ is a collective project aiming to reduce environmental footprint of software at the code level. The goal of
+_creedengo_ is a collective project aiming to reduce environmental footprint of software at the code level. The goal of
 the project is to provide a list of static code analyzers to highlight code structures that may have a negative
 ecological impact: energy and resources over-consumption, "fatware", shortening terminals' lifespan, etc.
 
-_ecoCode_ is based on evolving catalogs
-of [good practices](https://github.com/green-code-initiative/ecoCode/blob/main/docs/rules), for various technologies.
+_creedengo_ is based on evolving catalogs
+of [good practices](https://github.com/green-code-initiative/creedengo-rules-specifications/blob/main/docs/rules), for various technologies.
 This
 SonarQube plugin then implements these catalogs as rules for scanning your Java projects.
 
@@ -14,71 +14,67 @@ SonarQube plugin then implements these catalogs as rules for scanning your Java 
 > refer to the contribution section.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/green-code-initiative/ecoCode-common/blob/main/doc/CODE_OF_CONDUCT.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/green-code-initiative/creedengo-common/blob/main/doc/CODE_OF_CONDUCT.md)
 
 🌿 SonarQube Plugins
 -------------------
 
-This plugin is part of the ecoCode project.\
+This plugin is part of the creedengo project.\
 You can find a list of all our other plugins in
-the [ecoCode repository](https://github.com/green-code-initiative/ecoCode#-sonarqube-plugins)
+the [creedengo repository](https://github.com/green-code-initiative/creedengo-rules-specifications#-sonarqube-plugins)
 
 🚀 Getting Started
 ------------------
 
-You can give a try with a one command docker :
+You can give a try with a one command:
 
 ```sh
-docker run -ti --rm \
-       -p 9000:9000 \
-       --name sonarqube-ecocode-java ghcr.io/green-code-initiative/sonarqube-ecocode-java:latest
+./mvnw verify -Pkeep-running
 ```
 
-or (with logs and data locally stored) :
+... then you can use Java test project repository to test the environment : see [Java test project in `./src/it/test-projects/creedengo-java-plugin-test-project`](./src/it/test-projects/creedengo-java-plugin-test-project)
 
-```sh
-docker run -ti --rm \
-       -v sq_ecocode_logs:/opt/sonarqube/logs \
-       -v sq_ecocode_data:/opt/sonarqube/data \
-       -p 9000:9000 \
-       --name sonarqube-ecocode-java ghcr.io/green-code-initiative/sonarqube-ecocode-java:latest
-```
+NB: To install other `creedengo` plugins, you can :
 
-... and configure local SonarQube (security config and quality profile : see [configuration](https://github.com/green-code-initiative/ecoCode-common/blob/main/doc/INSTALL.md#configuration-sonarqube) for more details).
+- add JAVA System properties `Dtest-it.additional-plugins` with a comma separated list of plugin IDs (`groupId:artifactId:version`), or plugins JAR (`file://....`) to install.
 
-To install other `ecocode` plugins, you can also :
+  For example :
 
-- download each plugin separatly and copy the plugin (jar file) to `$SONAR_INSTALL_DIR/extensions/plugins` and restart SonarQube.
-- install different ecocode plugins with Marketplace (inside admin panel of SonarQube)
+  ```sh
+  ./mvnw verify -Pkeep-running -Dtest-it.additional-plugins=org.sonarsource.javascript:sonar-plugin:10.1.0.21143
+  ```
+- install different creedengo plugins with Marketplace (inside admin panel of SonarQube)
 
-Then you can use Java test project repository to test the environment : see README.md of [Java test project](https://github.com/green-code-initiative/ecoCode-java-test-project)
+You can also directly use a [all-in-one docker-compose](https://github.com/green-code-initiative/creedengo-common/blob/main/doc/INSTALL.md#start-sonarqube-if-first-time)
 
-Finally, you can directly use a [all-in-one docker-compose](https://github.com/green-code-initiative/ecoCode-common/blob/main/doc/INSTALL.md#start-sonarqube-if-first-time)
+... and configure local SonarQube (security config and quality profile : see [configuration](https://github.com/green-code-initiative/creedengo-common/blob/main/doc/INSTALL.md#configuration-sonarqube) for more details).
 
 🛒 Distribution
 ------------------
 
-Ready to use binaries are available [from GitHub](https://github.com/green-code-initiative/ecoCode-java/releases).
+Ready to use binaries are available [from GitHub](https://github.com/green-code-initiative/creedengo-java/releases).
 
 🧩 Compatibility
 -----------------
 
-| Plugin version | SonarQube version   | Java version |
-|----------------|---------------------|--------------|
-| 1.6.+          | 9.4.+ LTS to 10.6.0 | 11 / 17      |
+| Plugin version | SonarQube version   | Java version                                                                                   |
+|----------------|---------------------|------------------------------------------------------------------------------------------------|
+| 1.6.+          | 9.4.+ LTS to 10.6.0 | 11 / 17                                                                                        |
+| 1.7.+          | 9.9.+ LTS to 10.6.0 | [17](https://docs.sonarsource.com/sonarqube/9.9/requirements/prerequisites-and-overview/#java) |
+| 2.0.+          | 9.9.+ LTS to 25.2.0 | [17](https://docs.sonarsource.com/sonarqube/9.9/requirements/prerequisites-and-overview/#java) |
 
 > Compatibility table of versions lower than 1.4.+ are available from the
-> main [ecoCode repository](https://github.com/green-code-initiative/ecoCode#-plugins-version-compatibility).
+> main [creedengo repository](https://github.com/green-code-initiative/creedengo-rules-specifications#-plugins-version-compatibility).
 
 🤝 Contribution
 ---------------
 
-check [ecoCode repository](https://github.com/green-code-initiative/ecoCode#-contribution)
+check [creedengo repository](https://github.com/green-code-initiative/creedengo-rules-specifications#-contribution)
 
 🤓 Main contributors
 --------------------
 
-check [ecoCode repository](https://github.com/green-code-initiative/ecoCode#-main-contributors)
+check [creedengo repository](https://github.com/green-code-initiative/creedengo-rules-specifications#-main-contributors)
 
 Links
 -----

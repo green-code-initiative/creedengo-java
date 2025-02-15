@@ -1,6 +1,6 @@
 /*
- * ecoCode - Java language - Provides rules to reduce the environmental footprint of your Java programs
- * Copyright © 2023 Green Code Initiative (https://www.ecocode.io)
+ * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
+ * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,26 +15,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.greencodeinitiative.java.checks;
+package org.greencodeinitiative.creedengo.java.checks;
 
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 
-class AvoidGettingSizeCollectionInForLoopBad {
+class GCI69AvoidGettingSizeCollectionInForLoopBad {
     AvoidGettingSizeCollectionInForLoopBad() {
 
     }
 
     public void badForLoop() {
-        List<Integer> numberList = new ArrayList<Integer>();
+        final List<Integer> numberList = new ArrayList<Integer>();
         numberList.add(10);
         numberList.add(20);
 
-        Iterator it = numberList.iterator();
+        final Iterator<Integer> it = numberList.iterator();
         for (; it.hasNext(); ) { // Ignored => compliant
-            it.next();
-            System.out.println("numberList.size()");
+            System.out.println(it.next());
         }
     }
 }

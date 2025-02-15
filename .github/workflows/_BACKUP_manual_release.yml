@@ -31,9 +31,9 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email ''
       - name: Maven release
-        run: mvn release:prepare -B -ff -DtagNameFormat=@{project.version}
+        run: ./mvnw release:prepare -B -ff -DtagNameFormat=@{project.version}
       - name: Maven release clean
-        run: mvn release:clean
+        run: ./mvnw release:clean
       - name: Get last TAG
         run: echo "LAST_TAG=$(git tag --sort=-version:refname | head -n 1)" >> $GITHUB_ENV
       - name: Extract release notes
@@ -44,7 +44,7 @@ jobs:
         with:
           ref: ${{ env.LAST_TAG }}
       - name: Build project
-        run: mvn -e -B clean package -DskipTests
+        run: ./mvnw -e -B clean package -DskipTests
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -60,7 +60,7 @@ jobs:
         id: export_jar_files
         uses: actions/upload-artifact@v3
         with:
-          name: ecocode-plugins
+          name: creedengo-plugins
           path: lib
       - name: Export LAST_TAG
         id: export_last_tag
@@ -77,7 +77,7 @@ jobs:
         id: import_jar_files
         uses: actions/download-artifact@v3
         with:
-          name: ecocode-plugins
+          name: creedengo-plugins
           path: lib
       - name: Upload Release Asset - Java Plugin
         id: upload-release-asset
@@ -86,6 +86,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{needs.build.outputs.upload_url}}
-          asset_path: lib/ecocode-java-plugin-${{ needs.build.outputs.last_tag }}.jar
-          asset_name: ecocode-java-plugin-${{ needs.build.outputs.last_tag }}.jar
+          asset_path: lib/creedengo-java-plugin-${{ needs.build.outputs.last_tag }}.jar
+          asset_name: creedengo-java-plugin-${{ needs.build.outputs.last_tag }}.jar
           asset_content_type: application/zip

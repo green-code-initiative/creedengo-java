@@ -1,6 +1,6 @@
 /*
- * ecoCode - Java language - Provides rules to reduce the environmental footprint of your Java programs
- * Copyright © 2023 Green Code Initiative (https://www.ecocode.io)
+ * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
+ * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.greencodeinitiative.java.checks;
+package org.greencodeinitiative.creedengo.java.checks;
 
 import java.io.*;
 
@@ -43,7 +43,7 @@ class FreeResourcesOfAutoCloseableInterface {
             System.err.println(e.getMessage());
         } finally {
             if (fr) {
-                fr.close();
+                org.close();
             }
             if (br) {
                 br.close();

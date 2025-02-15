@@ -1,0 +1,24 @@
+{
+  "name": "creedengo way",
+  "language": "java",
+  "ruleKeys": [
+	"GCI1",
+	"GCI2",
+	"GCI3",
+	"GCI5",
+	"GCI24",
+	"GCI27",
+	"GCI28",
+	"GCI32",
+	"GCI67",
+	"GCI69",
+	"GCI72",
+	"GCI74",
+	"GCI76",
+	"GCI77",
+	"GCI78",
+	"GCI79",
+	"GCI82",
+	"GCI94"
+  ]
+}

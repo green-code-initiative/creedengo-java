@@ -1,9 +1,9 @@
-name: sonarqube_ecocode_java
+name: sonarqube_creedengo_java
 
 services:
   sonar:
     build: .
-    container_name: sonar_ecocode_java
+    container_name: sonar_creedengo_java
     ports:
       - ":9000"
     networks:
@@ -28,7 +28,7 @@ services:
 
   db:
     image: postgres:12
-    container_name: postgresql_ecocode_java
+    container_name: postgresql_creedengo_java
     networks:
       - sonarnet
     volumes:
