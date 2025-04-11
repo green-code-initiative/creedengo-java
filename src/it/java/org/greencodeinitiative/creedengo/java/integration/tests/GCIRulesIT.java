@@ -1,5 +1,6 @@
 package org.greencodeinitiative.creedengo.java.integration.tests;
 
+import org.greencodeinitiative.creedengo.integration.tests.GCIRulesBase;
 import org.junit.jupiter.api.Test;
 import org.sonarqube.ws.Issues;
 import org.sonarqube.ws.Measures;

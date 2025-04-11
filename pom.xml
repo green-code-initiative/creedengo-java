@@ -133,6 +133,13 @@
             <version>${sonar-analyzer-commons.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.green-code-initiative</groupId>
+            <artifactId>creedengo-integration-test</artifactId>
+            <version>0.1.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- for security on regex patterns : https://github.com/google/re2j -->
         <dependency>
             <groupId>com.google.re2j</groupId>
