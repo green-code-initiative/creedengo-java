@@ -22,7 +22,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.*;
 
-public class AvoidNPlusOneProblemInJPAEntitiesCheck {
+public class AvoidNPlusOneProblemInJPAEntitiesCheckIssue {
 
     @Autowired
     private AuthorRepository authorRepository;
