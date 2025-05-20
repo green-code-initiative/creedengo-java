@@ -22,7 +22,10 @@ import java.util.List;
 
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
+import org.sonar.plugins.java.api.tree.Arguments;
+import org.sonar.plugins.java.api.tree.BinaryExpressionTree;
 import org.sonar.plugins.java.api.tree.Tree;
+import org.sonar.plugins.java.api.tree.UnaryExpressionTree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 import org.sonarsource.analyzer.commons.annotations.DeprecatedRuleKey;
 
@@ -40,6 +43,13 @@ public class IncrementCheck extends IssuableSubscriptionVisitor {
 
     @Override
     public void visitNode(Tree tree) {
+        UnaryExpressionTree unaryExprTree = (UnaryExpressionTree) tree;
+
+        if (unaryExprTree.parent() instanceof BinaryExpressionTree
+            || unaryExprTree.parent() instanceof Arguments
+            || unaryExprTree.expression().is(Tree.Kind.MEMBER_SELECT)) {
+            return ;
+        }
         reportIssue(tree, MESSAGERULE);
     }
 }
