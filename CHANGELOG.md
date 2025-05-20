@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - upgrade libraries versions
 - correction of technical problem with Integration tests (because of Maven format in technical answer to "sonar-orchestrator-junit5" library)
 - upgrade JDK from 11 to 17
+- [#105](https://github.com/green-code-initiative/creedengo-java/pull/105) fix GCI82 rule to handle record types and adjust test cases
 
 ### Deleted
 
