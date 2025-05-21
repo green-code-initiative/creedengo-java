@@ -24,11 +24,11 @@ class AvoidMultipleIfElseStatementTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatement.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidMultipleIfElseStatement.java")
                 .withCheck(new AvoidMultipleIfElseStatement())
                 .verifyIssues();
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatementNoIssue.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidMultipleIfElseStatementNoIssue.java")
                 .withCheck(new AvoidMultipleIfElseStatement())
                 .verifyNoIssues();
     }
@@ -36,7 +36,7 @@ class AvoidMultipleIfElseStatementTest {
     @Test
     void testInterfaceMethodStatement() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatementInterface.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidMultipleIfElseStatementInterfaceNoIssue.java")
                 .withCheck(new AvoidMultipleIfElseStatement())
                 .verifyNoIssues();
     }
@@ -44,7 +44,7 @@ class AvoidMultipleIfElseStatementTest {
     @Test
     void testNotBlockStatement() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatementNotBlock.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidMultipleIfElseStatementNoBlockNoIssue.java")
                 .withCheck(new AvoidMultipleIfElseStatement())
                 .verifyNoIssues();
     }
@@ -52,7 +52,7 @@ class AvoidMultipleIfElseStatementTest {
     @Test
     void testCompareMethod() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidMultipleIfElseStatementCompareMethod.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidMultipleIfElseStatementCompareMethodNoIssue.java")
                 .withCheck(new AvoidMultipleIfElseStatement())
                 .verifyNoIssues();
     }

@@ -15,8 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-class MyClass {
-    MyClass(MyClass mc) {
+package org.greencodeinitiative.creedengo.java.checks.gci67;
+
+class IncrementCheck {
+    IncrementCheck(IncrementCheck mc) {
     }
 
     int foo1() {
@@ -45,7 +47,7 @@ class MyClass {
     }
 
     void foo4(int value) {
-        int counter =0;
+        int counter = 0;
         counter = counter + 35 + 78 ;
     }
 

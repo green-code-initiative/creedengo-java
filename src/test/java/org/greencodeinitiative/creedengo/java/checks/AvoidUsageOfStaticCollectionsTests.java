@@ -25,7 +25,7 @@ class AvoidUsageOfStaticCollectionsTests {
     @Test
     void testHasIssues() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidUsageOfStaticCollections.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidUsageOfStaticCollections.java")
                 .withCheck(new AvoidUsageOfStaticCollections())
                 .verifyIssues();
     }
@@ -33,7 +33,7 @@ class AvoidUsageOfStaticCollectionsTests {
     @Test
     void testNoIssues() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidUsageOfStaticCollectionsGoodWay.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidUsageOfStaticCollectionsGoodWay.java")
                 .withCheck(new AvoidUsageOfStaticCollections())
                 .verifyNoIssues();
     }
