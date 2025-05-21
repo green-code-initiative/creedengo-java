@@ -3,103 +3,103 @@ package org.greencodeinitiative.creedengo.java.checks;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.semantic.MethodMatchers;
+import org.sonar.plugins.java.api.semantic.Symbol;
+import org.sonar.plugins.java.api.semantic.Symbol.VariableSymbol;
 import org.sonar.plugins.java.api.tree.*;
 import org.sonarsource.analyzer.commons.annotations.DeprecatedRuleKey;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Rule(key = "GRC3")
 @DeprecatedRuleKey(repositoryKey = "ecocode-java", ruleKey = "GRC3")
 @DeprecatedRuleKey(repositoryKey = "greencodeinitiative-java", ruleKey = "GRC3")
 public class AvoidNPlusOneProblemInJPAEntitiesCheck extends IssuableSubscriptionVisitor {
-    protected static final String RULE_MESSAGE = "Avoid N+1 with nested JPA Entities";
 
-    private static final String BASE_STREAM = "java.util.stream.BaseStream";
+    protected static final String RULE_MESSAGE = " Evitez le N+1 : utilisez un fetch join ou une récupération eager. ";
+
     private static final String SPRING_REPOSITORY = "org.springframework.data.repository.Repository";
 
-    private static final MethodMatchers SPRING_REPOSITORY_METHOD =
-            MethodMatchers
-                    .create()
+    private static final MethodMatchers SPRING_REPOSITORY_METHOD_FIND_ALL =
+            MethodMatchers.create()
                     .ofSubTypes(SPRING_REPOSITORY)
-                    .anyName()
+                    .names("findAll")
                     .withAnyParameters()
                     .build();
 
-    private static final MethodMatchers STREAM_FOREACH_METHOD =
-            MethodMatchers
-                    .create()
-                    .ofSubTypes(BASE_STREAM)
-                    .names("forEach", "forEachOrdered", "map", "peek")
-                    .withAnyParameters()
-                    .build();
-
-    private final AvoidNPlusOneProblemInJPAEntitiesCheck.AvoidSpringRepositoryCallInLoopCheckVisitor visitorInFile = new AvoidNPlusOneProblemInJPAEntitiesCheck.AvoidSpringRepositoryCallInLoopCheckVisitor();
-    private final AvoidNPlusOneProblemInJPAEntitiesCheck.StreamVisitor streamVisitor = new AvoidNPlusOneProblemInJPAEntitiesCheck.StreamVisitor();
-
-    private final AvoidNPlusOneProblemInJPAEntitiesCheck.AncestorMethodVisitor ancestorMethodVisitor = new AvoidNPlusOneProblemInJPAEntitiesCheck.AncestorMethodVisitor();
+    private final Map<Symbol, Tree> repositoryFindAllVars = new HashMap<>();
 
     @Override
     public List<Tree.Kind> nodesToVisit() {
-        return Arrays.asList(
-                Tree.Kind.FOR_EACH_STATEMENT, // loop
-                Tree.Kind.FOR_STATEMENT, // loop
-                Tree.Kind.WHILE_STATEMENT, // loop
-                Tree.Kind.DO_STATEMENT, // loop
-                Tree.Kind.METHOD_INVOCATION // stream
-        );
+        return Arrays.asList(Tree.Kind.VARIABLE, Tree.Kind.METHOD_INVOCATION, Tree.Kind.FOR_EACH_STATEMENT);
     }
 
     @Override
     public void visitNode(Tree tree) {
-        if (tree.is(Tree.Kind.METHOD_INVOCATION)) { // stream process
-            MethodInvocationTree methodInvocationTree = (MethodInvocationTree) tree;
-            if (STREAM_FOREACH_METHOD.matches(methodInvocationTree)) {
-                tree.accept(streamVisitor);
-            }
-        } else { // loop process
-            tree.accept(visitorInFile);
-        }
-    }
-
-    private class AvoidSpringRepositoryCallInLoopCheckVisitor extends BaseTreeVisitor {
-        @Override
-        public void visitMethodInvocation(MethodInvocationTree tree) {
-            if (SPRING_REPOSITORY_METHOD.matches(tree)) {
-                reportIssue(tree, RULE_MESSAGE);
-            } else {
-                super.visitMethodInvocation(tree);
-            }
-        }
-
-    }
-
-    private class StreamVisitor extends BaseTreeVisitor {
-
-        @Override
-        public void visitLambdaExpression(LambdaExpressionTree tree) {
-            tree.accept(ancestorMethodVisitor);
-        }
-
-    }
-
-    private class AncestorMethodVisitor extends BaseTreeVisitor {
-
-        @Override
-        public void visitMethodInvocation(MethodInvocationTree tree) {
-            // if the method is a spring repository method, report an issue
-            if (SPRING_REPOSITORY_METHOD.matches(tree)) {
-                reportIssue(tree, RULE_MESSAGE);
-            } else { // else, check if the method is a method invocation and check recursively
-                if (tree.methodSelect().is(Tree.Kind.MEMBER_SELECT)) {
-                    MemberSelectExpressionTree memberSelectTree = (MemberSelectExpressionTree) tree.methodSelect();
-                    if ( memberSelectTree.expression().is(Tree.Kind.METHOD_INVOCATION)) {
-                        MethodInvocationTree methodInvocationTree = (MethodInvocationTree) memberSelectTree.expression();
-                        methodInvocationTree.accept(ancestorMethodVisitor);
-                    }
+        if (tree.is(Tree.Kind.VARIABLE)) {
+            VariableTree variableTree = (VariableTree) tree;
+            ExpressionTree initializer = variableTree.initializer();
+            if (initializer != null && initializer.is(Tree.Kind.METHOD_INVOCATION)) {
+                MethodInvocationTree methodInvocation = (MethodInvocationTree) initializer;
+                if (SPRING_REPOSITORY_METHOD_FIND_ALL.matches(methodInvocation)) {
+                    VariableSymbol symbol = (VariableSymbol) variableTree.symbol();
+                    repositoryFindAllVars.put(symbol, tree);
                 }
             }
         }
 
+        // Cas d'un foreach sur une variable issue de findAll()
+        if (tree.is(Tree.Kind.FOR_EACH_STATEMENT)) {
+            ForEachStatement forEach = (ForEachStatement) tree;
+            ExpressionTree iterable = forEach.expression();
+            if (iterable.is(Tree.Kind.IDENTIFIER)) {
+                Symbol symbol = ((IdentifierTree) iterable).symbol();
+                if (repositoryFindAllVars.containsKey(symbol)) {
+                    // On marque la variable d'itération comme issue d'un findAll()
+                    VariableSymbol loopVar = (VariableSymbol) forEach.variable().symbol();
+                    repositoryFindAllVars.put(loopVar, tree);
+                }
+            }
+        }
+
+        // Détection d'un appel de getter sur une variable issue de findAll()
+        if (tree.is(Tree.Kind.METHOD_INVOCATION)) {
+            MethodInvocationTree methodInvocation = (MethodInvocationTree) tree;
+
+            // Check if the call is something like post.getAuthor() or post.getAuthor().getName()
+            ExpressionTree select = methodInvocation.methodSelect();
+            if (select.is(Tree.Kind.MEMBER_SELECT)) {
+                MemberSelectExpressionTree memberSelect = (MemberSelectExpressionTree) select;
+                ExpressionTree root = memberSelect.expression();
+
+                if (root.is(Tree.Kind.IDENTIFIER)) {
+                    Symbol symbol = ((IdentifierTree) root).symbol();
+                    if (repositoryFindAllVars.containsKey(symbol) && isGetter(memberSelect.identifier().name())) {
+                        reportIssue(methodInvocation, RULE_MESSAGE);
+                    }
+                }
+
+                // Handle nested getter chains (e.g., post.getAuthor().getName())
+                if (root.is(Tree.Kind.METHOD_INVOCATION)) {
+                    MethodInvocationTree rootInvocation = (MethodInvocationTree) root;
+                    ExpressionTree deeperSelect = rootInvocation.methodSelect();
+                    if (deeperSelect.is(Tree.Kind.MEMBER_SELECT)) {
+                        MemberSelectExpressionTree deeperMemberSelect = (MemberSelectExpressionTree) deeperSelect;
+                        ExpressionTree deeperRoot = deeperMemberSelect.expression();
+
+                        if (deeperRoot.is(Tree.Kind.IDENTIFIER)) {
+                            Symbol rootSymbol = ((IdentifierTree) deeperRoot).symbol();
+                            if (repositoryFindAllVars.containsKey(rootSymbol) && isGetter(deeperMemberSelect.identifier().name())) {
+                                reportIssue(methodInvocation, RULE_MESSAGE);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Méthode utilitaire pour détecter un getter
+    private boolean isGetter(String methodName) {
+        return methodName.startsWith("get") && methodName.length() > 3 && Character.isUpperCase(methodName.charAt(3));
     }
 }

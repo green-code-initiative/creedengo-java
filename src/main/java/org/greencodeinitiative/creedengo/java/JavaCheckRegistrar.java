@@ -50,7 +50,8 @@ public class JavaCheckRegistrar implements CheckRegistrar {
             FreeResourcesOfAutoCloseableInterface.class,
             AvoidMultipleIfElseStatement.class,
             UseOptionalOrElseGetVsOrElse.class,
-            MakeNonReassignedVariablesConstants.class
+            MakeNonReassignedVariablesConstants.class,
+            AvoidNPlusOneProblemInJPAEntitiesCheck.class
     );
 
     /**
