@@ -29,7 +29,7 @@ class SpringMaxRetryableTest {
     void test() {
         CheckVerifier.newVerifier()
                 .onFile("src/test/files/SpringMaxRetryableCheck.java")
-                .withCheck(new ArrayCopyCheck())
+                .withCheck(new SpringMaxRetryableCheck())
                 .verifyIssues();
     }
 
