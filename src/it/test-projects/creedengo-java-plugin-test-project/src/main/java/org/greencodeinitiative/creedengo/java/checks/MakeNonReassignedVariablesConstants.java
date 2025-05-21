@@ -1,8 +1,14 @@
 import java.util.logging.Logger;
+import lombok.Setter;
+import lombok.Data;
+import lombok.AccessLevel;
 
 public class MakeNonReassignedVariablesConstants {
 
     private final Logger logger = Logger.getLogger(""); // Compliant
+
+    @Setter
+    private String myLombokManagedString = "initialValue"; // Compliant
 
     private Object myNonFinalAndNotReassignedObject = new Object(); // Noncompliant {{The variable is never reassigned and can be 'final'}}
     private Object myNonFinalAndReassignedObject = new Object(); // Compliant
@@ -66,4 +72,22 @@ public class MakeNonReassignedVariablesConstants {
         logger.info(myFinalAndNotReassignedObject.toString());
     }
 
+}
+
+@Setter
+class myExtraClassWithLombokSetter {
+    private String myExtraClassString = "initialValue"; // Compliant
+    private final String myExtraClassFinalString = "initialValue"; // Compliant
+
+    @Setter(AccessLevel.NONE) //  Noncompliant {{The variable is never reassigned and can be 'final'}}
+    private String myExtraClassSetterNoneString = "initialValue";
+}
+
+@Data
+class myExtraClassWithLombokData {
+    private String myExtraClassString = "initialValue"; // Compliant
+    private final String myExtraClassFinalString = "initialValue"; // Compliant
+
+    @Setter(AccessLevel.NONE) //  Noncompliant {{The variable is never reassigned and can be 'final'}}
+    private String myExtraClassSetterNoneString = "initialValue";
 }
