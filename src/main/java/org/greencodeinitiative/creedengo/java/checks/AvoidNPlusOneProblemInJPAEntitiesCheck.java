@@ -10,9 +10,9 @@ import org.sonarsource.analyzer.commons.annotations.DeprecatedRuleKey;
 
 import java.util.*;
 
-@Rule(key = "GRC3")
-@DeprecatedRuleKey(repositoryKey = "ecocode-java", ruleKey = "GRC3")
-@DeprecatedRuleKey(repositoryKey = "greencodeinitiative-java", ruleKey = "GRC3")
+@Rule(key = "GCI604")
+@DeprecatedRuleKey(repositoryKey = "ecocode-java", ruleKey = "GCI604")
+@DeprecatedRuleKey(repositoryKey = "greencodeinitiative-java", ruleKey = "GCI604")
 public class AvoidNPlusOneProblemInJPAEntitiesCheck extends IssuableSubscriptionVisitor {
 
     protected static final String RULE_MESSAGE = " Evitez le N+1 : utilisez un fetch join ou une récupération eager. ";
