@@ -12,7 +12,7 @@ import java.util.*;
 @Rule(key = "GCI604")
 public class AvoidNPlusOneProblemInJPAEntitiesCheck extends IssuableSubscriptionVisitor {
 
-    protected static final String RULE_MESSAGE = " Evitez le N+1 : utilisez un fetch join ou une récupération eager. ";
+    protected static final String RULE_MESSAGE = " Avoid the N+1 problem: use a fetch join or eager fetching. ";
 
     private static final String SPRING_REPOSITORY = "org.springframework.data.repository.Repository";
 
