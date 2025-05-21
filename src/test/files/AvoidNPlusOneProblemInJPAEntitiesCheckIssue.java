@@ -30,7 +30,7 @@ public class AvoidNPlusOneProblemInJPAEntitiesCheckIssue {
     public List<Author> smellGetAllAuthors() {
         List<Author> authors = authorRepository.findAll();
         for (Author author : authors) {
-            List<Book> books = author.getBooks(); // Noncompliant {{ Evitez le N+1 : utilisez un fetch join ou une récupération eager. }}
+            List<Book> books = author.getBooks(); // Noncompliant {{ Avoid the N+1 problem: use a fetch join or eager fetching. }}
         }
         return authors;
     }
