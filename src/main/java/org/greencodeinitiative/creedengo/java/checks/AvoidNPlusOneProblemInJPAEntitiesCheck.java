@@ -6,13 +6,10 @@ import org.sonar.plugins.java.api.semantic.MethodMatchers;
 import org.sonar.plugins.java.api.semantic.Symbol;
 import org.sonar.plugins.java.api.semantic.Symbol.VariableSymbol;
 import org.sonar.plugins.java.api.tree.*;
-import org.sonarsource.analyzer.commons.annotations.DeprecatedRuleKey;
 
 import java.util.*;
 
 @Rule(key = "GCI604")
-@DeprecatedRuleKey(repositoryKey = "ecocode-java", ruleKey = "GCI604")
-@DeprecatedRuleKey(repositoryKey = "greencodeinitiative-java", ruleKey = "GCI604")
 public class AvoidNPlusOneProblemInJPAEntitiesCheck extends IssuableSubscriptionVisitor {
 
     protected static final String RULE_MESSAGE = " Evitez le N+1 : utilisez un fetch join ou une récupération eager. ";
