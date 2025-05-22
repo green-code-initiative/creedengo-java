@@ -29,5 +29,4 @@ class MakeNonReassignedVariablesConstantsTest {
                 .withCheck(new MakeNonReassignedVariablesConstants())
                 .verifyIssues();
     }
-
 }
