@@ -548,4 +548,47 @@ class GCIRulesIT extends GCIRulesBase {
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }
 
+    @Test
+    void testGCI96_1() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRuntimeExceptions.java";
+        String ruleId = "creedengo-java:GCI96";
+        String ruleMsg = "Avoid Runtime exceptions : RuntimeException";
+        int[] startLines = new int[]{36};
+        int[] endLines = new int[]{37};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
+
+    @Test
+    void testGCI96_2() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRuntimeExceptions.java";
+        String ruleId = "creedengo-java:GCI96";
+        String ruleMsg = "Avoid Runtime exceptions : IndexOutOfBoundsException";
+        int[] startLines = new int[]{44};
+        int[] endLines = new int[]{45};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
+
+    @Test
+    void testGCI96_3() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRuntimeExceptions.java";
+        String ruleId = "creedengo-java:GCI96";
+        String ruleMsg = "Avoid Runtime exceptions : NullPointerException";
+        int[] startLines = new int[]{52};
+        int[] endLines = new int[]{53};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
+
+    @Test
+    void testGCI96_4() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRuntimeExceptions.java";
+        String ruleId = "creedengo-java:GCI96";
+        String ruleMsg = "Avoid Runtime exceptions : ArithmeticException";
+        int[] startLines = new int[]{59};
+        int[] endLines = new int[]{60};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
 }
