@@ -25,7 +25,7 @@ class AvoidSetConstantInBatchInsertTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidSetConstantInBatchUpdateCheck.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidSetConstantInBatchUpdateCheck.java")
                 .withCheck(new AvoidSetConstantInBatchUpdate())
                 .verifyIssues();
     }

@@ -28,7 +28,7 @@ class ArrayCopyCheckTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/ArrayCopyCheck.java")
+                .onFile(System.getProperty("testfiles.path") + "/ArrayCopyCheck.java")
                 .withCheck(new ArrayCopyCheck())
                 .verifyIssues();
     }

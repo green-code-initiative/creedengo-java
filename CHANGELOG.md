@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - upgrade libraries versions
 - correction of technical problem with Integration tests (because of Maven format in technical answer to "sonar-orchestrator-junit5" library)
 - upgrade JDK from 11 to 17
+- huge refacto to have all the test files in the same place, to avoid maintaining 2...
 
 ### Deleted
 

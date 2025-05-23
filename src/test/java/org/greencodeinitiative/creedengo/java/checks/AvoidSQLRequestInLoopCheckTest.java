@@ -25,7 +25,7 @@ class AvoidSQLRequestInLoopCheckTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidSQLRequestInLoopCheck.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidSQLRequestInLoopCheck.java")
                 .withCheck(new AvoidSQLRequestInLoop())
                 .verifyIssues();
     }

@@ -24,7 +24,7 @@ class AvoidGettingSizeCollectionInLoopTest {
     @Test
     void testBadForLoop() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidGettingSizeCollectionInForLoopBad.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidGettingSizeCollectionInForLoopBad.java")
                 .withCheck(new AvoidGettingSizeCollectionInLoop())
                 .verifyIssues();
     }
@@ -32,7 +32,7 @@ class AvoidGettingSizeCollectionInLoopTest {
     @Test
     void testIgnoredForLoop() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidGettingSizeCollectionInForLoopIgnored.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidGettingSizeCollectionInForLoopIgnored.java")
                 .withCheck(new AvoidGettingSizeCollectionInLoop())
                 .verifyNoIssues();
     }
@@ -40,7 +40,7 @@ class AvoidGettingSizeCollectionInLoopTest {
     @Test
     void testGoodForLoop() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidGettingSizeCollectionInForLoopGood.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidGettingSizeCollectionInForLoopGood.java")
                 .withCheck(new AvoidGettingSizeCollectionInLoop())
                 .verifyNoIssues();
     }
@@ -48,7 +48,7 @@ class AvoidGettingSizeCollectionInLoopTest {
     @Test
     void testBadWhileFoop() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidGettingSizeCollectionInWhileLoopBad.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidGettingSizeCollectionInWhileLoopBad.java")
                 .withCheck(new AvoidGettingSizeCollectionInLoop())
                 .verifyIssues();
     }
@@ -56,7 +56,7 @@ class AvoidGettingSizeCollectionInLoopTest {
     @Test
     void testIgnoredWhileFoop() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidGettingSizeCollectionInWhileLoopIgnored.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidGettingSizeCollectionInWhileLoopIgnored.java")
                 .withCheck(new AvoidGettingSizeCollectionInLoop())
                 .verifyNoIssues();
     }
@@ -64,7 +64,7 @@ class AvoidGettingSizeCollectionInLoopTest {
     @Test
     void testGoodWhileLoop() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidGettingSizeCollectionInWhileLoopGood.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidGettingSizeCollectionInWhileLoopGood.java")
                 .withCheck(new AvoidGettingSizeCollectionInLoop())
                 .verifyNoIssues();
     }
@@ -72,7 +72,7 @@ class AvoidGettingSizeCollectionInLoopTest {
     @Test
     void testIgnoredForEachLoop() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidGettingSizeCollectionInForEachLoopIgnored.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidGettingSizeCollectionInForEachLoopIgnored.java")
                 .withCheck(new AvoidGettingSizeCollectionInLoop())
                 .verifyNoIssues();
     }

@@ -25,7 +25,7 @@ class FreeResourcesOfAutoCloseableInterfaceTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/FreeResourcesOfAutoCloseableInterface.java")
+                .onFile(System.getProperty("testfiles.path") + "/FreeResourcesOfAutoCloseableInterface.java")
                 .withCheck(new FreeResourcesOfAutoCloseableInterface())
                 .withJavaVersion(7)
                 .verifyIssues();
@@ -34,7 +34,7 @@ class FreeResourcesOfAutoCloseableInterfaceTest {
     @Test
     void test_no_java_version() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/FreeResourcesOfAutoCloseableInterface.java")
+                .onFile(System.getProperty("testfiles.path") + "/FreeResourcesOfAutoCloseableInterface.java")
                 .withCheck(new FreeResourcesOfAutoCloseableInterface())
                 .verifyIssues();
     }

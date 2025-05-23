@@ -25,7 +25,7 @@ class IncrementCheckTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/IncrementCheck.java")
+                .onFile(System.getProperty("testfiles.path") + "/gci67/IncrementCheck.java")
                 .withCheck(new IncrementCheck())
                 .verifyIssues();
     }

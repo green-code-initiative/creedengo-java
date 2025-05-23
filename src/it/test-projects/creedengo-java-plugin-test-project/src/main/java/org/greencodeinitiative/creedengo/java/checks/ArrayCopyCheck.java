@@ -1,3 +1,20 @@
+/*
+ * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
+ * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.greencodeinitiative.creedengo.java.checks;
 
 import java.util.Arrays;
@@ -48,28 +65,28 @@ class ArrayCopyCheck {
         boolean[] dest = new boolean[len];
 
         // Simple copy
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             dest[i] = src[i];
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with nested conditions
-        for (int i = 0; i < len; i++) {
-            if (i + 2 < len) {
+        for (int i = 0; i < len; i++) { // Noncompliant {{Use System.arraycopy to copy arrays}}
+            if(i + 2 < len) {
                 dest[i] = src[i + 2];
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with nested ELSE conditions
-        for (int i = 0; i < len; i++) {
-            if (i + 2 >= len) {
+        for (int i = 0; i < len; i++) { // Noncompliant {{Use System.arraycopy to copy arrays}}
+            if(i + 2 >= len) {
                 i++;
             } else {
                 dest[i] = src[i + 2];
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with more nested conditions
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 < len) {
                 if (dest != null) {
                     if (src != null) {
@@ -79,19 +96,19 @@ class ArrayCopyCheck {
                     }
                 }
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest[i] = src[i];
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch and if
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 if (dest != null) {
                     dest[i] = src[i];
@@ -99,10 +116,10 @@ class ArrayCopyCheck {
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch in catch
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest.toString();
             } catch (RuntimeException e) {
@@ -110,10 +127,10 @@ class ArrayCopyCheck {
                     dest[i] = src[i];
                 }
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch in finally
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest.toString();
             } catch (RuntimeException e) {
@@ -121,7 +138,7 @@ class ArrayCopyCheck {
             } finally {
                 dest[i] = src[i];
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Array transformation
         for (int i = 0; i < len; i++) {
@@ -136,31 +153,31 @@ class ArrayCopyCheck {
 
         // Simple copy by foreach
         int i = -1;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             dest[++i] = b;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with nested conditions by foreach
         i = -1;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (b) {
                 dest[++i] = b;
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with nested ELSE conditions by foreach
         i = -1;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 >= len) {
                 i++;
             } else {
                 dest[++i] = b;
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with more nested conditions
         i = -1;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 < len) {
                 if (dest != null) {
                     if (src != null) {
@@ -170,21 +187,21 @@ class ArrayCopyCheck {
                     }
                 }
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch
         i = -1;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest[++i] = b;
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch and if
         i = -1;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 if (dest != null) {
                     dest[++i] = b;
@@ -192,11 +209,11 @@ class ArrayCopyCheck {
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch in catch
         i = -1;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest.toString();
             } catch (RuntimeException e) {
@@ -204,11 +221,11 @@ class ArrayCopyCheck {
                     dest[++i] = b;
                 }
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch in finally
         i = -1;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest.toString();
             } catch (RuntimeException e) {
@@ -216,7 +233,7 @@ class ArrayCopyCheck {
             } finally {
                 dest[++i] = b;
             }
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Array transformation
         i = -1;
@@ -226,34 +243,34 @@ class ArrayCopyCheck {
 
         // Simple copy
         i = 0;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             dest[i] = src[i];
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with nested conditions
         i = 0;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (b) {
                 dest[i] = src[i];
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with nested ELSE conditions
         i = 0;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 >= len) {
                 i++;
             } else {
                 dest[i] = src[i + 2];
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with more nested conditions
         i = 0;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 < len) {
                 if (dest != null) {
                     if (src != null) {
@@ -264,22 +281,22 @@ class ArrayCopyCheck {
                 }
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch
         i = 0;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest[i] = src[i];
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch and if
         i = 0;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 if (dest != null) {
                     dest[i] = src[i];
@@ -288,11 +305,11 @@ class ArrayCopyCheck {
                 e.printStackTrace();
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch in catch
         i = 0;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest.toString();
             } catch (RuntimeException e) {
@@ -301,11 +318,11 @@ class ArrayCopyCheck {
                 }
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch in finally
         i = 0;
-        for (boolean b : src) {
+        for (boolean b : src) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest.toString();
             } catch (RuntimeException e) {
@@ -314,7 +331,7 @@ class ArrayCopyCheck {
                 dest[i] = src[i];
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Array transformation
         i = 0;
@@ -331,34 +348,34 @@ class ArrayCopyCheck {
 
         // Simple copy
         int i = 0;
-        while (i < len) {
+        while (i < len) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             dest[i] = src[i];
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with nested conditions
         i = 0;
-        while (i < len) {
+        while (i < len) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 < len) {
                 dest[i] = src[i + 2];
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with nested ELSE conditions
         i = 0;
-        while (i < len) {
+        while (i < len) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 >= len) {
                 i++;
             } else {
                 dest[i] = src[i + 2];
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy with more nested conditions
         i = 0;
-        while (i < len) {
+        while (i < len) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 < len) {
                 if (dest != null) {
                     if (src != null) {
@@ -369,11 +386,11 @@ class ArrayCopyCheck {
                 }
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch and if
         i = 0;
-        while (i < len) {
+        while (i < len) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 if (dest != null) {
                     dest[i] = src[i];
@@ -382,11 +399,11 @@ class ArrayCopyCheck {
                 e.printStackTrace();
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Copy nested by try/catch in catch
         i = 0;
-        while (i < len) {
+        while (i < len) { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest.toString();
             } catch (RuntimeException e) {
@@ -395,7 +412,7 @@ class ArrayCopyCheck {
                 }
             }
             i++;
-        } // Noncompliant {{Use System.arraycopy to copy arrays}}
+        }
 
         // Array transformation
         i = 0;
@@ -412,34 +429,34 @@ class ArrayCopyCheck {
 
         // Simple copy
         int i = 0;
-        do {
+        do { // Noncompliant {{Use System.arraycopy to copy arrays}}
             dest[i] = src[i];
             i++;
-        } while (i < len); // Noncompliant {{Use System.arraycopy to copy arrays}}
+        } while (i < len);
 
         // Copy with nested conditions
         i = 0;
-        do {
+        do { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 < len) {
                 dest[i] = src[i + 2];
             }
             i++;
-        } while (i < len); // Noncompliant {{Use System.arraycopy to copy arrays}}
+        } while (i < len);
 
         // Copy with nested ELSE conditions
         i = 0;
-        do {
+        do { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 >= len) {
                 i++;
             } else {
                 dest[i] = src[i + 2];
             }
             i++;
-        } while (i < len); // Noncompliant {{Use System.arraycopy to copy arrays}}
+        } while (i < len);
 
         // Copy with more nested conditions
         i = 0;
-        do {
+        do { // Noncompliant {{Use System.arraycopy to copy arrays}}
             if (i + 2 < len) {
                 if (dest != null) {
                     if (src != null) {
@@ -450,11 +467,11 @@ class ArrayCopyCheck {
                 }
             }
             i++;
-        } while (i < len); // Noncompliant {{Use System.arraycopy to copy arrays}}
+        } while (i < len);
 
         // Copy nested by try/catch and if
         i = 0;
-        do {
+        do { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 if (dest != null) {
                     dest[i] = src[i];
@@ -463,11 +480,11 @@ class ArrayCopyCheck {
                 e.printStackTrace();
             }
             i++;
-        } while (i < len); // Noncompliant {{Use System.arraycopy to copy arrays}}
+        } while (i < len);
 
         // Copy nested by try/catch in catch
         i = 0;
-        do {
+        do { // Noncompliant {{Use System.arraycopy to copy arrays}}
             try {
                 dest.toString();
             } catch (RuntimeException e) {
@@ -476,7 +493,7 @@ class ArrayCopyCheck {
                 }
             }
             i++;
-        } while (i < len); // Noncompliant {{Use System.arraycopy to copy arrays}}
+        } while (i < len);
 
         // Array transformation
         i = 0;
@@ -484,7 +501,6 @@ class ArrayCopyCheck {
             dest[i] = transform(src[i]);
             i++;
         } while (i < len);
-
     }
 
     private boolean transform(boolean a) {
