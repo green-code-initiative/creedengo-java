@@ -27,6 +27,12 @@ class UseFilterBeforeSort {
                 .filter(s -> s.startsWith("A"))
                 .collect(Collectors.toList());
 
+        list.stream() // Noncompliant {{Use 'filter' before 'sorted' for better efficiency.}}
+                .sorted()
+                .otherMethod()
+                .filter(s -> s.startsWith("A"))
+                .collect(Collectors.toList());
+
         list.stream() // Compliant {{Use 'filter' before 'sorted' for better efficiency.}}
                 .filter(s -> s.startsWith("A"))
                 .sorted()
