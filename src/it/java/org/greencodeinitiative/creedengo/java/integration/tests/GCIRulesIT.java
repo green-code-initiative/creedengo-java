@@ -429,8 +429,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/IncrementCheck.java";
         String ruleId = "creedengo-java:GCI67";
         String ruleMsg = "Use ++i instead of i++";
-        int[] startLines = new int[]{9, 19, 38};
-        int[] endLines = new int[]{9, 19, 38};
+        int[] startLines = new int[]{9, 24, 47};
+        int[] endLines = new int[]{9, 24, 47};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
