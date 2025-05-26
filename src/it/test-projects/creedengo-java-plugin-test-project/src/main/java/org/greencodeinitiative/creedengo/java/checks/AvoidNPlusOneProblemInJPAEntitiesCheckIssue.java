@@ -30,7 +30,7 @@ public class AvoidNPlusOneProblemInJPAEntitiesCheckIssue {
     public List<Author> smellGetAllAuthors() {
         List<Author> authors = authorRepository.findAll();
         for (Author author : authors) {
-            List<Book> books = author.getBooks(); // // Noncompliant {{ Evitez le N+1 : utilisez un fetch join ou une récupération eager. }}
+            List<Book> books = author.getBooks(); // Noncompliant {{ Detection of the "N+1 problem" on Spring Data JPA repositories }}
         }
         return authors;
     }
