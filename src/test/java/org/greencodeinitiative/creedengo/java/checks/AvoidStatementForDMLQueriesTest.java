@@ -24,7 +24,7 @@ class AvoidStatementForDMLQueriesTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidStatementForDMLQueries.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidStatementForDMLQueries.java")
                 .withCheck(new AvoidStatementForDMLQueries())
                 .verifyIssues();
     }

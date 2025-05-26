@@ -1,3 +1,20 @@
+/*
+ * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
+ * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.greencodeinitiative.creedengo.java.checks;
 
 class AvoidMultipleIfElseStatement {
@@ -42,9 +59,9 @@ class AvoidMultipleIfElseStatement {
                 && nb3 == 2
                 && nb3 == 3) { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
             nb1 = 1;
-        } else {
+        } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
             nb2 = 2;
-        } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+        }
 
         if (nb2 == 2) {
             nb1 = 3;
@@ -85,9 +102,9 @@ class AvoidMultipleIfElseStatement {
         if (nb1 == 1) {
             if (nb1 == 2) {
                 nb1 = 1;
-            } else {
+            } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 3;
-            } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+            }
         } else {
             nb1 = 2;
         }
@@ -109,9 +126,9 @@ class AvoidMultipleIfElseStatement {
         } else {
             if (nb1 == 2) {  // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 1;
-            } else {
+            } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 3;
-            } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+            }
         }
 
         return nb1;
@@ -128,15 +145,15 @@ class AvoidMultipleIfElseStatement {
         if (nb1 == 1) {
             if (nb1 == 3) {
                 nb1 = 4;
-            } else {
+            } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 5;
-            } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+            }
         } else {
             if (nb1 == 2) { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 1;
-            } else {
+            } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 3;
-            } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+            }
         }
 
         return nb1;
@@ -155,15 +172,15 @@ class AvoidMultipleIfElseStatement {
         if (nb1 == 1) {
             if (nb1 == 3) {
                 nb1 = 4;
-            } else {
+            } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 5;
-            } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+            }
         } else if (nb2 == 2) {
             if (nb1 == 4) {
                 nb1 = 5;
-            } else {
+            } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 6;
-            } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+            }
         }
 
         return nb1;
@@ -187,9 +204,9 @@ class AvoidMultipleIfElseStatement {
         } else if (nb2 == 2) {
             if (nb1 == 3) {
                 nb1 = 4;
-            } else {
+            } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 5;
-            } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+            }
         }
 
         return nb1;
@@ -208,13 +225,13 @@ class AvoidMultipleIfElseStatement {
         } else {
             if (nb1 == 2) { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 1;
-            } else {
+            } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 if (nb1 == 3) { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                     nb1 = 4;
-                } else {
+                } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                     nb1 = 5;
-                } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
-            } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+                }
+            }
         }
 
         return nb1;
@@ -233,9 +250,9 @@ class AvoidMultipleIfElseStatement {
             nb2 = 1;
         } else if (nb1 == nb2) {
             nb2 = 2;
-        } else {
+        } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
             nb2 = 4;
-        } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+        }
 
         return nb2;
     }
@@ -256,9 +273,9 @@ class AvoidMultipleIfElseStatement {
             nb2 = 2;
         } else if (nb3 == nb1) { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
             nb2 = 3;
-        } else {
+        } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
             nb2 = 4;
-        } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+        }
 
         return nb2;
     }

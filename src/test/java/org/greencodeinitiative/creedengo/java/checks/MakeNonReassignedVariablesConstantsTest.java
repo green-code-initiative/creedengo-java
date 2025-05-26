@@ -25,7 +25,7 @@ class MakeNonReassignedVariablesConstantsTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/MakeNonReassignedVariablesConstants.java")
+                .onFile(System.getProperty("testfiles.path") + "/MakeNonReassignedVariablesConstants.java")
                 .withCheck(new MakeNonReassignedVariablesConstants())
                 .verifyIssues();
     }

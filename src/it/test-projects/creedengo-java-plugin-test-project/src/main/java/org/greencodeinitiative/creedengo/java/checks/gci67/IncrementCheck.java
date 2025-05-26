@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.greencodeinitiative.creedengo.java.checks;
+package org.greencodeinitiative.creedengo.java.checks.gci67;
 
-private class Foo {
-    public int i; //NOSONAR
-}
 
 class IncrementCheck {
+    private class Foo {
+        public int i; //NOSONAR
+    }
 
     IncrementCheck(IncrementCheck mc) {
     }
@@ -42,7 +42,7 @@ class IncrementCheck {
     }
 
     int foo12() {
-        Foo f;
+        Foo f = new Foo();
         return f.i++; // Compliant because maybe the use case needs to return j AND increment it
     }
 

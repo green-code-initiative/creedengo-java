@@ -25,7 +25,7 @@ class InitializeBufferWithAppropriateSizeTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/InitializeBufferWithAppropriateSize.java")
+                .onFile(System.getProperty("testfiles.path") + "/InitializeBufferWithAppropriateSize.java")
                 .withCheck(new InitializeBufferWithAppropriateSize())
                 .verifyIssues();
     }

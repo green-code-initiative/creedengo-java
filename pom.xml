@@ -236,6 +236,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <testfiles.path>src/it/test-projects/creedengo-java-plugin-test-project/src/main/java/org/greencodeinitiative/creedengo/java/checks</testfiles.path>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
