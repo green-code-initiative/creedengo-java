@@ -8,6 +8,11 @@ public class MakeNonReassignedVariablesConstants {
     private Object myNonFinalAndReassignedObject = new Object(); // Compliant
     private final Object myFinalAndNotReassignedObject = new Object(); // Compliant
 
+    private record myRecord(
+            String myImplicitlyFinalStringField, // Compliant
+            Integer myImplicitlyFinalIntField) // Compliant
+    { }
+
     private static final String CONSTANT = "toto";  // Compliant
     private String varDefinedInClassNotReassigned = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
     private String varDefinedInClassNotUsed = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
