@@ -59,7 +59,11 @@ public class JavaCheckRegistrar implements CheckRegistrar {
     @Override
     public void register(RegistrarContext registrarContext) {
         // Call to registerClassesForRepository to associate the classes with the correct repository key
-        registrarContext.registerClassesForRepository(JavaRulesDefinition.REPOSITORY_KEY, checkClasses(), testCheckClasses());
+        registrarContext.registerClassesForRepository(
+            JavaRulesDefinition.REPOSITORY_KEY, 
+            checkClasses(), 
+            testCheckClasses()
+        );
     }
 
     /**

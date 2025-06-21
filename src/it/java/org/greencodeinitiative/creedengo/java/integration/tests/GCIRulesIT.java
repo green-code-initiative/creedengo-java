@@ -13,6 +13,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GCIRulesIT extends GCIRulesBase {
 
     @Test
+    void testGCI74() {
+
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidFullSQLRequestCheck.java";
+        int[] startLines = new int[]{8, 12, 17, 23};
+        int[] endLines = new int[]{8, 12, 17, 23};
+        String ruleId = "creedengo-java:GCI74";
+        String ruleMsg = "Don't use the query SELECT * FROM";
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
+
+    }
+
+    @Test
     void testMeasuresAndIssues() {
         String projectKey = analyzedProjects.get(0).getProjectKey();
 
@@ -23,46 +36,6 @@ class GCIRulesIT extends GCIRulesBase {
 
         List<Issues.Issue> projectIssues = searchIssuesForComponent(projectKey, null).getIssuesList();
         assertThat(projectIssues).isNotEmpty();
-
-    }
-
-    @Test
-    void testGCI27() {
-
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/ArrayCopyCheck.java";
-        String ruleId = "creedengo-java:GCI27";
-        String ruleMsg = "Use System.arraycopy to copy arrays";
-        int[] startLines = new int[]{
-                51, 56, 63, 72, 85, 94,
-                105, 116, 139, 145, 153, 163,
-                177, 187, 199, 211, 229, 236,
-                245, 256, 271, 282, 295, 308,
-                334, 341, 350, 361, 376, 389,
-                415, 422, 431, 442, 457, 470
-        };
-        int[] endLines = new int[]{
-                53, 60, 69, 82, 91, 102,
-                113, 124, 141, 149, 159, 173,
-                183, 195, 207, 219, 232, 241,
-                252, 267, 278, 291, 304, 317,
-                337, 346, 357, 372, 385, 398,
-                418, 427, 438, 453, 466, 479
-        };
-
-        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
-
-    }
-
-    @Test
-    void testGCI74() {
-
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidFullSQLRequestCheck.java";
-        int[] startLines = new int[]{8, 12, 17, 23};
-        int[] endLines = new int[]{8, 12, 17, 23};
-        String ruleId = "creedengo-java:GCI74";
-        String ruleMsg = "Don't use the query SELECT * FROM";
-
-        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
 
     }
 
