@@ -43,7 +43,6 @@ public class JavaCheckRegistrar implements CheckRegistrar {
             AvoidStatementForDMLQueries.class,
             AvoidSpringRepositoryCallInLoopOrStreamCheck.class,
             AvoidSQLRequestInLoop.class,
-            AvoidFullSQLRequest.class,
             OptimizeReadFileExceptions.class,
             InitializeBufferWithAppropriateSize.class,
             AvoidSetConstantInBatchUpdate.class,

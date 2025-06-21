@@ -54,19 +54,6 @@ class GCIRulesIT extends GCIRulesBase {
     }
 
     @Test
-    void testGCI74() {
-
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidFullSQLRequestCheck.java";
-        int[] startLines = new int[]{8, 12, 17, 23};
-        int[] endLines = new int[]{8, 12, 17, 23};
-        String ruleId = "creedengo-java:GCI74";
-        String ruleMsg = "Don't use the query SELECT * FROM";
-
-        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
-
-    }
-
-    @Test
     void testGCI3_forEachLoopIgnored() {
 
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInForEachLoopIgnored.java";
