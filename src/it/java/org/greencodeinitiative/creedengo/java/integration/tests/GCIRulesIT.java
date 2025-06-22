@@ -535,4 +535,15 @@ class GCIRulesIT extends GCIRulesBase {
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }
 
+    @Test
+    void testGCI74() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AAA_AvoidFullSQLRequestTestResourceFile.java";
+        String ruleId = "creedengo-java:GCI74";
+        String ruleMsg = "BZH25 : no Full SQL request, guy !!!";
+        int[] startLines = new int[]{24, 28, 32, 38};
+        int[] endLines = new int[]{24, 28, 32, 38};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
+    }
+
 }
