@@ -21,7 +21,7 @@ public class UseFilterBeforeSort extends IssuableSubscriptionVisitor {
             MethodInvocationTree mit = (MethodInvocationTree) tree;
 
             if (!isTerminalOperation(mit)) {
-                return; // On ignore les appels intermédiaires (filter, sorted, etc.)
+                return; // Ignoring intermediate steps (filter, sorted, etc.)
             }
 
             List<String> methodChain = extractChainedMethodNames(mit);
@@ -46,7 +46,7 @@ public class UseFilterBeforeSort extends IssuableSubscriptionVisitor {
             if (methodSelect instanceof MemberSelectExpressionTree) {
                 MemberSelectExpressionTree memberSelect = (MemberSelectExpressionTree) methodSelect;
                 methodNames.add(memberSelect.identifier().name());
-                current = memberSelect.expression(); // remonter à l'appel précédent
+                current = memberSelect.expression(); // Go to the previous method
             } else {
                 break;
             }
