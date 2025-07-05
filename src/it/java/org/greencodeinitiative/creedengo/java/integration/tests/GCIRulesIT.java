@@ -548,4 +548,26 @@ class GCIRulesIT extends GCIRulesBase {
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }
 
+
+    @Test
+    void testGCI1111() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/DataInHibernateMustBePaginated.java";
+        String ruleId = "creedengo-java:GCI1111";
+        String ruleMsg = "Hibernate queries must be paginated to avoid excessive data loading";
+        int[] startLines = new int[]{15, 18, 21};
+        int[] endLines = new int[]{15, 18, 21};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE,  EFFORT_20MIN);
+    }
+
+    @Test
+    void testGCI1111NoIssue() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/DataInHibernateMustBePaginatedNoIssue.java";
+        String ruleId = "creedengo-java:GCI1111";
+        String ruleMsg = "Hibernate queries must be paginated to avoid excessive data loading";
+        int[] startLines = new int[]{};
+        int[] endLines = new int[]{};
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE,  EFFORT_20MIN);
+
+    }
 }
