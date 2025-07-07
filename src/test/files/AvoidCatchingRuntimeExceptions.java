@@ -29,11 +29,11 @@ import java.lang.IllegalArgumentException;
 import java.lang.NumberFormatException;
 import java.lang.Integer;
 
-public class AvoidRuntimeExceptions {
+public class AvoidCatchingRuntimeExceptions {
     public void nominalRuntimeException() {
         try {
             // some code that may throw an exception
-        } catch (RuntimeException e) { // Noncompliant {{Avoid Runtime exceptions : RuntimeException}}
+        } catch (RuntimeException e) { // Noncompliant {{Avoid catching Runtime exceptions : RuntimeException}}
         }
     }
 
@@ -41,7 +41,7 @@ public class AvoidRuntimeExceptions {
         int[] array = new int[10];
         try {
             array[10] = 0;
-        } catch (IndexOutOfBoundsException e) { // Noncompliant {{Avoid Runtime exceptions : IndexOutOfBoundsException}}
+        } catch (IndexOutOfBoundsException e) { // Noncompliant {{Avoid catching Runtime exceptions : IndexOutOfBoundsException}}
         }
     }
 
@@ -49,14 +49,14 @@ public class AvoidRuntimeExceptions {
         Object obj = null;
         try {
             obj.toString();
-        } catch (NullPointerException e) { // Noncompliant {{Avoid Runtime exceptions : NullPointerException}}
+        } catch (NullPointerException e) { // Noncompliant {{Avoid catching Runtime exceptions : NullPointerException}}
         }
     }
 
     public void nominalRuntimeExceptionDependant_3(){
         try {
             int result = 1 / 0;
-        } catch (ArithmeticException e) { // Noncompliant {{Avoid Runtime exceptions : ArithmeticException}}
+        } catch (ArithmeticException e) { // Noncompliant {{Avoid catching Runtime exceptions : ArithmeticException}}
         }
     }
 

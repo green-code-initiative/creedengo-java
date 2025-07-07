@@ -27,9 +27,9 @@ import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
 @Rule(key = "GCI96")
-public class AvoidRuntimeExceptions extends IssuableSubscriptionVisitor {
+public class AvoidCatchingRuntimeExceptions extends IssuableSubscriptionVisitor {
 
-    protected static final String MESSAGERULE = "Avoid Runtime exceptions";
+    protected static final String MESSAGERULE = "Avoid catching Runtime exceptions";
     protected static final String RUNTIME_EXCEPTION = "java.lang.RuntimeException";
     protected static final String ILLEGAL_ARGUMENT_EXCEPTION = "java.lang.IllegalArgumentException";
 
@@ -43,8 +43,8 @@ public class AvoidRuntimeExceptions extends IssuableSubscriptionVisitor {
         CatchTree catchTree = (CatchTree) tree;
         if(catchTree.parameter().type().symbolType().isSubtypeOf(RUNTIME_EXCEPTION) &&
                 !catchTree.parameter().type().symbolType().isSubtypeOf(ILLEGAL_ARGUMENT_EXCEPTION)) {
-            String Type = catchTree.parameter().type().symbolType().name();
-            String message = MESSAGERULE + " : " + Type;
+            String caughtExceptionType = catchTree.parameter().type().symbolType().name();
+            String message = MESSAGERULE + " : " + caughtExceptionType;
             reportIssue(tree, message);
         }
     }

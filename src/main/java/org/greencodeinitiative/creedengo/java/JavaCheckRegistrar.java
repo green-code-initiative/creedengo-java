@@ -51,7 +51,7 @@ public class JavaCheckRegistrar implements CheckRegistrar {
             AvoidMultipleIfElseStatement.class,
             UseOptionalOrElseGetVsOrElse.class,
             MakeNonReassignedVariablesConstants.class,
-            AvoidRuntimeExceptions.class
+            AvoidCatchingRuntimeExceptions.class
     );
 
     /**
