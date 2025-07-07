@@ -63,7 +63,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
         if(tree.parent() == null)
             return false;
         Arguments arguments = (Arguments) tree.parent();
-        if (parentIsKind(tree, Kind.METHOD_INVOCATION, Kind.NEW_CLASS)) {
+        if (parentIsKind(arguments, Kind.METHOD_INVOCATION, Kind.NEW_CLASS)) {
             MethodTree methodTree = arguments.parent().is(Kind.METHOD_INVOCATION)
                 ? ((MethodInvocationTree) arguments.parent()).methodSymbol().declaration()
                 : ((NewClassTree) arguments.parent()).methodSymbol().declaration();
