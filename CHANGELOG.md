@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- [#63](https://github.com/green-code-initiative/ecoCode-java/pull/63) [GCI95] [Java] Avoid querying SQL columns that are not used
 
 ### Changed
 - [#110](https://github.com/green-code-initiative/creedengo-java/pull/110) GCI82 - remove false positives with reassignment using this and with passing a variable to a function it can be reassigned in
