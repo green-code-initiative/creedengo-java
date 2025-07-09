@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
+
+- [#103](https://github.com/green-code-initiative/creedengo-java/pull/103) GCI69 Java : calls to hasMoreElements() and nextElement() methods from java.util.Enumeration interface aren't flagged anymore when called in a for loop
 - [#110](https://github.com/green-code-initiative/creedengo-java/pull/110) GCI82 - remove false positives with reassignment using this and with passing a variable to a function it can be reassigned in
 - compatibility updates for SonarQube 25.5.0
 - upgrade libraries versions
