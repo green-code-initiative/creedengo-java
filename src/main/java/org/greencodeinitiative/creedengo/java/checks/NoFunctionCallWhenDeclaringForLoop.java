@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
+import org.sonar.plugins.java.api.semantic.MethodMatchers;
 import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
 import org.sonar.plugins.java.api.tree.ClassTree;
 import org.sonar.plugins.java.api.tree.CompilationUnitTree;
@@ -44,6 +45,20 @@ public class NoFunctionCallWhenDeclaringForLoop extends IssuableSubscriptionVisi
 
     protected static final String MESSAGERULE = "Do not call a function when declaring a for-type loop";
 
+    private static final String ITERATOR = "java.util.Iterator";
+    private static final MethodMatchers ITERATOR_METHODS = MethodMatchers.create()
+            .ofSubTypes(ITERATOR)
+            .names("hasNext", "next")
+            .withAnyParameters()
+            .build();
+    private static final String ENUMERATION = "java.util.Enumeration";
+    private static final MethodMatchers ENUMERATION_METHODS = MethodMatchers.create()
+            .ofSubTypes(ENUMERATION)
+            .names("hasMoreElements", "nextElement")
+            .withAnyParameters()
+            .build();
+
+    
     private static final Map<String, Collection<Integer>> linesWithIssuesByClass = new HashMap<>();
 
     @Override
@@ -68,19 +83,15 @@ public class NoFunctionCallWhenDeclaringForLoop extends IssuableSubscriptionVisi
 
         @Override
         public void visitMethodInvocation(MethodInvocationTree tree) {
-            if (!lineAlreadyHasThisIssue(tree) && !isIteratorMethod(tree)) {
+            if (!lineAlreadyHasThisIssue(tree) && !isMethodAllowed(tree)) {
                 report(tree);
                 return;
             }
             super.visitMethodInvocation(tree);
         }
 
-        private boolean isIteratorMethod(MethodInvocationTree tree) {
-            boolean isIterator = tree.methodSymbol().owner().type().isSubtypeOf("java.util.Iterator");
-            String methodName = tree.methodSelect().lastToken().text();
-            boolean isMethodNext = methodName.equals("next");
-            boolean isMethodHasNext = methodName.equals("hasNext");
-            return isIterator && (isMethodNext || isMethodHasNext);
+        private boolean isMethodAllowed(MethodInvocationTree tree) {
+            return ITERATOR_METHODS.matches(tree) || ENUMERATION_METHODS.matches(tree);
         }
 
         private boolean lineAlreadyHasThisIssue(Tree tree) {
