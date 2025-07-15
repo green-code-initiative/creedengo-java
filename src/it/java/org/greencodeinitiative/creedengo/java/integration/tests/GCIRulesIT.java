@@ -451,8 +451,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/NoFunctionCallWhenDeclaringForLoop.java";
         String ruleId = "creedengo-java:GCI69";
         String ruleMsg = "Do not call a function when declaring a for-type loop";
-        int[] startLines = new int[]{58, 66, 74, 101};
-        int[] endLines = new int[]{58, 66, 74, 101};
+        int[] startLines = new int[]{62, 70, 78, 106, 127};
+        int[] endLines = new int[]{62, 70, 78, 106, 127};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }

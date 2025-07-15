@@ -19,6 +19,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Collections;
+
+
 class NoFunctionCallWhenDeclaringForLoop {
 
     public int getMyValue() {
@@ -94,11 +98,33 @@ class NoFunctionCallWhenDeclaringForLoop {
         }
 
         // iterator called in an indirect way is allowed
-        for (final OtherClassWithIterator otherClass = new OtherClassWithIterator(joursSemaine.iterator()); otherClass.iterator.hasNext(); jour = otherClass.iterator.next()) {
+        for (final OtherClassWrapper otherClass = new OtherClassWrapper(joursSemaine.iterator()); otherClass.iterator.hasNext(); jour = otherClass.iterator.next()) {
             System.out.println(jour);
         }
+
         // but using a method that returns an iterator causes an issue
-        for (final OtherClassWithIterator otherClass = new OtherClassWithIterator(joursSemaine.iterator()); otherClass.getIterator().hasNext(); jour = otherClass.getIterator().next()) {  // Noncompliant {{Do not call a function when declaring a for-type loop}}
+        for (final OtherClassWrapper otherClass = new OtherClassWrapper(joursSemaine.iterator()); otherClass.getIterator().hasNext(); jour = otherClass.getIterator().next()) {  // Noncompliant {{Do not call a function when declaring a for-type loop}}
+            System.out.println(jour);
+        }
+
+    }
+
+    // compliant, enumeration is allowed
+    public void test8() {
+        final List<String> joursSemaine = Arrays.asList("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
+
+        String jour = null;
+        for (final Enumeration<String> enumeration = Collections.enumeration(joursSemaine); enumeration.hasMoreElements(); jour = enumeration.nextElement()) {
+            System.out.println(jour);
+        }
+
+        // enumeration called in an indirect way is allowed
+        for(final OtherClassWrapper otherClass = new OtherClassWrapper(Collections.enumeration(joursSemaine)); otherClass.enumeration.hasMoreElements(); jour = otherClass.enumeration.nextElement()) {
+            System.out.println(jour);
+        }
+
+        // but using a method that returns an enumeration causes an issue
+        for(final OtherClassWrapper otherClass = new OtherClassWrapper(Collections.enumeration(joursSemaine)); otherClass.getEnumeration().hasMoreElements(); jour = otherClass.getEnumeration().nextElement()) {  // Noncompliant {{Do not call a function when declaring a for-type loop}}
             System.out.println(jour);
         }
 
@@ -106,14 +132,22 @@ class NoFunctionCallWhenDeclaringForLoop {
 
 }
 
-class OtherClassWithIterator {
-    public final Iterator<String> iterator;
+class OtherClassWrapper {
+    public Iterator<String> iterator = null;
+    public Enumeration<String> enumeration = null;
 
-    public OtherClassWithIterator(Iterator<String> iterator){
+    public OtherClassWrapper(Iterator<String> iterator){
         this.iterator = iterator;
+    }
+    public OtherClassWrapper(Enumeration<String> enumeration){
+        this.enumeration = enumeration;
     }
 
     public Iterator<String> getIterator(){
         return iterator;
+    }
+
+    public Enumeration<String> getEnumeration(){
+        return enumeration;
     }
 }
