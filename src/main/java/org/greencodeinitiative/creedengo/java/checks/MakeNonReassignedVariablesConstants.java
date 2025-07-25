@@ -29,6 +29,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
         LOGGER.debug("   => isNotFinalAndNotStatic(variableTree) = " + isNotFinalAndNotStatic(variableTree));
         LOGGER.debug("   => usages = " + variableTree.symbol().usages().size());
         LOGGER.debug("   => isNotReassigned = " + isNotReassigned(variableTree));
+        LOGGER.debug("   => isPassedAsNonFinalParameter = " + isPassedAsNonFinalParameter(variableTree));
 
         if (isNotFinalAndNotStatic(variableTree) && isNotReassigned(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
@@ -41,10 +42,43 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
         return variableTree.symbol()
                 .usages()
                 .stream()
-                .noneMatch(MakeNonReassignedVariablesConstants::parentIsAssignment);
+                .noneMatch(MakeNonReassignedVariablesConstants::parentIsAssignment) 
+            && !isPassedAsNonFinalParameter(variableTree); // if a variable is passed into a method as a non-final parameter, it may have been reassigned
+    }
+
+    private static boolean isPassedAsNonFinalParameter(VariableTree variableTree) {
+        return variableTree.symbol()
+                .usages()
+                .stream()
+                .anyMatch(MakeNonReassignedVariablesConstants::parentIsNonFinalParameter);
+    }
+
+    private static boolean parentIsNonFinalParameter(Tree tree) {
+        // Skip the parent if it is a member select (e.g. "this.myVar")
+        while (tree.parent().is(Kind.MEMBER_SELECT)) {
+            tree = tree.parent();
+        }
+        if(!parentIsKind(tree, Kind.ARGUMENTS))
+            return false;
+        if(tree.parent() == null)
+            return false;
+        Arguments arguments = (Arguments) tree.parent();
+        if (parentIsKind(arguments, Kind.METHOD_INVOCATION, Kind.NEW_CLASS)) {
+            MethodTree methodTree = arguments.parent().is(Kind.METHOD_INVOCATION)
+                ? ((MethodInvocationTree) arguments.parent()).methodSymbol().declaration()
+                : ((NewClassTree) arguments.parent()).methodSymbol().declaration();
+            int argument_idx = arguments.indexOf(tree);
+            return methodTree != null && !hasModifier(methodTree.parameters().get(argument_idx).modifiers(), Modifier.FINAL);
+        }
+        return false;
+        
     }
 
     private static boolean parentIsAssignment(Tree tree) {
+        // Skip the parent if it is a member select (e.g. "this.myVar")
+        while (tree.parent().is(Kind.MEMBER_SELECT)) {
+            tree = tree.parent();   
+        }
         return parentIsKind(tree,
                 Kind.ASSIGNMENT,
                 Kind.MULTIPLY_ASSIGNMENT,
