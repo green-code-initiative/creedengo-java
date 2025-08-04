@@ -440,8 +440,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/MakeNonReassignedVariablesConstants.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
-        int[] startLines = new int[]{7, 12, 13, 45};
-        int[] endLines = new int[]{7, 12, 13, 45};
+        int[] startLines = new int[]{7, 12, 13, 18, 24, 27, 46, 73, 106, 119};
+        int[] endLines = new int[]{7, 12, 13, 18, 24, 27, 46, 73, 106, 119};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
@@ -451,8 +451,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/NoFunctionCallWhenDeclaringForLoop.java";
         String ruleId = "creedengo-java:GCI69";
         String ruleMsg = "Do not call a function when declaring a for-type loop";
-        int[] startLines = new int[]{58, 66, 74, 101};
-        int[] endLines = new int[]{58, 66, 74, 101};
+        int[] startLines = new int[]{62, 70, 78, 106, 127};
+        int[] endLines = new int[]{62, 70, 78, 106, 127};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
