@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [GCI91](https://github.com/green-code-initiative/creedengo-java/pull/111) New rule to detect if a sort method is called before a filter in stream
+
 ### Changed
 
 - [#103](https://github.com/green-code-initiative/creedengo-java/pull/103) GCI69 Java : calls to hasMoreElements() and nextElement() methods from java.util.Enumeration interface aren't flagged anymore when called in a for loop
