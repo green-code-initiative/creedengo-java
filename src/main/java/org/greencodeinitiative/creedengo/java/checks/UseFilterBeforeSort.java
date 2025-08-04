@@ -52,7 +52,7 @@ public class UseFilterBeforeSort extends IssuableSubscriptionVisitor {
             }
         }
 
-        Collections.reverse(methodNames); // pour avoir l’ordre stream → ... → collect
+        Collections.reverse(methodNames); // Reverse to get right order in collection like stream → ... → collect
         return methodNames;
     }
 

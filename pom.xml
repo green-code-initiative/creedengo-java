@@ -78,7 +78,7 @@
         <google.re2j>1.8</google.re2j>
 
         <!-- Version of creedengo rules specifications implemented by this plugin -->
-        <creedengo-rules-specifications.version>main-SNAPSHOT</creedengo-rules-specifications.version>
+        <creedengo-rules-specifications.version>2.2.3</creedengo-rules-specifications.version>
 
         <!-- URL of the Maven repository where sonarqube will be downloaded -->
         <test-it.orchestrator.artifactory.url>https://repo1.maven.org/maven2</test-it.orchestrator.artifactory.url>

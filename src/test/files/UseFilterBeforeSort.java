@@ -17,6 +17,9 @@
  */
 package org.greencodeinitiative.creedengo.java.checks;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 class UseFilterBeforeSort {
     UseFilterBeforeSort() {
     }

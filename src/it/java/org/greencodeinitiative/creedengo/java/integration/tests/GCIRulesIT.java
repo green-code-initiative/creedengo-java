@@ -553,8 +553,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseFilterBeforeSort.java";
         String ruleId = "creedengo-java:GCI91";
         String ruleMsg = "Use 'filter' before 'sorted' for better efficiency.";
-        int[] startLines = new int[]{25};
-        int[] endLines = new int[]{25};
+        int[] startLines = new int[]{25,30};
+        int[] endLines = new int[]{25, 30};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_5MIN);
     }
