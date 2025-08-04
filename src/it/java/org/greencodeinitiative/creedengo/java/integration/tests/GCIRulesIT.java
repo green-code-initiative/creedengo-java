@@ -1,6 +1,7 @@
 package org.greencodeinitiative.creedengo.java.integration.tests;
 
 import org.junit.jupiter.api.Test;
+import org.sonarqube.ws.Common;
 import org.sonarqube.ws.Issues;
 import org.sonarqube.ws.Measures;
 
@@ -556,7 +557,7 @@ class GCIRulesIT extends GCIRulesBase {
         int[] startLines = new int[]{11,16};
         int[] endLines = new int[]{14, 20};
 
-        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_5MIN);
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, Common.Severity.MAJOR, TYPE, EFFORT_5MIN);
     }
 
 }
