@@ -40,7 +40,7 @@
 
     <properties>
 
-        <java.version>17</java.version>
+        <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <!-- to prevent message: system modules path not set in conjunction with -source 11 -->
@@ -57,16 +57,20 @@
         <sonarqube-plugin-api-min.version>9.9.0.65466</sonarqube-plugin-api-min.version>
 
         <!-- Version of the SonarQube APIs used by `creedengo-java-plugin` -->
+<!--        <sonar.plugin.api.version>9.5.0.71</sonar.plugin.api.version>-->
         <sonar.plugin.api.version>11.4.0.2922</sonar.plugin.api.version>
 
         <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
-        <!-- last version that all is OK -->
-        <sonarjava.version>8.9.1.38281</sonarjava.version>
+        <!-- max version that all is OK with JDK 11 -->
+        <sonarjava.version>7.30.0.34429</sonarjava.version>
+        <!-- max version that all is OK with JDK 17 -->
+<!--        <sonarjava.version>8.9.1.38281</sonarjava.version>-->
         <!-- next version is NOT OK -->
 <!--        <sonarjava.version>8.13.0.38826</sonarjava.version>-->
 
         <sonar-analyzer-commons.version>2.17.0.3322</sonar-analyzer-commons.version>
 
+<!--        <sonar-packaging.version>1.21.0.505</sonar-packaging.version>-->
         <sonar-packaging.version>1.23.0.740</sonar-packaging.version>
 
         <junit.jupiter.version>5.12.2</junit.jupiter.version>
@@ -87,7 +91,7 @@
 
         <!-- Version of `sonarqube` used by integration tests (you can override this value to perform matrix compatibility tests) -->
 <!--        <test-it.sonarqube.version>9.9.0.65466</test-it.sonarqube.version>-->
-<!--        <test-it.sonarqube.version>9.9.8.100196</test-it.sonarqube.version>-->
+        <test-it.sonarqube.version>9.9.8.100196</test-it.sonarqube.version>
 <!--        <test-it.sonarqube.version>10.1.0.73245</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>10.1.0.73491</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>10.2.0.77647</test-it.sonarqube.version>-->
@@ -97,7 +101,7 @@
 <!--        <test-it.sonarqube.version>25.2.0.102705</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.3.0.104237</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.4.0.105899</test-it.sonarqube.version>-->
-        <test-it.sonarqube.version>25.5.0.107428</test-it.sonarqube.version>
+<!--        <test-it.sonarqube.version>25.5.0.107428</test-it.sonarqube.version>-->
 
         <!-- Version of `sonar-java-plugin` used by integration tests (you can override this value to perform matrix compatibility tests) -->
         <test-it.sonarjava.version>${sonarjava.version}</test-it.sonarjava.version>
@@ -404,7 +408,8 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>4.6</version>
+<!--                <version>4.6</version>-->
+                <version>3.0</version>
                 <configuration>
                     <properties>
                         <owner>Green Code Initiative</owner>
