@@ -406,7 +406,7 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <!-- max version for compatibility with JDK 11 -->
+                <!-- max version without pb for JDK 17 / recent versions have a NPE when deploying in docker -->
                 <version>4.1</version>
                 <configuration>
                     <properties>
