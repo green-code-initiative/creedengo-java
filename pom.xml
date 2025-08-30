@@ -57,7 +57,6 @@
         <sonarqube-plugin-api-min.version>9.9.0.65466</sonarqube-plugin-api-min.version>
 
         <!-- Version of the SonarQube APIs used by `creedengo-java-plugin` -->
-<!--        <sonar.plugin.api.version>9.5.0.71</sonar.plugin.api.version>-->
         <sonar.plugin.api.version>11.4.0.2922</sonar.plugin.api.version>
 
         <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
@@ -70,7 +69,6 @@
 
         <sonar-analyzer-commons.version>2.17.0.3322</sonar-analyzer-commons.version>
 
-<!--        <sonar-packaging.version>1.21.0.505</sonar-packaging.version>-->
         <sonar-packaging.version>1.23.0.740</sonar-packaging.version>
 
         <junit.jupiter.version>5.12.2</junit.jupiter.version>
@@ -408,8 +406,8 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-<!--                <version>4.6</version>-->
-                <version>3.0</version>
+                <!-- max version for compatibility with JDK 11 -->
+                <version>4.1</version>
                 <configuration>
                     <properties>
                         <owner>Green Code Initiative</owner>
