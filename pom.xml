@@ -425,7 +425,7 @@
                 <!-- add integration test sources into test classpath -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <id>add-integration-test-sources</id>
