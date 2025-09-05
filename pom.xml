@@ -227,7 +227,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version>
+                <version>0.8.13</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -320,12 +320,12 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- FOR TUs -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.8.1</version>
                 <executions>
-                    <!-- only for unit tests ("test-jars" directory used in classpath) -->
                     <execution>
                         <id>copy</id>
                         <phase>test-compile</phase>
