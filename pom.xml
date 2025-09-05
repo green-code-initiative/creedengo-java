@@ -349,7 +349,7 @@
                                 <artifactItem>
                                     <groupId>javax</groupId>
                                     <artifactId>javaee-api</artifactId>
-                                    <version>6.0</version>
+                                    <version>8.0.1</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
