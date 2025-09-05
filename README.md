@@ -61,7 +61,7 @@ Ready to use binaries are available [from GitHub](https://github.com/green-code-
 |----------------|---------------------|------------------------------------------------------------------------------------------------|
 | 1.6.+          | 9.4.+ LTS to 10.6.0 | 11 / 17                                                                                        |
 | 1.7.+          | 9.9.+ LTS to 10.6.0 | [17](https://docs.sonarsource.com/sonarqube/9.9/requirements/prerequisites-and-overview/#java) |
-| 2.+            | 9.9.+ LTS to 25.5.0 | [17](https://docs.sonarsource.com/sonarqube/9.9/requirements/prerequisites-and-overview/#java) |
+| 2.+            | 9.9.0 LTS to 25.9.0 | [17](https://docs.sonarsource.com/sonarqube/9.9/requirements/prerequisites-and-overview/#java) |
 
 > Compatibility table of versions lower than 1.4.+ are available from the
 > main [creedengo repository](https://github.com/green-code-initiative/creedengo-rules-specifications#-plugins-version-compatibility).

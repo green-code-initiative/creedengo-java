@@ -40,7 +40,7 @@
 
     <properties>
 
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <!-- to prevent message: system modules path not set in conjunction with -source 11 -->
@@ -57,30 +57,22 @@
         <sonarqube-plugin-api-min.version>9.9.0.65466</sonarqube-plugin-api-min.version>
 
         <!-- Version of the SonarQube APIs used by `creedengo-java-plugin` -->
-        <sonar.plugin.api.version>11.4.0.2922</sonar.plugin.api.version>
+        <sonar.plugin.api.version>13.0.0.3026</sonar.plugin.api.version>
 
         <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
-        <!-- max version that all is OK with JDK 11 -->
-        <sonarjava.version>7.30.0.34429</sonarjava.version>
-        <!-- max version that all is OK with JDK 17 -->
-<!--        <sonarjava.version>8.9.1.38281</sonarjava.version>-->
-        <!-- next version is NOT OK -->
-<!--        <sonarjava.version>8.13.0.38826</sonarjava.version>-->
+(??)        <!-- max version that all is OK with JDK 11 -->
+(??)        <sonarjava.version>7.30.0.34429</sonarjava.version>
+        <!-- LAST version compatible with SonarQube 9.9.0 AND 25.9.0 -->
+        <sonarjava.version>8.9.3.40165</sonarjava.version>
+        <!-- LAST version compatible with SonarQube 25.9.0 but NOT with 9.9.0 -->
+<!--        <sonarjava.version>8.18.0.40025</sonarjava.version>-->
 
-        <sonar-analyzer-commons.version>2.17.0.3322</sonar-analyzer-commons.version>
+        <sonar-analyzer-commons.version>2.18.0.3393</sonar-analyzer-commons.version>
 
         <sonar-packaging.version>1.23.0.740</sonar-packaging.version>
 
-        <junit.jupiter.version>5.12.2</junit.jupiter.version>
-
-        <assertJ.version>3.27.3</assertJ.version>
-
-        <mockito.version>5.17.0</mockito.version>
-
-        <google.re2j>1.8</google.re2j>
-
         <!-- Version of creedengo rules specifications implemented by this plugin -->
-        <creedengo-rules-specifications.version>2.2.2</creedengo-rules-specifications.version>
+        <creedengo-rules-specifications.version>2.5.0</creedengo-rules-specifications.version>
 
         <!-- URL of the Maven repository where sonarqube will be downloaded -->
         <test-it.orchestrator.artifactory.url>https://repo1.maven.org/maven2</test-it.orchestrator.artifactory.url>
@@ -89,7 +81,7 @@
 
         <!-- Version of `sonarqube` used by integration tests (you can override this value to perform matrix compatibility tests) -->
 <!--        <test-it.sonarqube.version>9.9.0.65466</test-it.sonarqube.version>-->
-        <test-it.sonarqube.version>9.9.8.100196</test-it.sonarqube.version>
+<!--        <test-it.sonarqube.version>9.9.8.100196</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>10.1.0.73245</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>10.1.0.73491</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>10.2.0.77647</test-it.sonarqube.version>-->
@@ -100,6 +92,7 @@
 <!--        <test-it.sonarqube.version>25.3.0.104237</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.4.0.105899</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.5.0.107428</test-it.sonarqube.version>-->
+        <test-it.sonarqube.version>25.9.0.112764</test-it.sonarqube.version>
 
         <!-- Version of `sonar-java-plugin` used by integration tests (you can override this value to perform matrix compatibility tests) -->
         <test-it.sonarjava.version>${sonarjava.version}</test-it.sonarjava.version>
@@ -141,7 +134,7 @@
         <dependency>
             <groupId>com.google.re2j</groupId>
             <artifactId>re2j</artifactId>
-            <version>${google.re2j}</version>
+            <version>1.8</version>
         </dependency>
 
         <dependency>
@@ -163,21 +156,21 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${junit.jupiter.version}</version>
+            <version>5.13.4</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>${assertJ.version}</version>
+            <version>3.27.4</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${mockito.version}</version>
+            <version>5.19.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -192,13 +185,7 @@
         <dependency>
             <groupId>org.sonarsource.orchestrator</groupId>
             <artifactId>sonar-orchestrator-junit5</artifactId>
-            <version>5.6.1.2597</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.sonarsource.java</groupId>
-            <artifactId>test-classpath-reader</artifactId>
-            <version>8.8.0.37665</version>
+            <version>5.6.2.2625</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -216,13 +203,13 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.6</version>
+            <version>1.5.18</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.36</version>
+            <version>1.18.40</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -242,7 +229,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version>
+                <version>0.8.13</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -335,12 +322,12 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- FOR TUs -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.8.1</version>
                 <executions>
-                    <!-- only for unit tests ("test-jars" directory used in classpath) -->
                     <execution>
                         <id>copy</id>
                         <phase>test-compile</phase>
