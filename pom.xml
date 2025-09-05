@@ -405,7 +405,7 @@
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <!-- max version without pb for JDK 17 / recent versions have a NPE when deploying in docker -->
-                <version>4.1</version>
+                <version>5.0.0</version>
                 <configuration>
                     <properties>
                         <owner>Green Code Initiative</owner>
