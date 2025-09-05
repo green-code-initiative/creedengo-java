@@ -1,4 +1,4 @@
-ARG MAVEN_BUILDER=3-openjdk-17-slim
+# ARG MAVEN_BUILDER=3-openjdk-17-slim
 
 #ARG SONARQUBE_VERSION=9.9.0-community
 #ARG SONARQUBE_VERSION=24.12.0.100206-community
@@ -7,9 +7,8 @@ ARG MAVEN_BUILDER=3-openjdk-17-slim
 #ARG SONARQUBE_VERSION=25.3.0.104237-community
 #ARG SONARQUBE_VERSION=25.9.0.112764-community
 
-(??)
-(??)ARG MAVEN_BUILDER=3-openjdk-11-slim
-(??)ARG SONARQUBE_VERSION=9.9.8-community
+ARG MAVEN_BUILDER=3-openjdk-11-slim
+ARG SONARQUBE_VERSION=9.9.8-community
 
 FROM maven:${MAVEN_BUILDER} AS builder
 
