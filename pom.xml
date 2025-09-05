@@ -73,7 +73,7 @@
 
         <assertJ.version>3.27.3</assertJ.version>
 
-        <mockito.version>5.17.0</mockito.version>
+        <mockito.version>5.19.0</mockito.version>
 
         <google.re2j>1.8</google.re2j>
 
