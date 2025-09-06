@@ -11,9 +11,6 @@ updates:
       interval: "weekly"
     ignore:
       # Ignore all versions : cf pom.xml comments
-      - dependency-name: "org.sonarsource.java.sonar-java-plugin"
+      - dependency-name: "org.sonarsource.java:sonar-java-plugin"
       # Ignore all versions : cf pom.xml comments
       - dependency-name: "com.mycila:license-maven-plugin"
-      # Ignore specific versions of another dependency
-      - dependency-name: "org.springframework.data.spring-data-jpa"
-        versions: [ "3.x" ]
