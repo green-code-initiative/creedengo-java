@@ -14,3 +14,5 @@ updates:
       - dependency-name: "org.sonarsource.java:sonar-java-plugin"
       # Ignore all versions : cf pom.xml comments
       - dependency-name: "com.mycila:license-maven-plugin"
+      - dependency-name: "org.springframework.data:spring-data-commons"
+        update-types: "version-update:semver-major"
