@@ -25,12 +25,13 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     @Override
     public void visitNode(@Nonnull Tree tree) {
         VariableTree variableTree = (VariableTree) tree;
-        LOGGER.debug("Variable > " + getVariableNameForLogger(variableTree));
-        LOGGER.debug("   => isNotFinalAndNotStatic(variableTree) = " + isNotFinalAndNotStatic(variableTree));
-        LOGGER.debug("   => usages = " + variableTree.symbol().usages().size());
-        LOGGER.debug("   => isNotReassigned = " + isNotReassigned(variableTree));
-        LOGGER.debug("   => isPassedAsNonFinalParameter = " + isPassedAsNonFinalParameter(variableTree));
-
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Variable > {}", getVariableNameForLogger(variableTree));
+            LOGGER.debug("   => isNotFinalAndNotStatic(variableTree) = {}", isNotFinalAndNotStatic(variableTree));
+            LOGGER.debug("   => usages = {}", variableTree.symbol().usages().size());
+            LOGGER.debug("   => isNotReassigned = {}", isNotReassigned(variableTree));
+            LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
+        }
         if (isNotFinalAndNotStatic(variableTree) && isNotReassigned(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
         } else {
