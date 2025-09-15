@@ -285,7 +285,7 @@
                 <!-- shade plugin configuration is on parent pom.xml because of use for other modules -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
