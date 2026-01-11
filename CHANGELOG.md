@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+### Deleted
+
+## [2.1.2] - 2026-01-11
+
+### Changed
+
 - [#103](https://github.com/green-code-initiative/creedengo-java/pull/103) GCI69 Java : calls to hasMoreElements() and nextElement() methods from java.util.Enumeration interface aren't flagged anymore when called in a for loop
 - [#110](https://github.com/green-code-initiative/creedengo-java/pull/110) GCI82 - remove false positives with reassignment using this and with passing a variable to a function it can be reassigned in
 - compatibility updates for SonarQube 25.12.0
@@ -18,8 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - correction of technical problem with Integration tests (because of Maven format in technical answer to "sonar-orchestrator-junit5" library)
 - upgrade JDK from 11 to 17
 - [#4](https://github.com/green-code-initiative/creedengo-java/issues/4) Improvement: "++i" statement is not so bad
-
-### Deleted
 
 ## [2.1.1] - 2025-03-13
 
@@ -105,7 +109,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update ecocode-rules-specifications to 1.4.6
 
-[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.1.1...HEAD)
+[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.1.2...HEAD)
+[2.1.2](https://github.com/green-code-initiative/creedengo-java/compare/2.1.1...2.1.2)
 [2.1.1](https://github.com/green-code-initiative/creedengo-java/compare/2.1.0...2.1.1)
 [2.1.0](https://github.com/green-code-initiative/creedengo-java/compare/2.0.0...2.1.0)
 [2.0.0](https://github.com/green-code-initiative/creedengo-java/compare/1.6.2...2.0.0)
