@@ -7,6 +7,8 @@ import org.sonarqube.ws.Measures;
 import java.util.List;
 import java.util.Map;
 
+import org.greencodeinitiative.creedengo.integration.tests.GCIRulesBase;
+
 import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 
