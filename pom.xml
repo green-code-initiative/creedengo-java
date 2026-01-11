@@ -4,7 +4,7 @@
 
     <groupId>org.green-code-initiative</groupId>
     <artifactId>creedengo-java-plugin</artifactId>
-    <version>2.1.2-SNAPSHOT</version>
+    <version>2.1.2</version>
 
     <packaging>sonar-plugin</packaging>
 
@@ -30,7 +30,7 @@
         <connection>scm:git:https://github.com/green-code-initiative/creedengo-java</connection>
         <developerConnection>scm:git:https://github.com/green-code-initiative/creedengo-java</developerConnection>
         <url>https://github.com/green-code-initiative/creedengo-java</url>
-        <tag>HEAD</tag>
+        <tag>2.1.2</tag>
     </scm>
 
     <issueManagement>
