@@ -73,7 +73,7 @@
         <creedengo-rules-specifications.version>2.6.7</creedengo-rules-specifications.version>
 
         <!-- URL of the Maven repository where sonarqube will be downloaded -->
-        <test-it.orchestrator.artifactory.url>https://repo1.maven.org/maven2</test-it.orchestrator.artifactory.url>
+        <!-- <test-it.orchestrator.artifactory.url>https://repo1.maven.org/maven2</test-it.orchestrator.artifactory.url> -->
         <!-- You can override this property to keep SonarQube instance running and to manually use it -->
         <test-it.sonarqube.keepRunning>false</test-it.sonarqube.keepRunning>
 
