@@ -185,7 +185,7 @@
         <dependency>
             <groupId>org.green-code-initiative</groupId>
             <artifactId>creedengo-integration-test</artifactId>
-            <version>main-SNAPSHOT</version>
+            <version>0.2.1</version>
             <scope>test</scope>
         </dependency>
 
