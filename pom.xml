@@ -189,36 +189,6 @@
             <scope>test</scope>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.sonarsource.orchestrator</groupId>-->
-<!--            <artifactId>sonar-orchestrator-junit5</artifactId>-->
-<!--            <version>5.6.2.2625</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.sonarsource.sonarqube</groupId>-->
-<!--            <artifactId>sonar-ws</artifactId>-->
-<!--            <version>${test-it.sonarqube.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.github.jycr</groupId>-->
-<!--            <artifactId>java-data-url-handler</artifactId>-->
-<!--            <version>0.0.1</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>ch.qos.logback</groupId>-->
-<!--            <artifactId>logback-classic</artifactId>-->
-<!--            <version>1.5.18</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.projectlombok</groupId>-->
-<!--            <artifactId>lombok</artifactId>-->
-<!--            <version>1.18.40</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>
