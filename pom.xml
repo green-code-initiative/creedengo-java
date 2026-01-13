@@ -91,8 +91,8 @@
 <!--        <test-it.sonarqube.version>25.4.0.105899</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.5.0.107428</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.9.0.112764</test-it.sonarqube.version>-->
-<!--        <test-it.sonarqube.version>25.12.0.117093</test-it.sonarqube.version>-->
-        <test-it.sonarqube.version>26.1.0.118079</test-it.sonarqube.version>
+       <test-it.sonarqube.version>25.12.0.117093</test-it.sonarqube.version>
+        <!-- <test-it.sonarqube.version>26.1.0.118079</test-it.sonarqube.version> -->
 
         <!-- Version of `sonar-java-plugin` used by integration tests (you can override this value to perform matrix compatibility tests) -->
         <test-it.sonarjava.version>${sonarjava.version}</test-it.sonarjava.version>
