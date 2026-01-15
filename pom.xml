@@ -193,7 +193,21 @@
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.11.0.3922</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.11.0.3922</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -487,6 +501,41 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>keep-running</id>
+            <properties>
+                <test-it.sonarqube.keepRunning>true</test-it.sonarqube.keepRunning>
+<!--                <test-it.sonarqube.port>9000</test-it.sonarqube.port>-->
+                <test-it.sonarqube.port>33333</test-it.sonarqube.port>
+            </properties>
+        </profile>
+    </profiles>
+
+    <profiles>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <property>
+                    <name>env.SONAR_TOKEN</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sonar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>keep-running</id>
             <properties>

@@ -30,6 +30,11 @@ jobs:
           java-version: 17
           cache: maven
 
+      - name: Configure Maven for Sonar
+        run: |
+          mkdir -p ~/.m2
+          echo "<settings><pluginGroups><pluginGroup>org.sonarsource.scanner.maven</pluginGroup></pluginGroups></settings>" > ~/.m2/settings.xml
+
       - name: Verify
         run: ./mvnw -e -B verify
 
@@ -45,4 +50,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./mvnw -e -B org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar -Dsonar.projectKey=green-code-initiative_creedengo-java
+        run: ./mvnw -e -B sonar:sonar -Dsonar.projectKey=green-code-initiative_creedengo-java
