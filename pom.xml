@@ -504,29 +504,5 @@
                 <test-it.sonarqube.port>33333</test-it.sonarqube.port>
             </properties>
         </profile>
-        <!-- <profile>
-            <id>sonar</id>
-            <activation>
-                <property>
-                    <name>env.SONAR_TOKEN</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.sonarsource.scanner.maven</groupId>
-                        <artifactId>sonar-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sonar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile> -->
     </profiles>
 </project>
