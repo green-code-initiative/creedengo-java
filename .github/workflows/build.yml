@@ -31,6 +31,8 @@ jobs:
           java-version: 17
           cache: maven
 
+      # to be able to use "sonar:sonar" instead of "org.sonarsource.scanner.maven:sonar-maven-plugin:sonar"
+      # inside this build but also when the test project analysis is launched with sonar:sonar
       - name: Configure Maven for Sonar
         run: |
           mkdir -p ~/.m2
@@ -51,4 +53,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./mvnw -e -B sonar:sonar -Dsonar.projectKey=green-code-initiative_creedengo-java -Dsonar.organization=green-code-initiative
+        run: ./mvnw -e -B sonar:sonar -Dsonar.projectKey=green-code-initiative_creedengo-java
