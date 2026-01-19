@@ -359,7 +359,7 @@
                                 <artifactItem>
                                     <groupId>org.springframework</groupId>
                                     <artifactId>spring-context</artifactId>
-                                    <version>6.2.10</version>
+                                    <version>7.0.3</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
