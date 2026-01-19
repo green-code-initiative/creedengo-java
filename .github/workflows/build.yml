@@ -29,7 +29,7 @@ jobs:
         with:
           distribution: "temurin"
           java-version: 17
-          cache: maven
+          cache: maven # enable maven cache shared by all github actions build
 
       # to be able to use "sonar:sonar" instead of "org.sonarsource.scanner.maven:sonar-maven-plugin:sonar"
       # inside this build but also when the test project analysis is launched with sonar:sonar
@@ -38,15 +38,16 @@ jobs:
           mkdir -p ~/.m2
           echo "<settings><pluginGroups><pluginGroup>org.sonarsource.scanner.maven</pluginGroup></pluginGroups></settings>" > ~/.m2/settings.xml
 
-      - name: Verify
-        run: ./mvnw -e -B verify
-
+      # enable sonarqube downloads cache shared by all github actions build
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
+      - name: Verify
+        run: ./mvnw -e -B verify
 
       - name: SonarQube Scan
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
