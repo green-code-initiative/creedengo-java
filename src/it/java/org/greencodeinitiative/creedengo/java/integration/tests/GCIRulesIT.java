@@ -550,4 +550,47 @@ class GCIRulesIT extends GCIRulesBase {
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }
 
+    @Test
+    void testGCI96_nominalRuntimeException() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidCatchingRuntimeExceptions.java";
+        String ruleId = "creedengo-java:GCI96";
+        String ruleMsg = "Avoid catching Runtime exceptions : RuntimeException";
+        int[] startLines = new int[]{36};
+        int[] endLines = new int[]{37};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
+
+    @Test
+    void testGCI96_IndexOutOfBoundsException() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidCatchingRuntimeExceptions.java";
+        String ruleId = "creedengo-java:GCI96";
+        String ruleMsg = "Avoid catching Runtime exceptions : IndexOutOfBoundsException";
+        int[] startLines = new int[]{44};
+        int[] endLines = new int[]{45};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
+
+    @Test
+    void testGCI96_NullPointerException() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidCatchingRuntimeExceptions.java";
+        String ruleId = "creedengo-java:GCI96";
+        String ruleMsg = "Avoid catching Runtime exceptions : NullPointerException";
+        int[] startLines = new int[]{52};
+        int[] endLines = new int[]{53};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
+
+    @Test
+    void testGCI96_ArithmeticException() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidCatchingRuntimeExceptions.java";
+        String ruleId = "creedengo-java:GCI96";
+        String ruleMsg = "Avoid catching Runtime exceptions : ArithmeticException";
+        int[] startLines = new int[]{59};
+        int[] endLines = new int[]{60};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
 }
