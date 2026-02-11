@@ -35,4 +35,25 @@ class FreeResourcesOfAutoCloseableInterface {
             }
         }
     }
+
+    /**
+     * The first methods adds a "try" in the stack used to follow if the code is in a try
+     */
+    public void callingMethodWithTheTry() throws IOException {
+        try { // Compliant
+            calledMethodWithoutTry();
+        } finally {
+            // Empty block of code
+        }
+    }
+
+    /**
+     * The "try" should have been poped from the stack before entering here
+     */
+    private void calledMethodWithoutTry() throws IOException {
+        FileWriter myWriter = new FileWriter("somefilepath");
+        myWriter.write("something");
+        myWriter.flush();
+        myWriter.close();
+    }
 }

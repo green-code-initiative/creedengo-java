@@ -27,7 +27,7 @@ class FreeResourcesOfAutoCloseableInterface {
     public void foo1() {
         String fileName = "./FreeResourcesOfAutoCloseableInterface.java";
         try (FileReader fr = new FileReader(fileName);
-             BufferedReader br = new BufferedReader(fr)) {
+             BufferedReader br = new BufferedReader(fr)) { // Compliant
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -35,7 +35,7 @@ class FreeResourcesOfAutoCloseableInterface {
 
     public void foo2() {
         String fileName = "./FreeResourcesOfAutoCloseableInterface.java";
-        try { // Noncompliant
+        try { // Noncompliant {{try-with-resources Statement needs to be implemented for any object that implements the AutoClosable interface.}}
             FileReader fr = new FileReader(fileName);
             BufferedReader br = new BufferedReader(fr);
             System.out.printl(br.readLine());
@@ -49,5 +49,26 @@ class FreeResourcesOfAutoCloseableInterface {
                 br.close();
             }
         }
+    }
+
+    /**
+     * The first methods adds a "try" in the stack used to follow if the code is in a try
+     */
+    public void callingMethodWithTheTry() throws IOException {
+        try { // Compliant
+            calledMethodWithoutTry();
+        } finally {
+            // Empty block of code
+        }
+    }
+
+    /**
+     * The "try" should have been poped from the stack before entering here
+     */
+    private void calledMethodWithoutTry() throws IOException {
+        FileWriter myWriter = new FileWriter("somefilepath");
+        myWriter.write("something");
+        myWriter.flush();
+        myWriter.close();
     }
 }
