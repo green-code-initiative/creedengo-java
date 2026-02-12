@@ -408,7 +408,7 @@ class GCIRulesIT extends GCIRulesBase {
     void testGCI79() {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/FreeResourcesOfAutoCloseableInterface.java";
         String ruleId = "creedengo-java:GCI79";
-        String ruleMsg = "try-with-resources Statement needs to be implemented for any object that implements the AutoClosable interface.";
+        String ruleMsg = "try-with-resources Statement needs to be implemented for any object that implements the AutoCloseable interface.";
         int[] startLines = new int[]{23};
         int[] endLines = new int[]{36};
 

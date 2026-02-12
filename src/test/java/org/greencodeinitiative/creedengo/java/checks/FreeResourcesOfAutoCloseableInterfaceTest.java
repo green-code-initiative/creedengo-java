@@ -23,7 +23,7 @@ import org.sonar.java.checks.verifier.CheckVerifier;
 class FreeResourcesOfAutoCloseableInterfaceTest {
 
     @Test
-    void test() {
+    void test_with_java7() {
         CheckVerifier.newVerifier()
                 .onFile("src/test/files/FreeResourcesOfAutoCloseableInterface.java")
                 .withCheck(new FreeResourcesOfAutoCloseableInterface())
@@ -38,4 +38,5 @@ class FreeResourcesOfAutoCloseableInterfaceTest {
                 .withCheck(new FreeResourcesOfAutoCloseableInterface())
                 .verifyIssues();
     }
+
 }
