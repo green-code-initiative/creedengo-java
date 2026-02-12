@@ -61,7 +61,7 @@
 
         <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
         <!-- LAST version compatible with SonarQube 9.9.0 AND 25.9.0 -->
-        <sonarjava.version>8.9.3.40165</sonarjava.version>
+        <sonarjava.version>8.23.0.42096</sonarjava.version>
         <!-- LAST version compatible with SonarQube 25.9.0 but NOT with 9.9.0 -->
 <!--        <sonarjava.version>8.18.0.40025</sonarjava.version>-->
 
