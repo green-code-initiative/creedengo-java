@@ -52,12 +52,12 @@ Each unit test class checking rule implementation class has the same template of
   - usage of "CheckVerifier.verifyNoIssues" to check there is no issues raised
 - each call to "CheckVerifier" needs a test resource file : this one is the resource code file for the simulated analysis
 
-each test resource file is in the "test/resources/checks" directory (or sub-directories).
+each test resource file is in the "src/test/files" directory (or sub-directories).
 each test resource file contains compliuant code or / and non compliant code.
-If there is no compliant code on which Sonarqube analysis should raise an issue, the line with the issue has a comment at the end of the line with the following template : 
-"# Noncompliant {{ERROR_MESSAGE_TO_DISPLAY}}"
+If there is non compliant code on which Sonarqube analysis should raise an issue, the line with the issue has a comment at the end of the line with the following template : 
+"// Noncompliant {{ERROR_MESSAGE_TO_DISPLAY}}"
     - the "ERROR_MESSAGE_TO_DISPLAY" in the previous template is replaced by the real error message.
-    - this comment give the information to "CheckVerifier", the simulation tool, that an error is expected at this line
+    - this comment gives the information to "CheckVerifier", the simulation tool, that an error is expected at this line
 
 Integration Tests Implementation Structure
 ---

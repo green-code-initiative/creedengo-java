@@ -56,7 +56,7 @@ public class FreeResourcesOfAutoCloseableInterface extends IssuableSubscriptionV
     private final Deque<TryStatementContext> tryStack = new ArrayDeque<>();
 
     private static final String JAVA_LANG_AUTOCLOSEABLE = "java.lang.AutoCloseable";
-    protected static final String MESSAGE_RULE = "try-with-resources Statement needs to be implemented for any object that implements the AutoClosable interface.";
+    protected static final String MESSAGE_RULE = "try-with-resources Statement needs to be implemented for any object that implements the AutoCloseable interface.";
 
     @Override
     @ParametersAreNonnullByDefault

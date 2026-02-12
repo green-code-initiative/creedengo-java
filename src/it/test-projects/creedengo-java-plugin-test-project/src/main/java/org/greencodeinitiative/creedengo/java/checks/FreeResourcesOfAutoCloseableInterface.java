@@ -37,7 +37,7 @@ class FreeResourcesOfAutoCloseableInterface {
     }
 
     /**
-     * The first methods adds a "try" in the stack used to follow if the code is in a try
+     * The first method adds a "try" in the stack used to follow if the code is in a try
      */
     public void callingMethodWithTheTry() throws IOException {
         try { // Compliant
@@ -48,7 +48,7 @@ class FreeResourcesOfAutoCloseableInterface {
     }
 
     /**
-     * The "try" should have been poped from the stack before entering here
+     * The "try" should have been popped from the stack before entering here
      */
     private void calledMethodWithoutTry() throws IOException {
         FileWriter myWriter = new FileWriter("somefilepath");
