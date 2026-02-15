@@ -9,6 +9,8 @@ jobs:
   checks:
     name: Requirements
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Check user permissions
         uses: 74th/workflow-permission-action@1.0.0
@@ -20,6 +22,8 @@ jobs:
     needs: checks
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
+    permissions:
+      contents: write
     steps:
       - name: Checkout tag "${{ github.ref_name }}"
         uses: actions/checkout@v3
@@ -55,6 +59,8 @@ jobs:
     name: Upload Java Plugin
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: write
     steps:
       - name: Import plugin JAR files
         id: import_jar_files
