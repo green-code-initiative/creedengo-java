@@ -4,7 +4,7 @@
 
     <groupId>org.green-code-initiative</groupId>
     <artifactId>creedengo-java-plugin</artifactId>
-    <version>2.1.3-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
 
     <packaging>sonar-plugin</packaging>
 
@@ -60,24 +60,26 @@
         <sonar.plugin.api.version>13.0.0.3026</sonar.plugin.api.version>
 
         <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
-        <!-- LAST version compatible with SonarQube 9.9.0 AND 25.9.0 -->
-        <sonarjava.version>8.9.3.40165</sonarjava.version>
-        <!-- LAST version compatible with SonarQube 25.9.0 but NOT with 9.9.0 -->
-<!--        <sonarjava.version>8.18.0.40025</sonarjava.version>-->
+        <sonarjava.version>8.23.0.42096</sonarjava.version>
 
-        <sonar-analyzer-commons.version>2.18.0.3393</sonar-analyzer-commons.version>
+        <sonar-analyzer-commons.version>2.21.0.4626</sonar-analyzer-commons.version>
 
-        <sonar-packaging.version>1.23.0.740</sonar-packaging.version>
+        <sonar-packaging.version>1.25.1.3002</sonar-packaging.version>
 
         <!-- Version of creedengo rules specifications implemented by this plugin -->
-        <creedengo-rules-specifications.version>2.6.7</creedengo-rules-specifications.version>
+        <creedengo-rules-specifications.version>2.7.1</creedengo-rules-specifications.version>
 
         <!-- URL of the Maven repository where sonarqube will be downloaded -->
         <test-it.orchestrator.artifactory.url>https://repo1.maven.org/maven2</test-it.orchestrator.artifactory.url>
         <!-- You can override this property to keep SonarQube instance running and to manually use it -->
         <test-it.sonarqube.keepRunning>false</test-it.sonarqube.keepRunning>
 
+        <!-- KO -->
+<!--        <test-it.sonarqube.version>9.8.0.63668</test-it.sonarqube.version>-->
+
         <!-- Version of `sonarqube` used by integration tests (you can override this value to perform matrix compatibility tests) -->
+        <!-- OK JDK17 but KO with JDK21 -->
+        <!-- KO v2.2.x -->
 <!--        <test-it.sonarqube.version>9.9.0.65466</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>9.9.8.100196</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>10.1.0.73245</test-it.sonarqube.version>-->
@@ -85,16 +87,21 @@
 <!--        <test-it.sonarqube.version>10.2.0.77647</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>10.7.0.96327</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>24.12.0.100206</test-it.sonarqube.version>-->
+
+        <!-- OK JDK17 but KO with JDK21 - v2.2.x INIT -->
 <!--        <test-it.sonarqube.version>25.1.0.102122</test-it.sonarqube.version>-->
+
+        <!-- OK JDK 17 and JDK 21 -->
 <!--        <test-it.sonarqube.version>25.2.0.102705</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.3.0.104237</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.4.0.105899</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.5.0.107428</test-it.sonarqube.version>-->
 <!--        <test-it.sonarqube.version>25.9.0.112764</test-it.sonarqube.version>-->
-       <test-it.sonarqube.version>25.12.0.117093</test-it.sonarqube.version>
+        <test-it.sonarqube.version>25.12.0.117093</test-it.sonarqube.version>
 
-        <!-- 26.1 KO because of compilation error : 26.1 was compiled with JDK 21-->
+        <!-- OK but only with JDK 21 -->
 <!--        <test-it.sonarqube.version>26.1.0.118079</test-it.sonarqube.version>-->
+<!--        <test-it.sonarqube.version>26.2.0.119303</test-it.sonarqube.version>-->
 
         <!-- Version of `sonar-java-plugin` used by integration tests (you can override this value to perform matrix compatibility tests) -->
         <test-it.sonarjava.version>${sonarjava.version}</test-it.sonarjava.version>
@@ -169,14 +176,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.13.4</version>
+            <version>5.14.3</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.19.0</version>
+            <version>5.21.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -203,7 +210,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.0</version>
+                <version>3.15.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -213,7 +220,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.13</version>
+                <version>0.8.14</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -254,7 +261,7 @@
                 <!-- plugin to generate a unique build number for sonar-packaging-maven-plugin : usage of buildNumber variable -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -311,7 +318,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.10.0</version>
                 <executions>
                     <execution>
                         <id>copy</id>
