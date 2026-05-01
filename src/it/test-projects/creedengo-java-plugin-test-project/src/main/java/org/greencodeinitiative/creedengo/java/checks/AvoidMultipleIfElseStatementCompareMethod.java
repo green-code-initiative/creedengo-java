@@ -19,36 +19,51 @@ package org.greencodeinitiative.creedengo.java.checks;
 
 class AvoidMultipleIfElseStatementCompareMethod {
 
-    public int compare(FieldVo o1, FieldVo o2) {
+    public int compare(DummyClass2 o1, DummyClass2 o2) {
 
-        if (o1.getIdBlock().equals(o2.getIdBlock())) {
-            if (o1.getIdField().equals(o2.getIdField())) {
+        if (o1.getField1().equals(o2.getField1())) {
+            if (o1.getField2().equals(o2.getField2())) {
                 return 0;
             }
             // First original
-            if (o1.isOriginal() && !o2.isOriginal()) {
+            if (o1.getField3() && !o2.getField3()) {
                 return -1;
-            } else if (!o1.isOriginal() && o2.isOriginal()) {
+            } else if (!o1.getField3() && o2.getField3()) {
                 return 1;
             }
             // First min posgafld
-            Long result = o1.getColumnPos() - o2.getColumnPos();
+            Long result = o1.getField4() - o2.getField4();
             if (result != 0) {
                 return result.intValue();
             }
 
-            // First min ordgaflc
-            result = o1.getIndex() - o2.getIndex();
-            return result.intValue();
         }
         // First BQRY block
-        if (o1.getIdBlock().startsWith("BQRY") && !o2.getIdBlock().startsWith("BQRY")) {
+        if (o1.getField2().startsWith("BQRY") && !o2.getField2().startsWith("BQRY")) {
             return -1;
-        } else if (!o1.getIdBlock().startsWith("BQRY") && o2.getIdBlock().startsWith("BQRY")) {
+        } else if (!o1.getField2().startsWith("BQRY") && o2.getField2().startsWith("BQRY")) {
             return 1;
         }
         // If both block don't start with BQRY, sort alpha with String.compareTo method
-        return o1.getIdBlock().compareTo(o2.getIdBlock());
+        return o1.getField2().compareTo(o2.getField2());
+    }
+
+    class DummyClass2 {
+
+        public Object getField1() {
+            return 0;
+        }
+
+        public String getField2() {
+            return "";
+        }
+
+        public boolean getField3() {
+            return true;
+        }
+
+        public Long getField4() {
+            return 1000L; }
     }
 
 }

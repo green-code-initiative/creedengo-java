@@ -17,13 +17,12 @@
  */
 package org.greencodeinitiative.creedengo.java.checks;
 
-import java.util.regex.Pattern;
+class AvoidMultipleIfElseStatementNotBlock {
 
-public class AvoidRegexPatternNotStaticValid2 {
-
-    private final Pattern pattern = Pattern.compile("foo"); // Compliant
-
-    public boolean foo() {
-        return pattern.matcher("foo").find();
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        return false;
     }
+
 }

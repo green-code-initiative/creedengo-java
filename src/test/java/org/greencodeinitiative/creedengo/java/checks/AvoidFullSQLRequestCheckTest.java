@@ -25,7 +25,7 @@ class AvoidFullSQLRequestCheckTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/AvoidFullSQLRequestCheck.java")
+                .onFile(System.getProperty("testfiles.path") + "/AvoidFullSQLRequestCheck.java")
                 .withCheck(new AvoidFullSQLRequest())
                 .verifyIssues();
     }

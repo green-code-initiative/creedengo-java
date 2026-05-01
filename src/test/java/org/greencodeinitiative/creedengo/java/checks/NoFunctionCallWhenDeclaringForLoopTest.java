@@ -24,7 +24,7 @@ class NoFunctionCallWhenDeclaringForLoopTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/NoFunctionCallWhenDeclaringForLoop.java")
+                .onFile(System.getProperty("testfiles.path") + "/NoFunctionCallWhenDeclaringForLoop.java")
                 .withCheck(new NoFunctionCallWhenDeclaringForLoop())
                 .verifyIssues();
     }

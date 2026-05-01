@@ -1,4 +1,4 @@
-package org.greencodeinitiative.creedengo.java.integration.tests;/*
+/*
  * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
  * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
  *
@@ -15,6 +15,9 @@ package org.greencodeinitiative.creedengo.java.integration.tests;/*
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+package org.greencodeinitiative.creedengo.java.checks;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -133,8 +136,8 @@ class NoFunctionCallWhenDeclaringForLoop {
 }
 
 class OtherClassWrapper {
-    public Iterator<String> iterator = null;
-    public Enumeration<String> enumeration = null;
+    public Iterator<String> iterator;
+    public Enumeration<String> enumeration;
 
     public OtherClassWrapper(Iterator<String> iterator){
         this.iterator = iterator;

@@ -1,3 +1,5 @@
+package org.greencodeinitiative.creedengo.java.checks;
+
 import java.util.logging.Logger;
 
 public class MakeNonReassignedVariablesConstants {
