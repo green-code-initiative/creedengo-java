@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update integration tests system to use the new component "creedengo-integration-test"
 - compatibility updates for SonarQube up to 26.2.0
 - upgrade internal libraries versions - non retro-compatibility upgrades
+- refacto to have all the test files in the same place (for UT and IT), to avoid maintaining 2 test directories
 
 ### Deleted
 

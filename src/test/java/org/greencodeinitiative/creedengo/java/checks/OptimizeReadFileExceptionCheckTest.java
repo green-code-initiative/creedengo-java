@@ -25,7 +25,7 @@ class OptimizeReadFileExceptionCheckTest {
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/OptimizeReadFileExceptionCheck.java")
+                .onFile(System.getProperty("testfiles.path") + "/OptimizeReadFileExceptionCheck.java")
                 .withCheck(new OptimizeReadFileExceptions())
                 .verifyIssues();
     }
@@ -33,7 +33,7 @@ class OptimizeReadFileExceptionCheckTest {
     @Test
     void test2() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/OptimizeReadFileExceptionCheck2.java")
+                .onFile(System.getProperty("testfiles.path") + "/OptimizeReadFileExceptionCheck2.java")
                 .withCheck(new OptimizeReadFileExceptions())
                 .verifyIssues();
     }
@@ -41,7 +41,7 @@ class OptimizeReadFileExceptionCheckTest {
     @Test
     void test3() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/OptimizeReadFileExceptionCheck3.java")
+                .onFile(System.getProperty("testfiles.path") + "/OptimizeReadFileExceptionCheck3.java")
                 .withCheck(new OptimizeReadFileExceptions())
                 .verifyIssues();
     }
@@ -49,7 +49,7 @@ class OptimizeReadFileExceptionCheckTest {
     @Test
     void test4() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/OptimizeReadFileExceptionCheck4.java")
+                .onFile(System.getProperty("testfiles.path") + "/OptimizeReadFileExceptionCheck4.java")
                 .withCheck(new OptimizeReadFileExceptions())
                 .verifyIssues();
     }
@@ -57,7 +57,7 @@ class OptimizeReadFileExceptionCheckTest {
     @Test
     void test5() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/OptimizeReadFileExceptionCheck5.java")
+                .onFile(System.getProperty("testfiles.path") + "/OptimizeReadFileExceptionCheck5.java")
                 .withCheck(new OptimizeReadFileExceptions())
                 .verifyIssues();
     }

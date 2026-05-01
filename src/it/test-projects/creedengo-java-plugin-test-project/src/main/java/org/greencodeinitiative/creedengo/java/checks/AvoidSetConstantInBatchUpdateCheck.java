@@ -1,15 +1,34 @@
+/*
+ * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
+ * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.greencodeinitiative.creedengo.java.checks;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 class AvoidSetConstantInBatchUpdateCheck {
 
-    void literalSQLrequest() throws SQLException { //dirty call
+    void literalSQLrequest() throws Exception { //dirty call
 
         int x = 0;
         Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "oracle");
@@ -24,7 +43,7 @@ class AvoidSetConstantInBatchUpdateCheck {
         con.close();
     }
 
-    void batchInsertInForLoop(int[] data) throws SQLException {
+    void batchInsertInForLoop(int[] data) throws Exception {
 
         Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "oracle");
         PreparedStatement stmt = con.prepareStatement("insert into Emp values(?,?,?,?,?,?,?,?,?,?,?)");
@@ -33,7 +52,6 @@ class AvoidSetConstantInBatchUpdateCheck {
 
             stmt.setBoolean(2, true); // Noncompliant {{Avoid setting constants in batch update}}
             stmt.setByte(3, (byte) 3); // Noncompliant {{Avoid setting constants in batch update}}
-            stmt.setByte(4, (byte) 'v'); // Noncompliant {{Avoid setting constants in batch update}}
             stmt.setShort(5, (short) 5); // Noncompliant {{Avoid setting constants in batch update}}
             stmt.setInt(6, 6); // Noncompliant {{Avoid setting constants in batch update}}
             stmt.setLong(7, (long) 7); // Noncompliant {{Avoid setting constants in batch update}}
@@ -47,12 +65,13 @@ class AvoidSetConstantInBatchUpdateCheck {
             stmt.addBatch();
         }
         int[] nr = stmt.executeBatch();
-        System.out.printf("{} rows updated", IntStream.of(nr).sum());
+        String nbRows = IntStream.of(nr).sum() + "";
+        System.out.println(nbRows + " rows updated");
         con.close();
     }
 
 
-    int[] batchInsertInForeachLoop(DummyClass[] data) throws SQLException {
+    int[] batchInsertInForeachLoop(DummyClass[] data) throws Exception {
 
         try (Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "oracle")) {
             PreparedStatement stmt = con.prepareStatement("insert into Emp values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -60,7 +79,6 @@ class AvoidSetConstantInBatchUpdateCheck {
                 stmt.setInt(1, o.getField1());
                 stmt.setBoolean(2, Boolean.valueOf("false")); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setByte(3, o.getField3());
-                stmt.setByte(4, (byte) 'v'); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setShort(5, (short) 5); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setInt(6, 6); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setLong(7, 7); // Noncompliant {{Avoid setting constants in batch update}}
@@ -75,7 +93,7 @@ class AvoidSetConstantInBatchUpdateCheck {
     }
 
 
-    int[] batchInsertInWhileLoop2(DummyClass[] data) throws SQLException {
+    int[] batchInsertInWhileLoop(DummyClass[] data) throws Exception {
 
         try (Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "oracle")) {
             PreparedStatement stmt = con.prepareStatement("insert into Emp values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -86,7 +104,6 @@ class AvoidSetConstantInBatchUpdateCheck {
                 stmt.setBoolean(2, Boolean.TRUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setByte(3, o.getField3());
                 stmt.setByte(4, Byte.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
-//                stmt.setByte(4, Character.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setShort(5, Short.MIN_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setInt(6, Integer.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setLong(7, Long.MIN_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
@@ -101,7 +118,7 @@ class AvoidSetConstantInBatchUpdateCheck {
         }
     }
 
-    int[] batchInsertInWhileLoop(DummyClass[] data) throws SQLException {
+    int[] batchInsertInWhileLoop2(DummyClass[] data) throws Exception {
         if (data.length == 0) {
             return new int[]{};
         }
@@ -143,9 +160,8 @@ class AvoidSetConstantInBatchUpdateCheck {
         }
 
         public double getField4() {
-            return .1;
-        }
-    }
-
+            return .1; }
+	}
+	
 
 }

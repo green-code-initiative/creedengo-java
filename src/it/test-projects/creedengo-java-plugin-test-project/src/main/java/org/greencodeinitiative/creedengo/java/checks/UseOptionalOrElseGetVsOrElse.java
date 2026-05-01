@@ -16,6 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+package org.greencodeinitiative.creedengo.java.checks;
+
 import java.util.Optional;
 
 class UseOptionalOrElseGetVsOrElse {
