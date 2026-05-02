@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - compatibility updates for SonarQube up to 26.2.0
 - upgrade internal libraries versions - non retro-compatibility upgrades
 - refacto to have all the test files in the same place (for UT and IT), to avoid maintaining 2 test directories
+- refacto all test files to add sub-directories for each rule, to be more clear and to be able to add more tests for each rule in the future
 
 ### Deleted
 

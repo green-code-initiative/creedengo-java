@@ -30,7 +30,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI27() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/ArrayCopyCheck.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI27/ArrayCopyCheck.java";
         String ruleId = "creedengo-java:GCI27";
         String ruleMsg = "Use System.arraycopy to copy arrays";
         int[] startLines = new int[]{
@@ -56,7 +56,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI74() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidFullSQLRequestCheck.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI74/AvoidFullSQLRequestCheck.java";
         int[] startLines = new int[]{27, 31, 36, 42};
         int[] endLines = new int[]{27, 31, 36, 42};
         String ruleId = "creedengo-java:GCI74";
@@ -68,7 +68,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI3_forEachLoopIgnored() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInForEachLoopIgnored.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI3/AvoidGettingSizeCollectionInForEachLoopIgnored.java";
         int[] startLines = new int[]{};
         int[] endLines = new int[]{};
         String ruleId = "creedengo-java:GCI3";
@@ -80,7 +80,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI3_forLoopBad() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInForLoopBad.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI3/AvoidGettingSizeCollectionInForLoopBad.java";
         int[] startLines = new int[]{13};
         int[] endLines = new int[]{13};
         String ruleId = "creedengo-java:GCI3";
@@ -92,7 +92,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI3_forEachLoopGood() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInForLoopGood.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI3/AvoidGettingSizeCollectionInForLoopGood.java";
         int[] startLines = new int[]{};
         int[] endLines = new int[]{};
         String ruleId = "creedengo-java:GCI3";
@@ -104,7 +104,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI3_forLoopIgnored() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInForLoopIgnored.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI3/AvoidGettingSizeCollectionInForLoopIgnored.java";
         int[] startLines = new int[]{};
         int[] endLines = new int[]{};
         String ruleId = "creedengo-java:GCI3";
@@ -116,7 +116,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI3_whileLoopBad() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInWhileLoopBad.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI3/AvoidGettingSizeCollectionInWhileLoopBad.java";
         int[] startLines = new int[]{35};
         int[] endLines = new int[]{35};
         String ruleId = "creedengo-java:GCI3";
@@ -128,7 +128,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI3_whileLoopGood() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInWhileLoopGood.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI3/AvoidGettingSizeCollectionInWhileLoopGood.java";
         int[] startLines = new int[]{};
         int[] endLines = new int[]{};
         String ruleId = "creedengo-java:GCI3";
@@ -140,7 +140,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI3_whileLoopIgnored() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInWhileLoopIgnored.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI3/AvoidGettingSizeCollectionInWhileLoopIgnored.java";
         int[] startLines = new int[]{};
         int[] endLines = new int[]{};
         String ruleId = "creedengo-java:GCI3";
@@ -152,7 +152,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI2() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidMultipleIfElseStatement.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI2/AvoidMultipleIfElseStatement.java";
 
         int[] startLines = new int[]{
                 41, 60, 62, 88, 105, 127,
@@ -177,7 +177,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI2_compareMethodNoIssue() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidMultipleIfElseStatementCompareMethodNoIssue.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI2/AvoidMultipleIfElseStatementCompareMethodNoIssue.java";
 
         int[] startLines = new int[]{};
 
@@ -192,7 +192,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI2_interfaceNoIssue() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidMultipleIfElseStatementInterfaceNoIssue.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI2/AvoidMultipleIfElseStatementInterfaceNoIssue.java";
 
         int[] startLines = new int[]{};
 
@@ -207,7 +207,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI2_noBlockNoIssue() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidMultipleIfElseStatementNoBlockNoIssue.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI2/AvoidMultipleIfElseStatementNoBlockNoIssue.java";
 
         int[] startLines = new int[]{};
 
@@ -222,7 +222,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI2_noIssue() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidMultipleIfElseStatementNoIssue.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI2/AvoidMultipleIfElseStatementNoIssue.java";
 
         int[] startLines = new int[]{};
 
@@ -237,7 +237,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI77_invalid() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRegexPatternNotStatic.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI77/AvoidRegexPatternNotStatic.java";
         int[] startLines = new int[]{25};
         int[] endLines = new int[]{25};
         String ruleId = "creedengo-java:GCI77";
@@ -249,7 +249,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI77_valid1() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRegexPatternNotStaticValid1.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI77/AvoidRegexPatternNotStaticValid1.java";
         int[] startLines = new int[]{};
         int[] endLines = new int[]{};
         String ruleId = "creedengo-java:GCI77";
@@ -261,7 +261,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI77_valid2() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRegexPatternNotStaticValid2.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI77/AvoidRegexPatternNotStaticValid2.java";
         int[] startLines = new int[]{};
         int[] endLines = new int[]{};
         String ruleId = "creedengo-java:GCI77";
@@ -273,7 +273,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI77_valid3() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRegexPatternNotStaticValid3.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI77/AvoidRegexPatternNotStaticValid3.java";
         int[] startLines = new int[]{};
         int[] endLines = new int[]{};
         String ruleId = "creedengo-java:GCI77";
@@ -285,22 +285,22 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI78() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidSetConstantInBatchUpdateCheck.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI78/AvoidSetConstantInBatchUpdateCheck.java";
         int[] startLines = new int[]{
-                53, 54, 55, 56, 57, 58,
-                59, 60, 61, 62, 63, 64,
-                80, 82, 83, 84, 85, 88,
-                104, 106, 107, 108, 109, 110,
-                111, 113, 131, 133, 134, 135,
-                136, 137, 138, 140
+                52, 53, 54, 55, 56, 57,
+                58, 59, 60, 61, 62, 63,
+                79, 81, 82, 83, 84, 87,
+                103, 105, 106, 107, 108, 109,
+                110, 112, 130, 132, 133, 134,
+                135, 136, 137, 139
         };
         int[] endLines = new int[]{
-                53, 54, 55, 56, 57, 58,
-                59, 60, 61, 62, 63, 64,
-                80, 82, 83, 84, 85, 88,
-                104, 106, 107, 108, 109, 110,
-                111, 113, 131, 133, 134, 135,
-                136, 137, 138, 140
+                52, 53, 54, 55, 56, 57,
+                58, 59, 60, 61, 62, 63,
+                79, 81, 82, 83, 84, 87,
+                103, 105, 106, 107, 108, 109,
+                110, 112, 130, 132, 133, 134,
+                135, 136, 137, 139
         };
         String ruleId = "creedengo-java:GCI78";
         String ruleMsg = "Avoid setting constants in batch update";
@@ -311,7 +311,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI1_loop() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidSpringRepositoryCallInLoopCheck.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI1/AvoidSpringRepositoryCallInLoopCheck.java";
 
         int[] startLines = new int[]{32};
 
@@ -326,7 +326,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI1_stream() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidSpringRepositoryCallInStreamCheck.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI1/AvoidSpringRepositoryCallInStreamCheck.java";
 
         int[] startLines = new int[]{
                 37, 48, 59, 72, 87, 98,
@@ -346,7 +346,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI72() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidSQLRequestInLoopCheck.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI72/AvoidSQLRequestInLoopCheck.java";
         String ruleId = "creedengo-java:GCI72";
         String ruleMsg = "Avoid SQL request in loop";
         int[] startLines = new int[]{74, 105, 136};
@@ -357,7 +357,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI5() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidStatementForDMLQueries.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI5/AvoidStatementForDMLQueries.java";
         String ruleId = "creedengo-java:GCI5";
         String ruleMsg = "You must not use Statement for a DML query";
         int[] startLines = new int[]{33};
@@ -368,7 +368,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI76() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidUsageOfStaticCollections.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI76/AvoidUsageOfStaticCollections.java";
         String ruleId = "creedengo-java:GCI76";
         String ruleMsg = "Avoid usage of static collections.";
         int[] startLines = new int[]{27, 29, 31};
@@ -379,7 +379,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI76_good() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidUsageOfStaticCollectionsGoodWay.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI76/AvoidUsageOfStaticCollectionsGoodWay.java";
         String ruleId = "creedengo-java:GCI76";
         String ruleMsg = "Avoid usage of static collections.";
         int[] startLines = new int[]{};
@@ -390,7 +390,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI79() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/FreeResourcesOfAutoCloseableInterface.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI79/FreeResourcesOfAutoCloseableInterface.java";
         String ruleId = "creedengo-java:GCI79";
         String ruleMsg = "try-with-resources Statement needs to be implemented for any object that implements the AutoCloseable interface.";
         int[] startLines = new int[]{40};
@@ -401,7 +401,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI32() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/InitializeBufferWithAppropriateSize.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI32/InitializeBufferWithAppropriateSize.java";
         String ruleId = "creedengo-java:GCI32";
         String ruleMsg = "Initialize StringBuilder or StringBuffer with appropriate size";
         int[] startLines = new int[]{38, 46};
@@ -412,7 +412,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI67() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/IncrementCheck.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI67/IncrementCheck.java";
         String ruleId = "creedengo-java:GCI67";
         String ruleMsg = "Use ++i instead of i++";
         int[] startLines = new int[]{31, 51, 74};
@@ -423,7 +423,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI82() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/MakeNonReassignedVariablesConstants.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstants.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
         int[] startLines = new int[]{9, 14, 15, 20, 26, 29, 48, 75, 108, 121};
@@ -434,7 +434,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI69() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/NoFunctionCallWhenDeclaringForLoop.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI69/NoFunctionCallWhenDeclaringForLoop.java";
         String ruleId = "creedengo-java:GCI69";
         String ruleMsg = "Do not call a function when declaring a for-type loop";
         int[] startLines = new int[]{65, 73, 81, 109, 130};
@@ -446,7 +446,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI28() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/OptimizeReadFileExceptionCheck.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI28/OptimizeReadFileExceptionCheck.java";
 
         int[] startLines = new int[]{34};
 
@@ -461,7 +461,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI28_2() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/OptimizeReadFileExceptionCheck2.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI28/OptimizeReadFileExceptionCheck2.java";
 
         int[] startLines = new int[]{32};
 
@@ -476,7 +476,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI28_3() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/OptimizeReadFileExceptionCheck3.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI28/OptimizeReadFileExceptionCheck3.java";
 
         int[] startLines = new int[]{32};
 
@@ -491,7 +491,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI28_4() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/OptimizeReadFileExceptionCheck4.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI28/OptimizeReadFileExceptionCheck4.java";
 
         int[] startLines = new int[]{31};
 
@@ -506,7 +506,7 @@ class GCIRulesIT extends GCIRulesBase {
     @Test
     void testGCI28_5() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/OptimizeReadFileExceptionCheck5.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI28/OptimizeReadFileExceptionCheck5.java";
 
         int[] startLines = new int[]{31};
 
@@ -520,7 +520,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI94() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseOptionalOrElseGetVsOrElse.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI94/UseOptionalOrElseGetVsOrElse.java";
         String ruleId = "creedengo-java:GCI94";
         String ruleMsg = "Use optional orElseGet instead of orElse.";
         int[] startLines = new int[]{27};
