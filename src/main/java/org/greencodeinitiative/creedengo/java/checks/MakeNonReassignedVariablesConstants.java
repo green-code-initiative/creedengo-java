@@ -113,7 +113,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     }
 
     private static boolean isNotFinalAndNotStatic(VariableTree variableTree) {
-        return !variableTree.symbol().isFinal() && !variableTree.symbol().isStatic();
+        return !variableTree.symbol().isFinal() && !variableTree.symbol().isStatic(); // use symbol instead of modifiers since in case of type_pattern modifiers is always empty
     }
 
     public static boolean hasModifier(ModifiersTree modifiersTree, Modifier expectedModifier) {
