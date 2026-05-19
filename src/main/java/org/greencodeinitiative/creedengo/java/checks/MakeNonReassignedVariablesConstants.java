@@ -25,7 +25,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     @Override
     public void visitNode(@Nonnull Tree tree) {
 
-        final VariableTree variableTree = (VariableTree) tree;;
+        final VariableTree variableTree = (VariableTree) tree;
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Variable > {}", getVariableNameForLogger(variableTree));
