@@ -24,9 +24,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
 
     @Override
     public void visitNode(@Nonnull Tree tree) {
-
-        final VariableTree variableTree = (VariableTree) tree;
-
+        VariableTree variableTree = (VariableTree) tree;
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Variable > {}", getVariableNameForLogger(variableTree));
             LOGGER.debug("   => isNotFinalAndNotStatic(variableTree) = {}", isNotFinalAndNotStatic(variableTree));
@@ -49,10 +47,6 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
                 .noneMatch(MakeNonReassignedVariablesConstants::parentIsAssignment) 
             && !isPassedAsNonFinalParameter(variableTree); // if a variable is passed into a method as a non-final parameter, it may have been reassigned
     }
-
-
-
-
 
     private static boolean isPassedAsNonFinalParameter(VariableTree variableTree) {
         return variableTree.symbol()
