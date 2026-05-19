@@ -50,10 +50,6 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             && !isPassedAsNonFinalParameter(variableTree); // if a variable is passed into a method as a non-final parameter, it may have been reassigned
     }
 
-
-
-
-
     private static boolean isPassedAsNonFinalParameter(VariableTree variableTree) {
         return variableTree.symbol()
                 .usages()
