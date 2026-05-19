@@ -129,6 +129,42 @@ public class MakeNonReassignedVariablesConstants {
         o = new notReassignedInConstructorNotFinal(this.varDefinedInClassNotReassignedInConstructor);
     }
 
+
+    public String nonReasignedVariablewithPatternInstanceOfShouldBeNonCompliant()
+    {
+        final String o = "NON-COMPLIANT";
+
+        if (o instanceof String var) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+            return var;
+        }
+
+        return "";
+    }
+
+
+    public String nonReasignedVariablewithPatternInstanceOfWithfinalShouldBeCompliant()
+    {
+        final String o = "COMPLIANT";
+
+        if (o instanceof final String var) {   // Compliant : here final keyword should be recognized and not trigger the rule
+            return var;
+        }
+
+        return "";
+    }
+
+    public String reasignedVariablewithPatternInstanceOfShouldBeCompliant()
+    {
+        final String o = "COMPLIANT";
+
+        if (o instanceof String var) { // Compliant : Variable is reassigned
+            var = "REASSIGN";
+            return var;
+        }
+
+        return "";
+    }
+
 }
 
 class reassignedInConstructor{
