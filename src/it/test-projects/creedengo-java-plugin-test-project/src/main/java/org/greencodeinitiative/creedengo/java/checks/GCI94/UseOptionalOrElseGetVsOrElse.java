@@ -34,4 +34,38 @@ class UseOptionalOrElseGetVsOrElse {
         return "unpredicted";
     }
 
+    private static final String DEFAULT_VALUE = "default";
+
+    void badMethodCall(String value) {
+        Optional.ofNullable(value).orElse(getDefaultValue()); // Noncompliant
+    }
+
+    void badNewObject(String value) {
+        Optional.ofNullable(value).orElse(new String("default")); // Noncompliant
+    }
+
+    void goodBooleanConstant(Boolean value) {
+        Optional.ofNullable(value).orElse(Boolean.FALSE);
+    }
+
+    void goodStringLiteral(String value) {
+        Optional.ofNullable(value).orElse("default");
+    }
+
+    void goodNull(String value) {
+        Optional.ofNullable(value).orElse(null);
+    }
+
+    void goodIdentifier(String value) {
+        Optional.ofNullable(value).orElse(DEFAULT_VALUE);
+    }
+
+    void goodAlreadyOrElseGet(String value) {
+        Optional.ofNullable(value).orElseGet(this::getDefaultValue);
+    }
+
+    private String getDefaultValue() {
+        return "default";
+    }
+
 }
