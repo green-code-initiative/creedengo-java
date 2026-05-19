@@ -119,7 +119,7 @@ public class MakeNonReassignedVariablesConstants {
         this.parameterNotReassigned(this.varDefinedInClassInFinalMethod);
         this.parameterNotReassignedNotFinal(varDefinedInMethodNotReassignedInMethod);
         this.parameterNotReassignedNotFinal(this.varDefinedInClassNotReassignedInMethod);
-        this.parameterNotReassignedInstance();
+        this.parameterNotReassignedInstance();// Compliant
     }
 
     void reassignedInConstructor(){
