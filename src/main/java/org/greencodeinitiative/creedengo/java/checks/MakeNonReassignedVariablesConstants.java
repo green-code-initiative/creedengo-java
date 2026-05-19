@@ -25,6 +25,16 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     @Override
     public void visitNode(@Nonnull Tree tree) {
         VariableTree variableTree = (VariableTree) tree;
+
+        // Issue #122 : skip pattern variables (instanceof pattern, record pattern, switch pattern).
+        // Pattern variables are scope-limited to their branch and cannot meaningfully be made
+        // "more final". SonarJava does not consistently expose the `final` modifier on pattern
+        // variables, which would produce a false positive when the user has explicitly written
+        // `final` — e.g. `if (o instanceof final String s)`.
+        if (isPatternVariable(variableTree)) {
+            return;
+        }
+
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Variable > {}", getVariableNameForLogger(variableTree));
             LOGGER.debug("   => isNotFinalAndNotStatic(variableTree) = {}", isNotFinalAndNotStatic(variableTree));
@@ -37,6 +47,21 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
         } else {
             super.visitNode(tree);
         }
+    }
+
+    /**
+     * Returns {@code true} when the given variable is a pattern variable, i.e. it is the variable
+     * bound by a type pattern in:
+     * <ul>
+     *     <li>an {@code instanceof} pattern: {@code if (o instanceof String s)}</li>
+     *     <li>a record pattern component: {@code if (p instanceof Point(int x, int y))}</li>
+     *     <li>a switch pattern: {@code case String s -> ...}</li>
+     * </ul>
+     * In all those cases, the {@code VariableTree} is the direct child of a {@code TypePatternTree}.
+     */
+    private static boolean isPatternVariable(VariableTree variableTree) {
+        Tree parent = variableTree.parent();
+        return parent != null && parent.is(Kind.TYPE_PATTERN);
     }
 
     private static boolean isNotReassigned(VariableTree variableTree) {
