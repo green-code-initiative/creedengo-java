@@ -41,6 +41,12 @@ public class MakeNonReassignedVariablesConstants {
         logger.info(reassigned);
     }
 
+    public void parameterNotReassignedInstance() {
+        if (o instanceof final String k) {
+            logger.info(k);
+        }
+    }
+
     public void parameterNotReassigned(final String notReassigned) {
         logger.info(notReassigned);
     }
@@ -107,13 +113,13 @@ public class MakeNonReassignedVariablesConstants {
         String varDefinedInMethodReassignedInMethod = "0"; // Compliant
         String varDefinedInMethodInFinalMethod = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
         String varDefinedInMethodNotReassignedInMethod = "0"; // Compliant (the String was passed as a non-final parameter to the method)
-
         this.parameterReassigned(varDefinedInMethodReassignedInMethod);
         this.parameterReassigned(this.varDefinedInClassReassignedInMethod);
         this.parameterNotReassigned(varDefinedInMethodInFinalMethod);
         this.parameterNotReassigned(this.varDefinedInClassInFinalMethod);
         this.parameterNotReassignedNotFinal(varDefinedInMethodNotReassignedInMethod);
         this.parameterNotReassignedNotFinal(this.varDefinedInClassNotReassignedInMethod);
+        this.parameterNotReassignedInstance();
     }
 
     void reassignedInConstructor(){
