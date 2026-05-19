@@ -132,7 +132,7 @@ public class MakeNonReassignedVariablesConstants {
 
     public String nonReasignedVariableWithPatternInstanceOfShouldBeNonCompliant()
     {
-        final String o = "NON-COMPLIANT";
+        final Object o = "NON-COMPLIANT";
 
         if (o instanceof String var) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
             return var;
@@ -144,7 +144,7 @@ public class MakeNonReassignedVariablesConstants {
 
     public String nonReasignedVariableWithPatternInstanceOfWithFinalShouldBeCompliant()
     {
-        final String o = "COMPLIANT";
+        final Object o = "COMPLIANT";
 
         if (o instanceof final String var) {   // Compliant : here final keyword should be recognized and not trigger the rule
             return var;
@@ -155,7 +155,7 @@ public class MakeNonReassignedVariablesConstants {
 
     public String reasignedVariableWithPatternInstanceOfShouldBeCompliant()
     {
-        final String o = "COMPLIANT";
+        final Object o = "COMPLIANT";
 
         if (o instanceof String var) { // Compliant : Variable is reassigned
             var = "REASSIGN";
