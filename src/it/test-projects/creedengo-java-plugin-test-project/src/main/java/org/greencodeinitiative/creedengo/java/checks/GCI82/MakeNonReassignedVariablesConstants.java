@@ -42,6 +42,8 @@ public class MakeNonReassignedVariablesConstants {
     }
 
     public void parameterNotReassignedInstance() {
+        final Object o = new Object();
+        // instanceof with final keyword - Compliant (pattern variable is skipped)
         if (o instanceof final String k) {
             logger.info(k);
         }
