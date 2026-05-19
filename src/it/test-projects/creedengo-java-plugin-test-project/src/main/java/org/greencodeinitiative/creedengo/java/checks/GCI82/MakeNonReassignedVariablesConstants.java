@@ -130,7 +130,7 @@ public class MakeNonReassignedVariablesConstants {
     }
 
 
-    public String nonReasignedVariablewithPatternInstanceOfShouldBeNonCompliant()
+    public String nonReasignedVariableWithPatternInstanceOfShouldBeNonCompliant()
     {
         final String o = "NON-COMPLIANT";
 
@@ -142,7 +142,7 @@ public class MakeNonReassignedVariablesConstants {
     }
 
 
-    public String nonReasignedVariablewithPatternInstanceOfWithfinalShouldBeCompliant()
+    public String nonReasignedVariableWithPatternInstanceOfWithFinalShouldBeCompliant()
     {
         final String o = "COMPLIANT";
 
@@ -153,7 +153,7 @@ public class MakeNonReassignedVariablesConstants {
         return "";
     }
 
-    public String reasignedVariablewithPatternInstanceOfShouldBeCompliant()
+    public String reasignedVariableWithPatternInstanceOfShouldBeCompliant()
     {
         final String o = "COMPLIANT";
 
