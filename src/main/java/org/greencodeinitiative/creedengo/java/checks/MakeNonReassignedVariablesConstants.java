@@ -24,7 +24,9 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
 
     @Override
     public void visitNode(@Nonnull Tree tree) {
-        VariableTree variableTree = (VariableTree) tree;
+
+        final VariableTree variableTree = (VariableTree) tree;;
+
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Variable > {}", getVariableNameForLogger(variableTree));
             LOGGER.debug("   => isNotFinalAndNotStatic(variableTree) = {}", isNotFinalAndNotStatic(variableTree));
@@ -32,6 +34,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isNotReassigned = {}", isNotReassigned(variableTree));
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
+
         if (isNotFinalAndNotStatic(variableTree) && isNotReassigned(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
         } else {
@@ -46,6 +49,10 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
                 .noneMatch(MakeNonReassignedVariablesConstants::parentIsAssignment) 
             && !isPassedAsNonFinalParameter(variableTree); // if a variable is passed into a method as a non-final parameter, it may have been reassigned
     }
+
+
+
+
 
     private static boolean isPassedAsNonFinalParameter(VariableTree variableTree) {
         return variableTree.symbol()
@@ -112,20 +119,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     }
 
     private static boolean isNotFinalAndNotStatic(VariableTree variableTree) {
-        return hasNoneOf(variableTree.modifiers(), Modifier.FINAL, Modifier.STATIC);
-    }
-
-    private static boolean hasNoneOf(ModifiersTree modifiersTree, Modifier... unexpectedModifiers) {
-        return !hasAnyOf(modifiersTree, unexpectedModifiers);
-    }
-
-    private static boolean hasAnyOf(ModifiersTree modifiersTree, Modifier... expectedModifiers) {
-        for(Modifier expectedModifier : expectedModifiers) {
-            if (hasModifier(modifiersTree, expectedModifier)) {
-                return true;
-            }
-        }
-        return false;
+        return !variableTree.symbol().isFinal() && !variableTree.symbol().isStatic();
     }
 
     public static boolean hasModifier(ModifiersTree modifiersTree, Modifier expectedModifier) {
