@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - upgrade internal libraries versions - non retro-compatibility upgrades
 - refacto to have all the test files in the same place (for UT and IT), to avoid maintaining 2 test directories
 - refacto all test files to add sub-directories for each rule, to be more clear and to be able to add more tests for each rule in the future
+- [#3](https://github.com/green-code-initiative/creedengo-java/issues/3) Improvement: pattern declaration not only in a static way
 - fix integration test system run + fix TI GCI82
 
 ### Deleted
