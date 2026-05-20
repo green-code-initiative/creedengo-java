@@ -152,8 +152,6 @@ cmd /c "cd /d <workdir> && mvnw.cmd clean verify -DskipITs=true > build_output.l
 
 **MANDATORY.** The agent MUST run integration tests to verify that the rule is correctly loaded and behaves as expected within a real SonarQube instance.
 
-The IT runner script uses Maven's `verify` lifecycle phase with `-DskipTests=true`. This is critical because the `maven-failsafe-plugin` configuration in the pom.xml injects required `systemPropertyVariables` (orchestrator URL, SonarQube version, plugin JAR path, etc.) only when invoked through the lifecycle — NOT when using standalone goals like `failsafe:integration-test`.
-
 The script:
 1. Builds/repackages the plugin JAR (skippable with `--skip-build`)
 2. Downloads the configured SonarQube version (cached in `~/.sonar/orchestrator`)
@@ -568,9 +566,16 @@ To identify the correct lines:
 | Edge cases | ✅/❌ | |
 | False positives covered | ✅/❌ | |
 
----
+## Phase 3: Clean up
 
-## Verdict
+Clean up all temporary files created during the review :
+- build_output.log
+- it_build_output.log
+- it_output.log
+- it_report.txt
+- pr_review_output.log
+
+## Phase 4: Verdict
 
 Create a structured `review_report.md` report with the following content.
 
@@ -595,14 +600,3 @@ Create a structured `review_report.md` report with the following content.
 - API: `IssuableSubscriptionVisitor`, `BaseTreeVisitor`, `CheckVerifier`
 - Quality profile: `creedengo way`
 - Specs repo: `creedengo-rules-specifications`
-
-## Phase 5: Local fixes (optional)
-
-If the user wants to apply fixes directly on the PR branch (rather than leaving them to the contributor), the agent proposes automatic corrections.
-
-### Constraints
-
-- NEVER apply a fix without explicit user validation
-- After applying, re-run impacted checks if possible (e.g. recompile)
-- Fixes do NOT modify the business logic of the rule (formatting, metadata only)
-- Clean up all temporary files created during the review; keep the script execution report and the final report.
