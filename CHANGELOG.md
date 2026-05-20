@@ -116,6 +116,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update ecocode-rules-specifications to 1.4.6
 
+## [unreleased]
+
+### Changed
+
+- #193 GCI27 - reduce false positives for System.arraycopy suggestions inside conditional and try/catch blocks
+
+## [2.1.2] - 2026-05-20
+
 [unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.1.2...HEAD)
 [2.1.2](https://github.com/green-code-initiative/creedengo-java/compare/2.1.1...2.1.2)
 [2.1.1](https://github.com/green-code-initiative/creedengo-java/compare/2.1.0...2.1.1)
