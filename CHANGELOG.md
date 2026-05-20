@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [#119](https://github.com/green-code-initiative/creedengo-java/issues/119) GCI94 - reduce false positives: rule no longer flags `orElse()` when argument is a constant, literal, static field or null; detection extended to Optional variables (semantic type check) and to computed arguments nested inside concatenation, ternary or object instantiation
 - [#122](https://github.com/green-code-initiative/creedengo-java/issues/122) resolve bug : final keyword is not recognized when using instanceof pattern
 - [#69](https://github.com/green-code-initiative/creedengo-java/issues/69) correction of NullPointer in GCI79 rule + technical refactoring of GCI79
 - update integration tests system to use the new component "creedengo-integration-test"
