@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [#184](https://github.com/green-code-initiative/creedengo-java/issues/184) GCI99 - Add new Java rule, avoid CSV format, prefer Apache Parquet
+
 ### Changed
 
 - [#119](https://github.com/green-code-initiative/creedengo-java/issues/119) GCI94 - reduce false positives: rule no longer flags `orElse()` when argument is a constant, literal, static field or null; detection extended to Optional variables (semantic type check) and to computed arguments nested inside concatenation, ternary or object instantiation
