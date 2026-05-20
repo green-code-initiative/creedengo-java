@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [#122](https://github.com/green-code-initiative/creedengo-java/issues/122) GCI82 - remove false positive triggered on pattern variables of `instanceof`, record patterns and `switch` patterns (e.g. `if (o instanceof final String s)`)
 - [#69](https://github.com/green-code-initiative/creedengo-java/issues/69) correction of NullPointer in GCI79 rule + technical refactoring of GCI79
 - update integration tests system to use the new component "creedengo-integration-test"
 - compatibility updates for SonarQube up to 26.2.0
