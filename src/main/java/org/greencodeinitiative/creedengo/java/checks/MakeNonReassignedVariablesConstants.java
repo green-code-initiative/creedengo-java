@@ -1,7 +1,5 @@
 package org.greencodeinitiative.creedengo.java.checks;
 
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.*;
@@ -15,8 +13,6 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
 
     protected static final String MESSAGE_RULE = "The variable is never reassigned and can be 'final'";
 
-    private static final Logger LOGGER = Loggers.get(MakeNonReassignedVariablesConstants.class);
-
     @Override
     public List<Kind> nodesToVisit() {
         return List.of(Kind.VARIABLE);
@@ -25,18 +21,18 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     @Override
     public void visitNode(@Nonnull Tree tree) {
         VariableTree variableTree = (VariableTree) tree;
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Variable > {}", getVariableNameForLogger(variableTree));
-            LOGGER.debug("   => isNotFinalAndNotStatic(variableTree) = {}", isNotFinalAndNotStatic(variableTree));
-            LOGGER.debug("   => usages = {}", variableTree.symbol().usages().size());
-            LOGGER.debug("   => isNotReassigned = {}", isNotReassigned(variableTree));
-            LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
+
+        if (isParameterOfAbstractMethod(variableTree)) {
+            return;
         }
         if (isNotFinalAndNotStatic(variableTree) && isNotReassigned(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
-        } else {
-            super.visitNode(tree);
         }
+    }
+
+    private static boolean isParameterOfAbstractMethod(VariableTree variableTree) {
+        Tree parent = variableTree.parent();
+        return parent != null && parent.is(Kind.METHOD) && ((MethodTree) parent).block() == null;
     }
 
     private static boolean isNotReassigned(VariableTree variableTree) {
@@ -136,27 +132,6 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
         }
 
         return false;
-    }
-
-    private String getVariableNameForLogger(VariableTree variableTree) {
-        String name = variableTree.simpleName().name();
-
-        if (variableTree.parent() != null) return name;
-
-        if (variableTree.parent().is(Kind.CLASS)) {
-            ClassTree cTree = (ClassTree) variableTree.parent();
-            name += "  ---  from CLASS '" + cTree.simpleName() + "'";
-        }
-        if (variableTree.parent().is(Kind.BLOCK)) {
-            BlockTree bTree = (BlockTree) variableTree.parent();
-            if (bTree.parent() != null && bTree.parent().is(Kind.METHOD)) {
-                MethodTree mTree = (MethodTree) bTree.parent();
-                name += "  ---  from METHOD '" + mTree.simpleName() + "'";
-            }
-        }
-
-        return name;
-
     }
 
 }
