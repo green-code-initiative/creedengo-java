@@ -238,8 +238,8 @@ class GCIRulesIT extends GCIRulesBase {
     void testGCI77_invalid() {
 
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI77/AvoidRegexPatternNotStatic.java";
-        int[] startLines = new int[]{25};
-        int[] endLines = new int[]{25};
+        int[] startLines = new int[]{25, 26, 27};
+        int[] endLines = new int[]{25, 26, 27};
         String ruleId = "creedengo-java:GCI77";
         String ruleMsg = "Avoid using Pattern.compile() in a non-static context.";
 
@@ -274,6 +274,18 @@ class GCIRulesIT extends GCIRulesBase {
     void testGCI77_valid3() {
 
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI77/AvoidRegexPatternNotStaticValid3.java";
+        int[] startLines = new int[]{};
+        int[] endLines = new int[]{};
+        String ruleId = "creedengo-java:GCI77";
+        String ruleMsg = "Avoid using Pattern.compile() in a non-static context.";
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
+    }
+
+    @Test
+    void testGCI77_valid4() {
+
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI77/ValidParamRegexPattern.java";
         int[] startLines = new int[]{};
         int[] endLines = new int[]{};
         String ruleId = "creedengo-java:GCI77";
