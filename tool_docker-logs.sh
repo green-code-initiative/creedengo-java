@@ -4,14 +4,18 @@
 # Pass extra args to scope to a single service, e.g. :
 #     ./tool_docker-logs.sh sonar
 #
-# Override the runtime with COMPOSE_CMD if needed.
+# Auto-detects the container engine + compose flavor (Docker, Rancher
+# Desktop, OrbStack, Colima, Podman, nerdctl, Finch). See
+# `tool_lib_container.sh` for the override knobs.
 set -eu
 
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 . "$SCRIPT_DIR/tool_lib_container.sh"
 cd "$SCRIPT_DIR"
 
-echo "[creedengo-infra] tailing logs with: $COMPOSE  (Ctrl+C to quit)"
+printf '[creedengo-infra] tailing logs on %s via `%s`  (Ctrl+C to quit)\n' \
+  "$CONTAINER_PRODUCT" "$COMPOSE"
+
 # shellcheck disable=SC2086
 $COMPOSE logs -f "$@"
 

@@ -5,15 +5,19 @@
 # changing the plugin's rules / repository keys, or when recovering from
 # a corrupted persistent volume.
 #
-# Override the runtime with COMPOSE_CMD, e.g. :
-#     COMPOSE_CMD='docker compose' ./tool_docker-clean.sh
+# Auto-detects the container engine + compose flavor (Docker, Rancher
+# Desktop, OrbStack, Colima, Podman, nerdctl, Finch). See
+# `tool_lib_container.sh` for the override knobs (COMPOSE_CMD,
+# CONTAINER_ENGINE_CMD, COMPOSE_VERBOSE).
 set -eu
 
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 . "$SCRIPT_DIR/tool_lib_container.sh"
 cd "$SCRIPT_DIR"
 
-echo "[creedengo-infra] stopping & removing volumes with: $COMPOSE"
+printf '[creedengo-infra] stopping & removing volumes on %s via `%s`\n' \
+  "$CONTAINER_PRODUCT" "$COMPOSE"
+
 # shellcheck disable=SC2086
 $COMPOSE down --volumes
 
