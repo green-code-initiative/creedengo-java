@@ -19,15 +19,21 @@
 #   --skip-build      Skip the clean+compile step (reuse existing target/ from a previous build)
 #
 # How it works:
-#   This script uses the Maven lifecycle phase "verify" with -DskipTests=true.
-#   This ensures that all systemPropertyVariables defined in the pom.xml for
-#   the maven-failsafe-plugin are correctly injected (orchestrator URL,
+#   This script uses the Maven lifecycle phase "verify" with -Dskip.unit.tests=true.
+#   This property is defined in pom.xml and wired only to maven-surefire-plugin's
+#   <skip> configuration, so unit tests (Surefire) are skipped while integration
+#   tests (Failsafe) still run. All systemPropertyVariables defined in the pom.xml
+#   for the maven-failsafe-plugin are correctly injected (orchestrator URL,
 #   SonarQube version, plugin paths, etc.). Using standalone goals like
 #   "failsafe:integration-test" would NOT inject those properties.
 #
-#   - Without --skip-build: runs "mvnw clean verify -DskipTests=true"
+#   IMPORTANT: Do NOT use -DskipTests=true here. Since Maven Failsafe 3.x,
+#   -DskipTests=true also skips integration tests, producing 0 tests run.
+#   Use -Dskip.unit.tests=true instead (custom property wired to surefire only).
+#
+#   - Without --skip-build: runs "mvnw clean verify -Dskip.unit.tests=true"
 #     (full clean build + IT)
-#   - With --skip-build: runs "mvnw verify -DskipTests=true" (no clean;
+#   - With --skip-build: runs "mvnw verify -Dskip.unit.tests=true" (no clean;
 #     Maven detects compiled classes are up-to-date, repackages quickly, runs IT)
 #
 #   If review_pr.sh was already run, the target/ directory contains the JAR.
@@ -96,7 +102,8 @@ fi
 # --- Compose Maven command ---
 # Use the Maven lifecycle "verify" so that all pom.xml systemPropertyVariables
 # are correctly injected into the failsafe plugin execution.
-MVN_CMD="verify -DskipTests=true"
+# IMPORTANT: Do NOT use -DskipTests=true (skips failsafe too since 3.x).
+MVN_CMD="verify -Dskip.unit.tests=true"
 
 if [[ "$SKIP_BUILD" == "false" ]]; then
     MVN_CMD="clean $MVN_CMD"

@@ -19,15 +19,21 @@ REM   --keep-running    Keep SonarQube running after tests (for manual inspectio
 REM   --skip-build      Skip the clean+compile step (reuse existing target/ from a previous build)
 REM
 REM How it works:
-REM   This script uses the Maven lifecycle phase "verify" with -DskipTests=true.
-REM   This ensures that all systemPropertyVariables defined in the pom.xml for
-REM   the maven-failsafe-plugin are correctly injected (orchestrator URL,
+REM   This script uses the Maven lifecycle phase "verify" with -Dskip.unit.tests=true.
+REM   This property is defined in pom.xml and wired only to maven-surefire-plugin's
+REM   <skip> configuration, so unit tests (Surefire) are skipped while integration
+REM   tests (Failsafe) still run. All systemPropertyVariables defined in the pom.xml
+REM   for the maven-failsafe-plugin are correctly injected (orchestrator URL,
 REM   SonarQube version, plugin paths, etc.). Using standalone goals like
 REM   "failsafe:integration-test" would NOT inject those properties.
 REM
-REM   - Without --skip-build: runs "mvnw clean verify -DskipTests=true"
+REM   IMPORTANT: Do NOT use -DskipTests=true here. Since Maven Failsafe 3.x,
+REM   -DskipTests=true also skips integration tests, producing 0 tests run.
+REM   Use -Dskip.unit.tests=true instead (custom property wired to surefire only).
+REM
+REM   - Without --skip-build: runs "mvnw clean verify -Dskip.unit.tests=true"
 REM     (full clean build + IT)
-REM   - With --skip-build: runs "mvnw verify -DskipTests=true" (no clean;
+REM   - With --skip-build: runs "mvnw verify -Dskip.unit.tests=true" (no clean;
 REM     Maven detects compiled classes are up-to-date, repackages quickly, runs IT)
 REM
 REM   If review_pr.bat was already run, the target/ directory contains the JAR.
@@ -88,7 +94,8 @@ if "%SKIP_BUILD%"=="true" (
 REM --- Compose Maven command ---
 REM Use the Maven lifecycle "verify" so that all pom.xml systemPropertyVariables
 REM are correctly injected into the failsafe plugin execution.
-set "MVN_CMD=verify -DskipTests=true"
+REM IMPORTANT: Do NOT use -DskipTests=true (skips failsafe too since 3.x).
+set "MVN_CMD=verify -Dskip.unit.tests=true"
 
 if "%SKIP_BUILD%"=="false" set "MVN_CMD=clean %MVN_CMD%"
 
@@ -128,11 +135,12 @@ set "TOTAL_ERRORS=0"
 set "TOTAL_SKIPPED=0"
 
 REM Parse from failsafe-summary.xml if it exists (most reliable source)
+REM XML format: <completed>N</completed> -- with delims=<>, value is at token 3
 if exist "%FAILSAFE_REPORTS_DIR%\failsafe-summary.xml" (
-    for /f "tokens=2 delims=<>" %%a in ('findstr "completed" "%FAILSAFE_REPORTS_DIR%\failsafe-summary.xml"') do set /a "TOTAL_TESTS=%%a"
-    for /f "tokens=2 delims=<>" %%a in ('findstr "failures" "%FAILSAFE_REPORTS_DIR%\failsafe-summary.xml"') do set /a "TOTAL_FAILURES=%%a"
-    for /f "tokens=2 delims=<>" %%a in ('findstr "errors" "%FAILSAFE_REPORTS_DIR%\failsafe-summary.xml"') do set /a "TOTAL_ERRORS=%%a"
-    for /f "tokens=2 delims=<>" %%a in ('findstr "skipped" "%FAILSAFE_REPORTS_DIR%\failsafe-summary.xml"') do set /a "TOTAL_SKIPPED=%%a"
+    for /f "tokens=3 delims=<>" %%a in ('findstr "completed" "%FAILSAFE_REPORTS_DIR%\failsafe-summary.xml"') do set /a "TOTAL_TESTS=%%a"
+    for /f "tokens=3 delims=<>" %%a in ('findstr /c:"<failures>" "%FAILSAFE_REPORTS_DIR%\failsafe-summary.xml"') do set /a "TOTAL_FAILURES=%%a"
+    for /f "tokens=3 delims=<>" %%a in ('findstr /c:"<errors>" "%FAILSAFE_REPORTS_DIR%\failsafe-summary.xml"') do set /a "TOTAL_ERRORS=%%a"
+    for /f "tokens=3 delims=<>" %%a in ('findstr /c:"<skipped>" "%FAILSAFE_REPORTS_DIR%\failsafe-summary.xml"') do set /a "TOTAL_SKIPPED=%%a"
 )
 
 set /a "TOTAL_PASSED=TOTAL_TESTS - TOTAL_FAILURES - TOTAL_ERRORS - TOTAL_SKIPPED"
@@ -149,14 +157,20 @@ REM --- Extract individual test results from text reports ---
 echo --- DETAIL PER TEST --->> "%REPORT_FILE%"
 if exist "%FAILSAFE_REPORTS_DIR%" (
     for %%f in (%FAILSAFE_REPORTS_DIR%\*.txt) do (
-        findstr /c:"FAILED" "%%f" >nul 2>&1
+        findstr /c:"<<< FAILURE" "%%f" >nul 2>&1
         if not errorlevel 1 (
             echo   FAIL  %%~nf>> "%REPORT_FILE%"
-            findstr /c:"FAILED" "%%f" >> "%REPORT_FILE%"
+            findstr /c:"<<< FAILURE" "%%f" >> "%REPORT_FILE%"
         ) else (
-            findstr /c:"Tests run:" "%%f" >nul 2>&1
+            findstr /c:"<<< ERROR" "%%f" >nul 2>&1
             if not errorlevel 1 (
-                echo   PASS  %%~nf>> "%REPORT_FILE%"
+                echo   ERROR %%~nf>> "%REPORT_FILE%"
+                findstr /c:"<<< ERROR" "%%f" >> "%REPORT_FILE%"
+            ) else (
+                findstr /c:"Tests run:" "%%f" >nul 2>&1
+                if not errorlevel 1 (
+                    echo   PASS  %%~nf>> "%REPORT_FILE%"
+                )
             )
         )
     )

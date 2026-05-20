@@ -49,11 +49,12 @@ The review process uses two scripts sequentially, with a single Maven build:
    - Skips integration tests (ITs require SonarQube download, ~5min)
    - Output: `target/` directory with JAR + coverage + test reports
 
-2. **`run_it.{sh|bat} --skip-build`** — runs `mvnw verify -DskipTests=true`:
+2. **`run_it.{sh|bat} --skip-build`** — runs `mvnw verify -Dskip.unit.tests=true`:
    - Detects that classes are already compiled (incremental, ~1s)
    - Repackages the JAR (shade, ~3s)
    - Runs integration tests via Failsafe (downloads SonarQube if not cached)
    - The `--skip-build` flag skips the `clean` phase so target/ is reused
+   - Uses `-Dskip.unit.tests=true` (NOT `-DskipTests=true` which also skips Failsafe since 3.x)
 
 **Why two separate invocations?**
 - Unit tests are fast (~5s) and give quick feedback on compilation + logic errors
