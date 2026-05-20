@@ -68,4 +68,20 @@ class UseOptionalOrElseGetVsOrElse {
         return "default";
     }
 
+    void badConcatenation(String value, String suffix) {
+        Optional.ofNullable(value).orElse("default" + suffix); // Noncompliant
+    }
+
+    void badTernary(String value, boolean condition) {
+        Optional.ofNullable(value).orElse(condition ? "default" : "fallback"); // Noncompliant
+    }
+
+    void badCast(String value, Object defaultValue) {
+        Optional.ofNullable(value).orElse((String) defaultValue); // Noncompliant
+    }
+
+    void badArrayAccess(String value, String[] values) {
+        Optional.ofNullable(value).orElse(values[0]); // Noncompliant
+    }
+
 }
