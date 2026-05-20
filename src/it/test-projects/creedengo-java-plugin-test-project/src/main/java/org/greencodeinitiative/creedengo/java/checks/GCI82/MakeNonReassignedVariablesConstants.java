@@ -16,7 +16,7 @@ public class MakeNonReassignedVariablesConstants {
     private String varDefinedInClassReassigned = "0"; // Compliant
     private String varDefinedInConstructorReassigned = "1"; // Compliant
 
-    // using "this" 
+    // using "this"
     private String varDefinedInClassNotReassignedByThis = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
     private String varDefinedInClassReassignedByThis = "0"; // Compliant
     private String varDefinedInConstructorReassignedByThis = "1"; // Compliant
@@ -45,7 +45,7 @@ public class MakeNonReassignedVariablesConstants {
         logger.info(notReassigned);
     }
 
-    public void parameterNotReassignedNotFinal(String notReassigned) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    public void parameterNotReassignedNotFinal(String notReassigned) { // Compliant
         logger.info(notReassigned);
     }
 
@@ -143,7 +143,15 @@ class notReassignedInConstructor{
     }
 }
 class notReassignedInConstructorNotFinal{
-    notReassignedInConstructorNotFinal(String notReassignedInConstructorNotFinal) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    notReassignedInConstructorNotFinal(String notReassignedInConstructorNotFinal) { // Compliant
         System.out.println(notReassignedInConstructorNotFinal);
     }
+}
+
+interface interfaceMethodWithNullBlockAndBlock <T>{
+    boolean notNullBlock(T testInterfaceBlock) { // Compliant
+        logger.info(interfaceWithNullBlock);
+    }
+
+    boolean nullBlock(T testInterfaceNullBlock); // Compliant
 }
