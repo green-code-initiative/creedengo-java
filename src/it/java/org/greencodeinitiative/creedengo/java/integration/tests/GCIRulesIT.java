@@ -535,8 +535,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI94/UseOptionalOrElseGetVsOrElse.java";
         String ruleId = "creedengo-java:GCI94";
         String ruleMsg = "Use optional orElseGet instead of orElse.";
-        int[] startLines = new int[]{27};
-        int[] endLines = new int[]{27};
+        int[] startLines = new int[]{29, 31, 33, 35, 55, 56, 57, 58};
+        int[] endLines = new int[]{29, 31, 33, 35, 55, 56, 57, 58};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }
