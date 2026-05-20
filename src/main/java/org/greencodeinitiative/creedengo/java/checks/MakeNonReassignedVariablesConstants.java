@@ -32,6 +32,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isNotReassigned = {}", isNotReassigned(variableTree));
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
+
         if (isNotFinalAndNotStatic(variableTree) && isNotReassigned(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
         } else {
@@ -112,20 +113,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     }
 
     private static boolean isNotFinalAndNotStatic(VariableTree variableTree) {
-        return hasNoneOf(variableTree.modifiers(), Modifier.FINAL, Modifier.STATIC);
-    }
-
-    private static boolean hasNoneOf(ModifiersTree modifiersTree, Modifier... unexpectedModifiers) {
-        return !hasAnyOf(modifiersTree, unexpectedModifiers);
-    }
-
-    private static boolean hasAnyOf(ModifiersTree modifiersTree, Modifier... expectedModifiers) {
-        for(Modifier expectedModifier : expectedModifiers) {
-            if (hasModifier(modifiersTree, expectedModifier)) {
-                return true;
-            }
-        }
-        return false;
+        return !variableTree.symbol().isFinal() && !variableTree.symbol().isStatic(); // use symbol instead of modifiers since in case of type_pattern modifiers is always empty
     }
 
     public static boolean hasModifier(ModifiersTree modifiersTree, Modifier expectedModifier) {
