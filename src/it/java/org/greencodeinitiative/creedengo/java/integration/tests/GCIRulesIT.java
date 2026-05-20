@@ -529,4 +529,25 @@ class GCIRulesIT extends GCIRulesBase {
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }
 
+    @Test
+    void testGCI99() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI99/AvoidCSVFormat.java";
+        String ruleId = "creedengo-java:GCI99";
+        String ruleMsg = "Avoid CSV format, prefer Parquet format for better performance and smaller footprint.";
+        int[] startLines = new int[]{20, 21, 22, 23, 24, 25};
+        int[] endLines = new int[]{20, 21, 22, 23, 24, 25};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
+    }
+
+    @Test
+    void testGCI99_good() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI99/AvoidCSVFormatNoIssue.java";
+        String ruleId = "creedengo-java:GCI99";
+        String ruleMsg = "Avoid CSV format, prefer Parquet format for better performance and smaller footprint.";
+        int[] startLines = new int[]{};
+        int[] endLines = new int[]{};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
+    }
 }
