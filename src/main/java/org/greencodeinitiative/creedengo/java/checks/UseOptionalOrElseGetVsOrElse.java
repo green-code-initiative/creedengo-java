@@ -19,10 +19,8 @@ package org.greencodeinitiative.creedengo.java.checks;
 
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
-import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
-import org.sonar.plugins.java.api.tree.MemberSelectExpressionTree;
-import org.sonar.plugins.java.api.tree.MethodInvocationTree;
-import org.sonar.plugins.java.api.tree.Tree;
+import org.sonar.plugins.java.api.tree.*;
+
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
@@ -51,9 +49,32 @@ public class UseOptionalOrElseGetVsOrElse extends IssuableSubscriptionVisitor {
                     Objects.requireNonNull(tree.methodSelect().firstToken()).text().equals("Optional")) {
                 MemberSelectExpressionTree memberSelect = (MemberSelectExpressionTree) tree.methodSelect();
                 if (memberSelect.identifier().name().equals("orElse")) {
+                    if (tree.arguments().isEmpty()) {
+                        return;
+                    }
+                    ExpressionTree argument = tree.arguments().get(0);
+
+                    if (isAlreadyDefinedValue(argument)) {
+                        return;
+                    }
+
                     reportIssue(memberSelect, MESSAGE_RULE);
                 }
             }
+        }
+        private boolean isAlreadyDefinedValue(ExpressionTree argument) {
+            return argument.is(
+                    Tree.Kind.STRING_LITERAL,
+                    Tree.Kind.INT_LITERAL,
+                    Tree.Kind.LONG_LITERAL,
+                    Tree.Kind.FLOAT_LITERAL,
+                    Tree.Kind.DOUBLE_LITERAL,
+                    Tree.Kind.CHAR_LITERAL,
+                    Tree.Kind.BOOLEAN_LITERAL,
+                    Tree.Kind.NULL_LITERAL,
+                    Tree.Kind.IDENTIFIER,
+                    Tree.Kind.MEMBER_SELECT
+            );
         }
     }
 }
