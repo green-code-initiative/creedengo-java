@@ -38,6 +38,7 @@ public class JavaCheckRegistrar implements CheckRegistrar {
             IncrementCheck.class,
             AvoidUsageOfStaticCollections.class,
             AvoidGettingSizeCollectionInLoop.class,
+            AvoidHibernateLazyRelationAccessInLoopCheck.class,
             AvoidRegexPatternNotStatic.class,
             NoFunctionCallWhenDeclaringForLoop.class,
             AvoidStatementForDMLQueries.class,
