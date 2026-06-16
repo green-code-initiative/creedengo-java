@@ -4,7 +4,8 @@
 
     <groupId>org.green-code-initiative</groupId>
     <artifactId>creedengo-java-plugin</artifactId>
-    <version>2.2.0-SNAPSHOT</version>
+<!--    <version>2.2.0-SNAPSHOT</version>-->
+    <version>${revision}</version>
 
     <packaging>sonar-plugin</packaging>
 
@@ -39,6 +40,16 @@
     </issueManagement>
 
     <properties>
+
+        <!--
+            Default version when disabling Maven `maven-git-versioning-extension` extension
+            cf. https://github.com/qoomon/maven-git-versioning-extension#intellij&#45;&#45;-multi-modules-projects
+        -->
+        <revision>current-SNAPSHOT</revision>
+
+        <!-- Helps ensure build reproducibility (cf. https://maven.apache.org/guides/mini/guide-reproducible-builds.html) -->
+        <!--suppress UnresolvedMavenProperty -->
+        <project.build.outputTimestamp>${git.commit.timestamp.datetime}</project.build.outputTimestamp>
 
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
