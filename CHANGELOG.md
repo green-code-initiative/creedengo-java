@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#119](https://github.com/green-code-initiative/creedengo-java/issues/119) GCI94 - reduce false positives: rule no longer flags `orElse()` when argument is a constant, literal, static field or null; detection extended to Optional variables (semantic type check) and to computed arguments nested inside concatenation, ternary or object instantiation
 - [#69](https://github.com/green-code-initiative/creedengo-java/issues/69) correction of NullPointer in GCI79 rule + technical refactoring of GCI79
 - update integration tests system to use the new component "creedengo-integration-test"
-- compatibility updates for SonarQube up to 26.2.0
+- compatibility updates for SonarQube up to 26.6.0
 - upgrade internal libraries versions - non retro-compatibility upgrades
 - refacto to have all the test files in the same place (for UT and IT), to avoid maintaining 2 test directories
 - refacto all test files to add sub-directories for each rule, to be more clear and to be able to add more tests for each rule in the future
