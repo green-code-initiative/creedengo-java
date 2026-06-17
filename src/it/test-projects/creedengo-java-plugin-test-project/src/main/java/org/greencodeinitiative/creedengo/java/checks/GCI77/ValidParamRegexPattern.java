@@ -19,14 +19,10 @@ package org.greencodeinitiative.creedengo.java.checks;
 
 import java.util.regex.Pattern;
 
-public class AvoidRegexPatternNotStatic {
+public class ValidParamRegexPattern {
 
-    public boolean foo() {
-        final Pattern pattern = Pattern.compile("foo"); // Noncompliant {{Avoid using Pattern.compile() in a non-static context.}}
-        final Pattern pattern2 = Pattern.compile("foo" + "bar"); // Noncompliant {{Avoid using Pattern.compile() in a non-static context.}}
-        final Pattern pattern3 = Pattern.compile("foo" + "bar" + "baz"); // Noncompliant {{Avoid using Pattern.compile() in a non-static context.}}
-        return pattern.matcher("foo").find()
-            && pattern2.matcher("foo").find()
-            && pattern3.matcher("foo").find();
+    public void epjPatternWithParam(String codeEpj) {
+        final Pattern pattern = Pattern.compile("\"codeEpj\"\\s*:\\s" + codeEpj + ","); // Compliant - Pattern is used with a parameter
+        final Pattern pattern2 = Pattern.compile(codeEpj); // Compliant - Pattern is used with a parameter
     }
 }
