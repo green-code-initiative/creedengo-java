@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - compatibility updates for SonarQube up to 26.7.0
+- update default CI JDK from 17 to 21
 
 ### Deleted
 
