@@ -84,7 +84,7 @@
         <creedengo-rules-specifications.version>3.2.0</creedengo-rules-specifications.version>
 
         <!-- Version of creedengo integration test system -->
-        <creedengo-integration-test.version>0.5.0</creedengo-integration-test.version>
+        <creedengo-integration-test.version>0.6.0</creedengo-integration-test.version>
 
         <!-- URL of the Maven repository where sonarqube will be downloaded -->
         <test-it.orchestrator.artifactory.url>https://repo1.maven.org/maven2</test-it.orchestrator.artifactory.url>
@@ -105,11 +105,11 @@
         <!-- <test-it.sonarqube.version>10.7.0.96327</test-it.sonarqube.version> -->
 
         <!-- OK JDK17 / KO with JDK21 / OK >= v2.2.x INIT -->
-<!--         <test-it.sonarqube.version>24.12.0.100206</test-it.sonarqube.version>-->
+        <!-- <test-it.sonarqube.version>24.12.0.100206</test-it.sonarqube.version> -->
         <!-- <test-it.sonarqube.version>25.1.0.102122</test-it.sonarqube.version> -->
 
         <!-- OK JDK 17 / JDK 21 / OK >= v2.2.x-->
-<!--         <test-it.sonarqube.version>25.2.0.102705</test-it.sonarqube.version>-->
+        <!-- <test-it.sonarqube.version>25.2.0.102705</test-it.sonarqube.version> -->
         <!-- <test-it.sonarqube.version>25.3.0.104237</test-it.sonarqube.version> -->
         <!-- <test-it.sonarqube.version>25.4.0.105899</test-it.sonarqube.version> -->
         <!-- <test-it.sonarqube.version>25.5.0.107428</test-it.sonarqube.version> -->
