@@ -1,0 +1,9 @@
+{
+  "name": "creedengo way",
+  "language": "java",
+  "ruleKeys": [ "GCI1" ],
+  "reusedNativeRules": [
+    { "key": "java:S6904", "reference": "https://example.org/pr/487" },
+    { "key": "java:S1234", "reference": "" }
+  ]
+}

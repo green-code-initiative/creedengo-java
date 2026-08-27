@@ -19,5 +19,11 @@
 	"GCI79",
 	"GCI82",
 	"GCI94"
+  ],
+  "reusedNativeRules": [
+    {
+      "key": "java:S6904",
+      "reference": "https://github.com/green-code-initiative/creedengo-rules-specifications/pull/487"
+    }
   ]
 }

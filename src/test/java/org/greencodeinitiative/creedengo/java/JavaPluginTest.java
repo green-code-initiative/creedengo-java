@@ -17,6 +17,7 @@
  */
 package org.greencodeinitiative.creedengo.java;
 
+import org.greencodeinitiative.creedengo.java.reusedrules.NativeRuleTagger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.Plugin;
@@ -37,7 +38,13 @@ class JavaPluginTest {
 
     @Test
     void test() {
-        assertThat(context.getExtensions()).hasSize(2);
+        // JavaRulesDefinition + JavaCheckRegistrar + NativeRuleTagger + its token property
+        assertThat(context.getExtensions()).hasSize(4);
+    }
+
+    @Test
+    void registersNativeRuleTagger() {
+        assertThat(context.getExtensions()).contains(NativeRuleTagger.class);
     }
 
 }

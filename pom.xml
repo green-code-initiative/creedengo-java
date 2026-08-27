@@ -166,6 +166,14 @@
             <version>1.8</version>
         </dependency>
 
+        <!-- JSON parsing of the reusedNativeRules structure in creedengo_way_profile.json
+             (shaded into the plugin jar by the sonar-packaging plugin; isolated per-plugin classloader) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

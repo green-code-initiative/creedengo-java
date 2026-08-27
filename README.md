@@ -49,6 +49,50 @@ You can also directly use a [all-in-one docker-compose](https://github.com/green
 
 ... and configure local SonarQube (security config and quality profile : see [configuration](https://github.com/green-code-initiative/creedengo-common/blob/main/doc/INSTALL.md#configuration-sonarqube) for more details).
 
+♻️ Reused native SonarQube rules (`eco-design`)
+-----------------
+
+Some native SonarQube rules already provide eco-design improvements and are **not** reimplemented by
+this plugin. They are declared, next to the plugin rules, in the `reusedNativeRules` sub-structure of
+[`creedengo_way_profile.json`](./src/main/resources/org/greencodeinitiative/creedengo/java/creedengo_way_profile.json):
+
+```json
+{
+  "ruleKeys": [ "GCI1", "GCI2" ],
+  "reusedNativeRules": [
+    { "key": "java:S6904", "reference": "https://github.com/green-code-initiative/creedengo-rules-specifications/pull/487" }
+  ]
+}
+```
+
+Both mechanisms share a **single source of truth** for the list of reused rule keys —
+`JavaCreedengoWayProfile.reusedNativeRuleKeys()`, the very same method used to build the built-in
+profile — so there is one place reading `reusedNativeRules` from the JSON, reused by two consumers:
+
+- **Activation in the profile**: `JavaCreedengoWayProfile.define()` reuses the very same built-in
+  profile mechanism that activates the plugin's own `GCI*` rules (`BuiltInQualityProfilesDefinition`,
+  run by SonarQube internally at server startup). Its
+  `NewBuiltInQualityProfile.activateRule(repositoryKey, ruleKey)` accepts **any** repository key, not
+  only this plugin's own, so `java:S6904` is activated in the "creedengo way" profile with zero admin
+  Web API call and zero credentials — exactly like a built-in rule.
+- **Tagging** (`eco-design` label on the rule itself, for search/filtering): unlike activation, a
+  rule's tags are metadata SonarQube only lets an administrator change for a rule owned by *another*
+  plugin, through the Web API (`api/rules/update`, requires *Administer Quality Profiles*) — there is
+  no built-in/declarative equivalent. `NativeRuleTagger` (a server-side component started/stopped
+  along with the plugin) reads the same `JavaCreedengoWayProfile.reusedNativeRuleKeys()` list and
+  tags those rules when the plugin starts, then removes the tag again when it stops (e.g. on
+  uninstall or upgrade) — reusing the same admin call already used by `creedengo-integration-test`'s
+  `ReusedRulesConfigurator` during integration tests. The **only** thing to configure is a single
+  admin token:
+
+  | Property | Default | Description |
+  | --- | --- | --- |
+  | `sonar.creedengo.reusedNativeRules.token` | – | User token with *Administer Quality Profiles*, used to tag/untag the reused rules. Leave empty to disable this automatic tagging (activation in the profile still works either way). |
+
+  There is intentionally no other property (no tag name, no base URL, no login/password, no on/off
+  switch): the tag is fixed to `eco-design`, the base URL is read from SonarQube itself
+  (`Server#getPublicRootUrl()`), and the feature is simply enabled by setting the token.
+
 🛒 Distribution
 ------------------
 

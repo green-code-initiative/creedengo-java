@@ -17,6 +17,11 @@
  */
 package org.greencodeinitiative.creedengo.java;
 
+import java.util.List;
+
+import org.greencodeinitiative.creedengo.java.reusedrules.ReusedNativeRulesProfileReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
 import org.sonarsource.analyzer.commons.BuiltInQualityProfileJsonLoader;
 
@@ -25,16 +30,56 @@ import static org.greencodeinitiative.creedengo.java.JavaRulesDefinition.REPOSIT
 
 public final class JavaCreedengoWayProfile implements BuiltInQualityProfilesDefinition {
 	static final String PROFILE_NAME = "creedengo way";
-	static final String PROFILE_PATH = JavaCreedengoWayProfile.class.getPackageName().replace('.', '/') + "/creedengo_way_profile.json";
+	public static final String PROFILE_PATH = JavaCreedengoWayProfile.class.getPackageName().replace('.', '/') + "/creedengo_way_profile.json";
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(JavaCreedengoWayProfile.class);
 
 	@Override
 	public void define(Context context) {
 		NewBuiltInQualityProfile creedengoProfile = context.createBuiltInQualityProfile(PROFILE_NAME, LANGUAGE);
 		loadProfile(creedengoProfile);
+		activateReusedNativeRules(creedengoProfile);
 		creedengoProfile.done();
 	}
 
 	private void loadProfile(NewBuiltInQualityProfile profile) {
 		BuiltInQualityProfileJsonLoader.load(profile, REPOSITORY_KEY, PROFILE_PATH);
 	}
+
+	/**
+	 * The list of reused native rule keys (e.g. {@code java:S6904}) declared in the
+	 * {@code reusedNativeRules} sub-structure of {@value #PROFILE_PATH}.
+	 *
+	 * <p>This is the single source of truth for reused native rules in this plugin: it is used
+	 * both to activate them in this built-in "creedengo way" profile (below) and, reusing this very
+	 * same method, by {@link org.greencodeinitiative.creedengo.java.reusedrules.NativeRuleTagger}
+	 * to know which rules to tag/untag when the plugin starts/stops.</p>
+	 */
+	public static List<String> reusedNativeRuleKeys() {
+		return new ReusedNativeRulesProfileReader(PROFILE_PATH).readReusedNativeRuleKeys();
+	}
+
+	/**
+	 * Activate, in this built-in profile, the native SonarQube rules declared as reused
+	 * eco-design rules in the {@code reusedNativeRules} sub-structure of the profile JSON
+	 * (e.g. {@code java:S6904}).
+	 *
+	 * <p>This reuses the very same mechanism that activates the plugin's own rules
+	 * ({@link BuiltInQualityProfilesDefinition}, run internally by SonarQube at server startup):
+	 * {@link NewBuiltInQualityProfile#activateRule(String, String)} accepts any repository key,
+	 * not only the plugin's own, so no admin Web API call or credentials are needed. The rule
+	 * keeps its own default severity (no override).</p>
+	 */
+	private void activateReusedNativeRules(NewBuiltInQualityProfile profile) {
+		for (String ruleKey : reusedNativeRuleKeys()) {
+			int separator = ruleKey.indexOf(':');
+			if (separator <= 0 || separator == ruleKey.length() - 1) {
+				LOGGER.warn("Invalid reused native rule key '{}' in {}: expected 'repository:key', skipping", ruleKey, PROFILE_PATH);
+				continue;
+			}
+			profile.activateRule(ruleKey.substring(0, separator), ruleKey.substring(separator + 1));
+		}
+	}
 }
+
+

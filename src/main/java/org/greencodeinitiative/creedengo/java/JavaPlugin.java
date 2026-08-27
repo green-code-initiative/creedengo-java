@@ -17,9 +17,14 @@
  */
 package org.greencodeinitiative.creedengo.java;
 
+import org.greencodeinitiative.creedengo.java.reusedrules.NativeRuleTagger;
 import org.sonar.api.Plugin;
+import org.sonar.api.PropertyType;
+import org.sonar.api.config.PropertyDefinition;
 
 public class JavaPlugin implements Plugin {
+
+    private static final String REUSED_NATIVE_RULES_CATEGORY = "creedengo";
 
     @Override
     public void define(Context context) {
@@ -28,6 +33,19 @@ public class JavaPlugin implements Plugin {
 
         // batch extensions -> objects are instantiated during code analysis
         context.addExtension(JavaCheckRegistrar.class);
+
+        // tags/untags, on plugin start/stop, the native rules reused as "eco-design" and
+        // declared in creedengo_way_profile.json; activating them in the "creedengo way" profile
+        // itself requires no configuration at all, see JavaCreedengoWayProfile
+        context.addExtension(NativeRuleTagger.class);
+        context.addExtension(PropertyDefinition.builder(NativeRuleTagger.PROPERTY_TOKEN)
+                .name("Reused native rules: admin token")
+                .description("User token with the 'Administer Quality Profiles' permission, used to tag "
+                        + "(and untag on uninstall) the native SonarQube rules reused as eco-design rules. "
+                        + "Leave empty to disable this automatic tagging.")
+                .category(REUSED_NATIVE_RULES_CATEGORY)
+                .type(PropertyType.PASSWORD)
+                .build());
 
     }
 

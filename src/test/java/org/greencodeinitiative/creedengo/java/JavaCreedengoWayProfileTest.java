@@ -44,8 +44,23 @@ class JavaCreedengoWayProfileTest {
 		assertThat(profile.name()).isEqualTo(PROFILE_NAME);
 		List<String> definedRuleIds = getDefinedRules().stream().map(c -> c.getAnnotation(Rule.class).key()).collect(Collectors.toList());
 		assertThat(profile.rules())
+				.filteredOn(rule -> !"java".equals(rule.repoKey()))
 				.describedAs("All implemented rules must be declared in '%s' profile file: %s", PROFILE_NAME, PROFILE_PATH)
 				.map(BuiltInQualityProfilesDefinition.BuiltInActiveRule::ruleKey)
 				.containsExactlyInAnyOrderElementsOf(definedRuleIds);
+	}
+
+	@Test
+	void should_activate_reused_native_rules_declared_in_profile_json() {
+		BuiltInQualityProfilesDefinition.Context context = new BuiltInQualityProfilesDefinition.Context();
+
+		new JavaCreedengoWayProfile().define(context);
+
+		BuiltInQualityProfilesDefinition.BuiltInQualityProfile profile = context.profile(LANGUAGE, PROFILE_NAME);
+		assertThat(profile.rules())
+				.filteredOn(rule -> "java".equals(rule.repoKey()))
+				.describedAs("Reused native rules declared in the profile JSON must be activated, without any admin API call or configuration")
+				.map(BuiltInQualityProfilesDefinition.BuiltInActiveRule::ruleKey)
+				.contains("S6904");
 	}
 }
