@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update default CI JDK from 17 to 21
 - upgrade internal librairies versions
 - add CI check for JDK17 and JDK21
-- [#105](https://github.com/green-code-initiative/creedengo-java/pull/105) GCI82 : fix rule to handle record types and adjust test cases
+- [#198](https://github.com/green-code-initiative/creedengo-java/pull/198) GCI82 : fix rule to handle record types and adjust test cases
 
 ### Deleted
 
