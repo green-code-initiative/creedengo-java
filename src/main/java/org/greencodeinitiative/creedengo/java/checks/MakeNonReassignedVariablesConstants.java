@@ -3,7 +3,9 @@ package org.greencodeinitiative.creedengo.java.checks;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Rule;
+import org.sonar.java.model.expression.NewArrayTreeImpl;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
+import org.sonar.plugins.java.api.semantic.Symbol;
 import org.sonar.plugins.java.api.tree.*;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
@@ -32,11 +34,46 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isNotReassigned = {}", isNotReassigned(variableTree));
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
+
+        Tree parent = variableTree.parent();
+
+        if(isInitializedFromMethod(variableTree) || isInitializedFromField(variableTree) || variableTree.symbol().isParameter()
+            || isInitializedFromArray(variableTree)|| (parent != null && parent.is(Kind.CATCH))) {
+            super.visitNode(tree);
+            return;
+        }
+
         if (isNotFinalAndNotStatic(variableTree) && isNotReassigned(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
         } else {
             super.visitNode(tree);
         }
+    }
+
+    private static boolean isInitializedFromMethod(VariableTree variableTree) {
+        ExpressionTree initializer = variableTree.initializer();
+        return initializer != null && initializer.is(Kind.METHOD_INVOCATION);
+    }
+
+    private static boolean isInitializedFromArray(VariableTree variableTree) {
+        if(variableTree.initializer() instanceof NewArrayTreeImpl) {
+            NewArrayTreeImpl initializer = (NewArrayTreeImpl) variableTree.initializer();
+            return initializer != null && initializer.is(Kind.NEW_ARRAY) && initializer.initializers().isEmpty();
+        }
+        return false;
+    }
+
+    private static boolean isInitializedFromField(VariableTree variableTree) {
+        ExpressionTree initializer = variableTree.initializer();
+        if(initializer == null) return false;
+        if(initializer.is(Kind.MEMBER_SELECT)) return true;
+
+        if(initializer.is(Kind.IDENTIFIER)){
+            Symbol symbol = variableTree.symbol();
+            Symbol owner = symbol.owner();
+            return owner != null && variableTree.symbol().isVariableSymbol() && owner.isTypeSymbol();
+        }
+        return false;
     }
 
     private static boolean isNotReassigned(VariableTree variableTree) {
@@ -72,7 +109,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             return methodTree != null && !hasModifier(methodTree.parameters().get(argument_idx).modifiers(), Modifier.FINAL);
         }
         return false;
-        
+
     }
 
     private static boolean parentIsAssignment(Tree tree) {

@@ -45,7 +45,7 @@ public class MakeNonReassignedVariablesConstants {
         logger.info(notReassigned);
     }
 
-    public void parameterNotReassignedNotFinal(String notReassigned) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    public void parameterNotReassignedNotFinal(String notReassigned) { // Compliant
         logger.info(notReassigned);
     }
 
@@ -129,6 +129,13 @@ public class MakeNonReassignedVariablesConstants {
         o = new notReassignedInConstructorNotFinal(this.varDefinedInClassNotReassignedInConstructor);
     }
 
+    void tryCatch(){
+        try{
+            logger.info(CONSTANT);
+        }catch (Exception e) { // Compliant
+            logger.error(e);
+        }
+    }
 }
 
 class reassignedInConstructor{
@@ -143,7 +150,76 @@ class notReassignedInConstructor{
     }
 }
 class notReassignedInConstructorNotFinal{
-    notReassignedInConstructorNotFinal(String notReassignedInConstructorNotFinal) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    notReassignedInConstructorNotFinal(String notReassignedInConstructorNotFinal) { // Compliant
         System.out.println(notReassignedInConstructorNotFinal);
     }
+}
+
+class AssignedVarFromMethod{
+    AssignedVarFromMethod(){
+
+    }
+    final String constVar = "Toto";
+
+    getConstVar(){
+        return this.constVar;
+    }
+
+    static format(String s){
+        return s.toUpperCase();
+    }
+
+    assignedVarFromMethod(){
+        String var = this.getConstVar(); // Compliant
+        String var2 = AssignedVarFromMethod.format(var); // Compliant
+    }
+}
+
+class ParentClass {
+    protected String parentAttribute = "parent";
+    ParentClass(){
+        parentAttribute = "parent2";
+    }
+    ParentClass(String attribute){
+        this.parentAttribute = attribute;
+    }
+}
+
+class ChildClass extends ParentClass {
+    void methodWithParentAttribute(){
+        String local1 = parentAttribute; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    }
+    void  methodThisWithParentAttribute(){
+        String local2 = this.parentAttribute; // Compliant
+    }
+    void methodWithSuperAttribute(){
+        String local3 = super.parentAttribute; // Compliant
+    }
+
+    String getAttribute(){
+        return this.parentAttribute;
+    }
+}
+
+class AssignedFromMethodvar {
+    private int bufferSize;
+
+    AssignedFromMethodvar(int bufferSize){
+        this.bufferSize = bufferSize;
+    }
+
+    AssignedFromMethodvar(){
+        final org.greencodeinitiative.creedengo.java.checks.ChildClass childClass = new ParentClass("child"); // Compliant
+        String childAttribute = childClass.getAttribute(); // Compliant
+    }
+    void assignedArray(){
+        byte[] buffer = new byte[1024]; // Compliant
+        int[] values = new int[this.bufferSize]; // Compliant
+        String[] fixedArray = {"a","b","c"}; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+        String[] strArray = new String[fixedArray.length]; // Compliant
+    }
+}
+
+enum classEnum { // Compliant
+    un,deux,trois,quatre;
 }
