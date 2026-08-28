@@ -31,4 +31,15 @@ class MakeNonReassignedVariablesConstantsTest {
                 .verifyIssues();
     }
 
+    /**
+     * Lombok annotations used in their fully qualified form, without any {@code import lombok.*} statement.
+     */
+    @Test
+    void testWithoutLombokImport() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsWithoutLombokImport.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
 }
