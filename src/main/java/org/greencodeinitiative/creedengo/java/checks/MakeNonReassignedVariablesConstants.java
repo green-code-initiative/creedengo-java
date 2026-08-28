@@ -4,6 +4,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
+import org.sonar.plugins.java.api.location.Position;
 import org.sonar.plugins.java.api.semantic.Type;
 import org.sonar.plugins.java.api.tree.*;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
@@ -131,8 +132,39 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
         return false;
     }
 
-    private static boolean isNotFinalAndNotStatic(VariableTree variableTree) {
-        return hasNoneOf(variableTree.modifiers(), Modifier.FINAL, Modifier.STATIC);
+    private boolean isNotFinalAndNotStatic(VariableTree variableTree) {
+        return hasNoneOf(variableTree.modifiers(), Modifier.FINAL, Modifier.STATIC) && !isFinalPatternVariable(variableTree);
+    }
+
+    /**
+     * For a pattern variable ({@code instanceof final Type var}), the parser does not attach the
+     * {@code final} keyword to {@link VariableTree#modifiers()} : the keyword sits between the
+     * {@code instanceof} keyword and the pattern type, outside of any tree node's token range.
+     * It is recovered here by reading the raw source in that gap.
+     */
+    private boolean isFinalPatternVariable(VariableTree variableTree) {
+        Tree parent = variableTree.parent();
+        if (parent == null || !parent.is(Kind.TYPE_PATTERN) || !(parent.parent() instanceof PatternInstanceOfTree patternInstanceOf)) {
+            return false;
+        }
+        String textBeforeType = textBetween(
+                patternInstanceOf.instanceofKeyword().range().end(),
+                variableTree.type().firstToken().range().start()
+        );
+        return "final".equals(textBeforeType.trim());
+    }
+
+    private String textBetween(Position start, Position end) {
+        List<String> lines = context.getFileLines();
+        if (start.line() == end.line()) {
+            return lines.get(start.line() - 1).substring(start.columnOffset(), end.columnOffset());
+        }
+        StringBuilder result = new StringBuilder(lines.get(start.line() - 1).substring(start.columnOffset()));
+        for (int line = start.line() + 1; line < end.line(); line++) {
+            result.append(lines.get(line - 1));
+        }
+        result.append(lines.get(end.line() - 1), 0, end.columnOffset());
+        return result.toString();
     }
 
     private static boolean hasNoneOf(ModifiersTree modifiersTree, Modifier... unexpectedModifiers) {
