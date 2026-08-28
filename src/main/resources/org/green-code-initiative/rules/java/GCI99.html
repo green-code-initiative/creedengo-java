@@ -1,0 +1,41 @@
+<div class="paragraph">
+<p>Avoid using CSV format for data exchange. Prefer Apache Parquet instead.</p>
+</div>
+<div class="paragraph">
+<p>The CSV format has several drawbacks compared to columnar binary formats like Parquet:</p>
+</div>
+<div class="ulist">
+<ul>
+<li><p><strong>Size</strong>: Parquet compresses data significantly better than plain-text CSV, reducing storage and network transfer costs.</p></li>
+<li><p><strong>Read performance</strong>: Parquet supports column pruning and predicate push-down, so only the required columns and rows are read.</p></li>
+<li><p><strong>Write performance</strong>: Parquet encoding (dictionary, RLE, bit-packing) makes writes faster for large datasets.</p></li>
+<li><p><strong>Schema</strong>: Parquet embeds schema metadata, removing the need for fragile header-row parsing.</p></li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This rule detects imports from the most popular Java CSV libraries (OpenCSV, Apache Commons CSV, Univocity Parsers, Jackson CSV, Super CSV).</p>
+</div>
+<div class="sect1">
+<h2 id="_noncompliant_code_example">Noncompliant Code Example</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">import com.opencsv.CSVWriter;               // Noncompliant
+import org.apache.commons.csv.CSVPrinter;   // Noncompliant
+import com.univocity.parsers.csv.CsvParser; // Noncompliant</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compliant_solution">Compliant Solution</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">// Use Apache Parquet, Apache Avro, or Apache ORC instead
+import org.apache.parquet.hadoop.ParquetWriter;
+import org.apache.avro.file.DataFileWriter;</code></pre>
+</div>
+</div>
+</div>
+</div>
