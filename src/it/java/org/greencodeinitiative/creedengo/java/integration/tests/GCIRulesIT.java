@@ -426,8 +426,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstants.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
-        int[] startLines = new int[]{15, 20, 21, 26, 32, 35, 59, 86, 119, 132, 157, 167, 176, 185, 188, 201};
-        int[] endLines = new int[]{15, 20, 21, 26, 32, 35, 59, 86, 119, 132, 157, 168, 177, 186, 189, 201};
+        int[] startLines = new int[]{15, 20, 21, 26, 32, 35, 59, 86, 119, 132, 145, 183, 193, 202, 211, 214, 227};
+        int[] endLines = new int[]{15, 20, 21, 26, 32, 35, 59, 86, 119, 132, 145, 183, 194, 203, 212, 215, 227};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
