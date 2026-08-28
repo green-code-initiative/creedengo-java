@@ -42,4 +42,12 @@ class MakeNonReassignedVariablesConstantsTest {
                 .verifyIssues();
     }
 
+    @Test
+    void testAbstractMethods() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForAbstractMethod.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
 }
