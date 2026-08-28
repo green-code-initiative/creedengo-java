@@ -32,6 +32,12 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isNotReassigned = {}", isNotReassigned(variableTree));
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
+
+        if(variableTree.symbol().isParameter()){
+            super.visitNode(tree);
+            return;
+        }
+
         if (isNotFinalAndNotStatic(variableTree) && isNotReassigned(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
         } else {
