@@ -1,14 +1,8 @@
 package org.greencodeinitiative.creedengo.java.checks;
 
 import java.util.logging.Logger;
-import lombok.Setter;
-import lombok.Data;
-import lombok.AccessLevel;
 
 public class MakeNonReassignedVariablesConstants {
-
-    @Setter
-    private String myLombokManagedString = "initialValue"; // Compliant
 
     private final Logger logger = Logger.getLogger(""); // Compliant
 
@@ -34,11 +28,6 @@ public class MakeNonReassignedVariablesConstants {
     private String varDefinedInClassReassignedInConstructor = "0"; // Compliant
     private String varDefinedInClassInFinalConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
     private String varDefinedInClassNotReassignedInConstructor = "0"; // Compliant (the String was passed as a non-final parameter to the constructor)
-
-    private record myRecord(
-            String myImplicitlyFinalStringField, // Compliant
-            Integer myImplicitlyFinalIntField) // Compliant
-    { }
 
     public MakeNonReassignedVariablesConstants() {
         varDefinedInConstructorReassigned = "3";
@@ -140,32 +129,6 @@ public class MakeNonReassignedVariablesConstants {
         o = new notReassignedInConstructorNotFinal(this.varDefinedInClassNotReassignedInConstructor);
     }
 
-    public String nonReasignedVariableWithPatternInstanceOfShouldBeNonCompliant() {
-        final Object o = "NON-COMPLIANT";
-        if (o instanceof String var) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
-            return var;
-        }
-        return "";
-    }
-
-
-    public String nonReasignedVariableWithPatternInstanceOfWithFinalShouldBeCompliant() {
-        final Object o = "COMPLIANT";
-        if (o instanceof final String var) {   // Compliant : here final keyword should be recognized and not trigger the rule
-            return var;
-        }
-        return "";
-    }
-
-    public String reasignedVariableWithPatternInstanceOfShouldBeCompliant() {
-        final Object o = "COMPLIANT";
-        if (o instanceof String var) { // Compliant : Variable is reassigned
-            var = "REASSIGN";
-            return var;
-        }
-        return "";
-    }
-
 }
 
 class reassignedInConstructor{
@@ -183,46 +146,4 @@ class notReassignedInConstructorNotFinal{
     notReassignedInConstructorNotFinal(String notReassignedInConstructorNotFinal) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
         System.out.println(notReassignedInConstructorNotFinal);
     }
-}
-
-@Setter
-class myExtraClassWithLombokSetter {
-    private String myExtraClassString = "initialValue"; // Compliant
-    private final String myExtraClassFinalString = "initialValue"; // Compliant
-
-    @Setter(AccessLevel.NONE) //  Noncompliant {{The variable is never reassigned and can be 'final'}}
-    private String myExtraClassSetterNoneString = "initialValue";
-}
-
-@Data
-class myExtraClassWithLombokData {
-    private String myExtraClassString = "initialValue"; // Compliant
-    private final String myExtraClassFinalString = "initialValue"; // Compliant
-
-    @Setter(AccessLevel.NONE) //  Noncompliant {{The variable is never reassigned and can be 'final'}}
-    private String myExtraClassSetterNoneString = "initialValue";
-}
-
-// fully qualified annotations : valid Java, and the only available form when there is no lombok import
-@Setter
-class myExtraClassWithFullyQualifiedLombokSetter {
-    private String myExtraClassString = "initialValue"; // Compliant
-
-    @Setter(value = AccessLevel.NONE) //  Noncompliant {{The variable is never reassigned and can be 'final'}}
-    private String myNamedArgumentSetterNoneString = "initialValue";
-
-    @Setter(lombok.AccessLevel.NONE) //  Noncompliant {{The variable is never reassigned and can be 'final'}}
-    private String myFullyQualifiedSetterNoneString = "initialValue";
-}
-
-@Data
-class myExtraClassWithFullyQualifiedLombokData {
-    private String myExtraClassString = "initialValue"; // Compliant
-}
-
-class myExtraClassWithFullyQualifiedFieldSetter {
-    @Setter
-    private String myFullyQualifiedSetterString = "initialValue"; // Compliant
-
-    private String myPlainNotReassignedString = "initialValue"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
 }
