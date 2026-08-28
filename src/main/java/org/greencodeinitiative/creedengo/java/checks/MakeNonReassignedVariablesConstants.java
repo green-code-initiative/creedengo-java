@@ -42,6 +42,10 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isNotReassigned = {}", isNotReassigned(variableTree));
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
+
+        if (isParameterOfAbstractMethod(variableTree))
+            return;
+
         // the Lombok check is the most expensive predicate : it is evaluated last, on actual candidates only
         if (isNotFromRecord(variableTree) &&
                 isNotFinalAndNotStatic(variableTree) &&
@@ -51,6 +55,11 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
         } else {
             super.visitNode(tree);
         }
+    }
+
+    private static boolean isParameterOfAbstractMethod(VariableTree variableTree) {
+        Tree parent = variableTree.parent();
+        return parent != null && parent.is(Kind.METHOD) && ((MethodTree) parent).block() == null;
     }
 
     private static boolean isNotFromRecord(VariableTree variableTree) {
