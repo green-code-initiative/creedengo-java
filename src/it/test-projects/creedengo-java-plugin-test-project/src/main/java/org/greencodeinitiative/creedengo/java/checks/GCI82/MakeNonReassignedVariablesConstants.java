@@ -29,6 +29,11 @@ public class MakeNonReassignedVariablesConstants {
     private String varDefinedInClassInFinalConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
     private String varDefinedInClassNotReassignedInConstructor = "0"; // Compliant (the String was passed as a non-final parameter to the constructor)
 
+    private record myRecord(
+            String myImplicitlyFinalStringField, // Compliant
+            Integer myImplicitlyFinalIntField) // Compliant
+    { }
+
     public MakeNonReassignedVariablesConstants() {
         varDefinedInConstructorReassigned = "3";
         this.varDefinedInConstructorReassignedByThis = "3";
