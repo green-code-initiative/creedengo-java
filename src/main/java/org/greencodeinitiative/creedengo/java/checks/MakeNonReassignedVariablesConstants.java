@@ -17,6 +17,13 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
 
     private static final Logger LOGGER = Loggers.get(MakeNonReassignedVariablesConstants.class);
 
+    private final String LOMBOK_SETTER = "Setter";
+    private final String LOMBOK_DATA = "Data";
+
+    private boolean hasParsedImports = false;
+    private boolean hasLombokSetterImport = false;
+    private boolean hasLombokDataImport = false;
+
     @Override
     public List<Kind> nodesToVisit() {
         return List.of(Kind.VARIABLE);
@@ -33,6 +40,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
         if (isNotFromRecord(variableTree) &&
+                hasNoLombokSetter(variableTree) &&
                 isNotFinalAndNotStatic(variableTree) &&
                 isNotReassigned(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
@@ -166,6 +174,77 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
 
         return name;
 
+    }
+
+    private boolean hasNoLombokSetter(VariableTree variableTree) {
+        // Check if the variable is annotated with @Setter
+
+        for (AnnotationTree annotation : variableTree.modifiers().annotations()) {
+            if (annotation.annotationType().toString().equals(LOMBOK_SETTER)) {
+                if (hasLombokImport(variableTree, LOMBOK_SETTER)) {
+
+                    // Ignore if the annotation has AccessLevel.NONE
+                    if (!annotation.arguments().isEmpty()) {
+                        for (ExpressionTree argument : annotation.arguments()) {
+                            if (argument.is(Kind.MEMBER_SELECT)) {
+                                MemberSelectExpressionTree memberSelectExpressionTree = (MemberSelectExpressionTree) argument;
+                                if (memberSelectExpressionTree.expression().toString().equals("AccessLevel")
+                                        && memberSelectExpressionTree.identifier().name().equals("NONE")) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        // Check if the variable is in a class with @Setter or with @Data
+        if( variableTree.parent() != null && !variableTree.parent().is(Kind.CLASS)){
+            return true;
+        }
+        if (variableTree.parent() != null && variableTree.parent().is(Kind.CLASS)) {
+            ClassTree classTree = (ClassTree) variableTree.parent();
+            for (AnnotationTree annotation : classTree.modifiers().annotations()) {
+                if (annotation.annotationType().toString().equals(LOMBOK_SETTER) && hasLombokImport(variableTree, LOMBOK_SETTER)) {
+                    return false;
+                }
+                if (annotation.annotationType().toString().equals(LOMBOK_DATA) && hasLombokImport(variableTree, LOMBOK_DATA)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean hasLombokImport(VariableTree variableTree, String lombokImport) {
+        if (!hasParsedImports) {
+            Tree currentTree = variableTree;
+            while (currentTree.parent() != null && !currentTree.parent().is(Kind.COMPILATION_UNIT)) {
+                currentTree = currentTree.parent();
+            }
+            if (currentTree != null) {
+                CompilationUnitTree rootNode = (CompilationUnitTree) currentTree.parent();
+                for (var importClauseTree : rootNode.imports()) {
+                    ImportTree importTree = (ImportTree) importClauseTree;
+                    MemberSelectExpressionTree identifier = (MemberSelectExpressionTree) importTree.qualifiedIdentifier();
+
+                    if ("lombok".equals(identifier.expression().toString())) {
+                        if ("*".equals(identifier.identifier().name())) {
+                            hasLombokSetterImport = true;
+                            hasLombokDataImport = true;
+                        } else if (LOMBOK_SETTER.equals(identifier.identifier().name())) {
+                            hasLombokSetterImport = true;
+                        } else if (LOMBOK_DATA.equals(identifier.identifier().name())) {
+                            hasLombokDataImport = true;
+                        }
+                    }
+                }
+            }
+            hasParsedImports = true;
+        }
+        return LOMBOK_SETTER.equals(lombokImport) ? hasLombokSetterImport : hasLombokDataImport;
     }
 
 }

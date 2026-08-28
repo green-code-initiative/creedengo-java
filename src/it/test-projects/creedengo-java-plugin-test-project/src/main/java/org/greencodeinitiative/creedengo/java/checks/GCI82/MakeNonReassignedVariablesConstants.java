@@ -1,8 +1,14 @@
 package org.greencodeinitiative.creedengo.java.checks;
 
 import java.util.logging.Logger;
+import lombok.Setter;
+import lombok.Data;
+import lombok.AccessLevel;
 
 public class MakeNonReassignedVariablesConstants {
+
+    @Setter
+    private String myLombokManagedString = "initialValue"; // Compliant
 
     private final Logger logger = Logger.getLogger(""); // Compliant
 
@@ -151,4 +157,22 @@ class notReassignedInConstructorNotFinal{
     notReassignedInConstructorNotFinal(String notReassignedInConstructorNotFinal) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
         System.out.println(notReassignedInConstructorNotFinal);
     }
+}
+
+@Setter
+class myExtraClassWithLombokSetter {
+    private String myExtraClassString = "initialValue"; // Compliant
+    private final String myExtraClassFinalString = "initialValue"; // Compliant
+
+    @Setter(AccessLevel.NONE) //  Noncompliant {{The variable is never reassigned and can be 'final'}}
+    private String myExtraClassSetterNoneString = "initialValue";
+}
+
+@Data
+class myExtraClassWithLombokData {
+    private String myExtraClassString = "initialValue"; // Compliant
+    private final String myExtraClassFinalString = "initialValue"; // Compliant
+
+    @Setter(AccessLevel.NONE) //  Noncompliant {{The variable is never reassigned and can be 'final'}}
+    private String myExtraClassSetterNoneString = "initialValue";
 }
