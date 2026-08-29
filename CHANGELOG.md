@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- [#63](https://github.com/green-code-initiative/ecoCode-java/pull/63) [GCI95] [Java] Avoid querying SQL columns that are not used
 
 ### Changed
 
