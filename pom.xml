@@ -77,7 +77,7 @@
         <!-- last version 8.41.0.47177 is NON OK for JDK 17 because compiled only for JDK 21 -->
 <!--        <sonarjava.version>8.41.0.47177</sonarjava.version>-->
 
-        <sonar-analyzer-commons.version>2.21.0.4626</sonar-analyzer-commons.version>
+        <sonar-analyzer-commons.version>2.30.0.5193</sonar-analyzer-commons.version>
 
         <sonar-packaging.version>1.25.1.3002</sonar-packaging.version>
 
