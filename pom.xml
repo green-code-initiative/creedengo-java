@@ -170,7 +170,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.17</version>
+            <version>2.0.18</version>
             <!-- To keep with this scope otherwise logging system will be not ok on custom plugins -->
             <scope>provided</scope>
         </dependency>
@@ -357,7 +357,7 @@
                                 <artifactItem>
                                     <groupId>org.slf4j</groupId>
                                     <artifactId>slf4j-api</artifactId>
-                                    <version>2.0.17</version>
+                                    <version>2.0.18</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
