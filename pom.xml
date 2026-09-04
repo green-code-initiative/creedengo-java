@@ -73,7 +73,7 @@
         <sonar.plugin.api.version>13.0.0.3026</sonar.plugin.api.version>
 
         <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
-        <sonarjava.version>8.40.0.46617</sonarjava.version>
+        <sonarjava.version>8.41.0.47177</sonarjava.version>
         <!-- last version 8.41.0.47177 is NON OK for JDK 17 because compiled only for JDK 21 -->
 <!--        <sonarjava.version>8.41.0.47177</sonarjava.version>-->
 
