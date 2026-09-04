@@ -74,7 +74,9 @@
         <sonar.plugin.api.version>13.0.0.3026</sonar.plugin.api.version>
 
         <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
-        <sonarjava.version>8.23.0.42096</sonarjava.version>
+        <sonarjava.version>8.40.0.46617</sonarjava.version>
+        <!-- last version 8.41.0.47177 is NON OK for JDK 17 because compiled only for JDK 21 -->
+<!--        <sonarjava.version>8.41.0.47177</sonarjava.version>-->
 
         <sonar-analyzer-commons.version>2.21.0.4626</sonar-analyzer-commons.version>
 
@@ -386,7 +388,7 @@
                                 <artifactItem>
                                     <groupId>org.springframework</groupId>
                                     <artifactId>spring-context</artifactId>
-                                    <version>6.2.10</version>
+                                    <version>6.2.19</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
@@ -398,11 +400,11 @@
                                 <artifactItem>
                                     <groupId>org.springframework.data</groupId>
                                     <artifactId>spring-data-commons</artifactId>
-                                    <!-- <version>2.2.4.RELEASE</version> -->
                                     <version>2.7.18</version>
-                                    <!-- KO with version 3.x -->
+                                    <!-- KO with version 3.x et 4.x -->
                                     <!-- <version>3.0.0</version> -->
                                     <!-- <version>3.5.3</version> -->
+<!--                                    <version>4.1.1</version>-->
                                     <type>jar</type>
                                 </artifactItem>
                             </artifactItems>
@@ -414,8 +416,7 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <!-- max version without pb for JDK 17 / recent versions have a NPE when deploying in docker -->
-                <version>4.1</version>
+                    <version>5.1.2</version>
                 <configuration>
                     <properties>
                         <owner>Green Code Initiative</owner>
