@@ -4,11 +4,15 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
+import org.sonar.plugins.java.api.location.Position;
+import org.sonar.plugins.java.api.semantic.Type;
 import org.sonar.plugins.java.api.tree.*;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 
 @Rule(key = "GCI82")
 public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVisitor {
@@ -16,6 +20,12 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     protected static final String MESSAGE_RULE = "The variable is never reassigned and can be 'final'";
 
     private static final Logger LOGGER = Loggers.get(MakeNonReassignedVariablesConstants.class);
+
+    private static final String LOMBOK_PACKAGE = "lombok";
+    private static final String SETTER = "Setter";
+    private static final String DATA = "Data";
+    private static final String ACCESS_LEVEL_NONE = "AccessLevel.NONE";
+    private static final String NONE = "NONE";
 
     @Override
     public List<Kind> nodesToVisit() {
@@ -32,11 +42,31 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isNotReassigned = {}", isNotReassigned(variableTree));
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
-        if (isNotFinalAndNotStatic(variableTree) && isNotReassigned(variableTree)) {
+
+        if (isParameterOfAbstractMethod(variableTree))
+            return;
+
+        // the Lombok check is the most expensive predicate : it is evaluated last, on actual candidates only
+        if (isNotFromRecord(variableTree) &&
+                isNotFinalAndNotStatic(variableTree) &&
+                isNotReassigned(variableTree) &&
+                !isLombokManaged(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
         } else {
             super.visitNode(tree);
         }
+    }
+
+    private static boolean isParameterOfAbstractMethod(VariableTree variableTree) {
+        Tree parent = variableTree.parent();
+        return parent != null && parent.is(Kind.METHOD) && ((MethodTree) parent).block() == null;
+    }
+
+    private static boolean isNotFromRecord(VariableTree variableTree) {
+        Tree parent = variableTree.parent();
+        if (parent == null) return false;
+
+        return !parent.is(Kind.RECORD);
     }
 
     private static boolean isNotReassigned(VariableTree variableTree) {
@@ -111,8 +141,39 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
         return false;
     }
 
-    private static boolean isNotFinalAndNotStatic(VariableTree variableTree) {
-        return hasNoneOf(variableTree.modifiers(), Modifier.FINAL, Modifier.STATIC);
+    private boolean isNotFinalAndNotStatic(VariableTree variableTree) {
+        return hasNoneOf(variableTree.modifiers(), Modifier.FINAL, Modifier.STATIC) && !isFinalPatternVariable(variableTree);
+    }
+
+    /**
+     * For a pattern variable ({@code instanceof final Type var}), the parser does not attach the
+     * {@code final} keyword to {@link VariableTree#modifiers()} : the keyword sits between the
+     * {@code instanceof} keyword and the pattern type, outside of any tree node's token range.
+     * It is recovered here by reading the raw source in that gap.
+     */
+    private boolean isFinalPatternVariable(VariableTree variableTree) {
+        Tree parent = variableTree.parent();
+        if (parent == null || !parent.is(Kind.TYPE_PATTERN) || !(parent.parent() instanceof PatternInstanceOfTree patternInstanceOf)) {
+            return false;
+        }
+        String textBeforeType = textBetween(
+                patternInstanceOf.instanceofKeyword().range().end(),
+                variableTree.type().firstToken().range().start()
+        );
+        return "final".equals(textBeforeType.trim());
+    }
+
+    private String textBetween(Position start, Position end) {
+        List<String> lines = context.getFileLines();
+        if (start.line() == end.line()) {
+            return lines.get(start.line() - 1).substring(start.columnOffset(), end.columnOffset());
+        }
+        StringBuilder result = new StringBuilder(lines.get(start.line() - 1).substring(start.columnOffset()));
+        for (int line = start.line() + 1; line < end.line(); line++) {
+            result.append(lines.get(line - 1));
+        }
+        result.append(lines.get(end.line() - 1), 0, end.columnOffset());
+        return result.toString();
     }
 
     private static boolean hasNoneOf(ModifiersTree modifiersTree, Modifier... unexpectedModifiers) {
@@ -157,6 +218,99 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
 
         return name;
 
+    }
+
+    /**
+     * A variable is "Lombok managed" when Lombok generates a setter for it : making it {@code final}
+     * would not compile, so the rule must stay silent.
+     * <p>
+     * This happens when the field itself is annotated with {@code @Setter}, or when its owner class is
+     * annotated with {@code @Setter} or {@code @Data}. A field level {@code @Setter(AccessLevel.NONE)}
+     * explicitly disables the generation and therefore wins over the class level annotation.
+     */
+    private static boolean isLombokManaged(VariableTree variableTree) {
+        AnnotationTree fieldSetter = findLombokAnnotation(variableTree.modifiers(), SETTER);
+        if (fieldSetter != null) {
+            return !isSetterDisabled(fieldSetter);
+        }
+
+        // covers CLASS, but also ENUM and INTERFACE owners, which Kind.CLASS alone would miss
+        if (variableTree.parent() instanceof ClassTree classTree) {
+            ModifiersTree classModifiers = classTree.modifiers();
+            return findLombokAnnotation(classModifiers, SETTER) != null
+                    || findLombokAnnotation(classModifiers, DATA) != null;
+        }
+
+        return false;
+    }
+
+    @CheckForNull
+    private static AnnotationTree findLombokAnnotation(ModifiersTree modifiers, String simpleName) {
+        for (AnnotationTree annotation : modifiers.annotations()) {
+            if (isLombokAnnotation(annotation, simpleName)) {
+                return annotation;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Relies on the semantic model when it is available : the resolved type handles the regular import,
+     * the wildcard import ({@code import lombok.*}) and the fully qualified usage ({@code @lombok.Setter})
+     * indifferently, and rules out a same named annotation coming from another library.
+     * <p>
+     * When Lombok is missing from the analysis classpath the type cannot be resolved, so we fall back on the
+     * written form and accept both {@code @Setter} and {@code @lombok.Setter}.
+     */
+    private static boolean isLombokAnnotation(AnnotationTree annotation, String simpleName) {
+        String fullyQualifiedName = LOMBOK_PACKAGE + "." + simpleName;
+
+        Type annotationType = annotation.symbolType();
+        if (!annotationType.isUnknown()) {
+            return annotationType.is(fullyQualifiedName);
+        }
+
+        String writtenName = writtenNameOf(annotation.annotationType());
+        return simpleName.equals(writtenName) || fullyQualifiedName.equals(writtenName);
+    }
+
+    /**
+     * Detects {@code AccessLevel.NONE}, whatever the way it is written : positional or named argument
+     * ({@code value = ...}), simple, fully qualified or statically imported constant.
+     */
+    private static boolean isSetterDisabled(AnnotationTree annotation) {
+        return annotation.arguments()
+                .stream()
+                .map(MakeNonReassignedVariablesConstants::annotationArgumentValue)
+                .map(MakeNonReassignedVariablesConstants::writtenNameOf)
+                .filter(Objects::nonNull)
+                .anyMatch(value -> value.endsWith(ACCESS_LEVEL_NONE) || NONE.equals(value));
+    }
+
+    private static ExpressionTree annotationArgumentValue(ExpressionTree argument) {
+        return argument.is(Kind.ASSIGNMENT)
+                ? ((AssignmentExpressionTree) argument).expression()
+                : argument;
+    }
+
+    /**
+     * Rebuilds the name as written in the source ({@code Setter}, {@code lombok.Setter},
+     * {@code lombok.AccessLevel.NONE}) by walking the tree : {@code toString()} only returns the source
+     * text for identifiers, not for member selects.
+     *
+     * @return {@code null} when the tree is neither an identifier nor a member select
+     */
+    @CheckForNull
+    private static String writtenNameOf(Tree tree) {
+        if (tree.is(Kind.IDENTIFIER)) {
+            return ((IdentifierTree) tree).name();
+        }
+        if (tree.is(Kind.MEMBER_SELECT)) {
+            MemberSelectExpressionTree memberSelect = (MemberSelectExpressionTree) tree;
+            String qualifier = writtenNameOf(memberSelect.expression());
+            return qualifier == null ? null : qualifier + "." + memberSelect.identifier().name();
+        }
+        return null;
     }
 
 }

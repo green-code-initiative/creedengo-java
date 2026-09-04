@@ -1,0 +1,74 @@
+/*
+ * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
+ * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.greencodeinitiative.creedengo.java.checks.GCI82;
+
+import org.greencodeinitiative.creedengo.java.checks.MakeNonReassignedVariablesConstants;
+import org.junit.jupiter.api.Test;
+import org.sonar.java.checks.verifier.CheckVerifier;
+
+class MakeNonReassignedVariablesConstantsTest {
+
+    @Test
+    void test() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstants.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+    @Test
+    void testLombok() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForLombok.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+    @Test
+    void testWithoutLombokImport() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsWithoutLombokImport.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+    @Test
+    void testRecord() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForRecord.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyNoIssues();
+    }
+
+    @Test
+    void testInstanceOf() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForInstanceOf.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+    @Test
+    void testAbstractMethods() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForAbstractMethod.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+}

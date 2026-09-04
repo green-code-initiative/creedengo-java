@@ -22,11 +22,12 @@ import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
 import org.sonar.plugins.java.api.tree.MemberSelectExpressionTree;
 import org.sonar.plugins.java.api.tree.MethodInvocationTree;
+import org.sonar.plugins.java.api.tree.NewArrayTree;
+import org.sonar.plugins.java.api.tree.NewClassTree;
 import org.sonar.plugins.java.api.tree.Tree;
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @Rule(key = "GCI94")
 public class UseOptionalOrElseGetVsOrElse extends IssuableSubscriptionVisitor {
@@ -47,13 +48,41 @@ public class UseOptionalOrElseGetVsOrElse extends IssuableSubscriptionVisitor {
     private class UseOptionalOrElseGetVsOrElseVisitor extends BaseTreeVisitor {
         @Override
         public void visitMethodInvocation(MethodInvocationTree tree) {
-            if (tree.methodSelect().is(Tree.Kind.MEMBER_SELECT) &&
-                    Objects.requireNonNull(tree.methodSelect().firstToken()).text().equals("Optional")) {
-                MemberSelectExpressionTree memberSelect = (MemberSelectExpressionTree) tree.methodSelect();
-                if (memberSelect.identifier().name().equals("orElse")) {
-                    reportIssue(memberSelect, MESSAGE_RULE);
-                }
+            if (!tree.methodSelect().is(Tree.Kind.MEMBER_SELECT)) {
+                return;
             }
+            MemberSelectExpressionTree memberSelect = (MemberSelectExpressionTree) tree.methodSelect();
+            if (memberSelect.identifier().name().equals("orElse") &&
+                    memberSelect.expression().symbolType().is("java.util.Optional") &&
+                    !tree.arguments().isEmpty() &&
+                    containsComputation(tree.arguments().get(0))) {
+                reportIssue(memberSelect, MESSAGE_RULE);
+            }
+        }
+    }
+
+    private static boolean containsComputation(Tree argument) {
+        ComputationDetector detector = new ComputationDetector();
+        argument.accept(detector);
+        return detector.found;
+    }
+
+    private static class ComputationDetector extends BaseTreeVisitor {
+        boolean found = false;
+
+        @Override
+        public void visitMethodInvocation(@Nonnull MethodInvocationTree tree) {
+            found = true;
+        }
+
+        @Override
+        public void visitNewClass(@Nonnull NewClassTree tree) {
+            found = true;
+        }
+
+        @Override
+        public void visitNewArray(@Nonnull NewArrayTree tree) {
+            found = true;
         }
     }
 }

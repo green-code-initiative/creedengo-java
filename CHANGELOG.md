@@ -11,12 +11,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- [#69](https://github.com/green-code-initiative/creedengo-java/issues/69) correction of NullPointer in GCI79 rule + technical refactoring of GCI79
-- update integration tests system to use the new component "creedengo-integration-test"
-- compatibility updates for SonarQube up to 26.2.0
-- upgrade internal libraries versions - non retro-compatibility upgrades
+- compatibility updates for SonarQube up to 26.7.0
+- update default CI JDK from 17 to 21
+- upgrade internal librairies versions
+- fix vulnerability issues in dependencies (upgrade some libraries versions)
+- add CI check for JDK17 and JDK21
+- [#198](https://github.com/green-code-initiative/creedengo-java/pull/198) GCI82 : fix rule to handle record types and adjust test cases
+- [#199](https://github.com/green-code-initiative/creedengo-java/pull/199) GCI82 : fix rule to handle Lombok generated setters (`@Setter`, `@Data`, `@Setter(AccessLevel.NONE)`), including fully qualified annotations used without any `lombok` import
+- [#200](https://github.com/green-code-initiative/creedengo-java/pull/200) GCI82 : fix rule to accept instanceof pattern
+- [#201](https://github.com/green-code-initiative/creedengo-java/pull/201) GCI82 : fix rule on abstract methods
 
 ### Deleted
+
+## [2.2.0] - 2026-06-16
+
+### Changed
+
+- [#119](https://github.com/green-code-initiative/creedengo-java/issues/119) GCI94 - reduce false positives: rule no longer flags `orElse()` when argument is a constant, literal, static field or null; detection extended to Optional variables (semantic type check) and to computed arguments nested inside concatenation, ternary or object instantiation
+- [#69](https://github.com/green-code-initiative/creedengo-java/issues/69) correction of NullPointer in GCI79 rule + technical refactoring of GCI79
+- update integration tests system to use the new component "creedengo-integration-test"
+- compatibility updates for SonarQube up to 26.6.0
+- upgrade internal libraries versions - non retro-compatibility upgrades
+- refacto to have all the test files in the same place (for UT and IT), to avoid maintaining 2 test directories
+- refacto all test files to add sub-directories for each rule, to be more clear and to be able to add more tests for each rule in the future
+- fix integration test system run + fix TI GCI82
+- upgrade delivery process to be dynamic
 
 ## [2.1.2] - 2026-01-11
 
@@ -114,7 +133,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update ecocode-rules-specifications to 1.4.6
 
-[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.1.2...HEAD)
+[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.2.0...HEAD)
+[2.2.0](https://github.com/green-code-initiative/creedengo-java/compare/2.1.2...2.2.0)
 [2.1.2](https://github.com/green-code-initiative/creedengo-java/compare/2.1.1...2.1.2)
 [2.1.1](https://github.com/green-code-initiative/creedengo-java/compare/2.1.0...2.1.1)
 [2.1.0](https://github.com/green-code-initiative/creedengo-java/compare/2.0.0...2.1.0)
