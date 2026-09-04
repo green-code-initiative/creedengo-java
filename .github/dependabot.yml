@@ -12,5 +12,5 @@ updates:
     ignore:
       # Ignore all versions : cf pom.xml comments
       - dependency-name: "org.springframework.data:spring-data-commons"
-      - dependency-name: "org.springframework:spring-context"
+      - dependency-name: "org.springframework.data:spring-data-jpa"
       - dependency-name: "org.sonarsource.api.plugin:sonar-plugin-api"

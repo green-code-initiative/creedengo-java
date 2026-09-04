@@ -375,19 +375,19 @@
                                 <artifactItem>
                                     <groupId>org.springframework</groupId>
                                     <artifactId>spring-webmvc</artifactId>
-                                    <version>6.2.10</version>
+                                    <version>7.0.9</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.springframework</groupId>
                                     <artifactId>spring-web</artifactId>
-                                    <version>6.2.10</version>
+                                    <version>7.0.9</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.springframework</groupId>
                                     <artifactId>spring-context</artifactId>
-                                    <version>6.2.19</version>
+                                    <version>7.0.9</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
