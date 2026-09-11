@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#199](https://github.com/green-code-initiative/creedengo-java/pull/199) GCI82 : fix rule to handle Lombok generated setters (`@Setter`, `@Data`, `@Setter(AccessLevel.NONE)`), including fully qualified annotations used without any `lombok` import
 - [#200](https://github.com/green-code-initiative/creedengo-java/pull/200) GCI82 : fix rule to accept instanceof pattern
 - [#201](https://github.com/green-code-initiative/creedengo-java/pull/201) GCI82 : fix rule on abstract methods
+- [#193](https://github.com/green-code-initiative/creedengo-java/pull/193) GCI27 - reduce false positives for System.arraycopy suggestions inside conditional and try/catch blocks
 
 ### Deleted
 
