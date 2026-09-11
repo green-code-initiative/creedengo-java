@@ -34,20 +34,10 @@ class GCIRulesIT extends GCIRulesBase {
         String ruleId = "creedengo-java:GCI27";
         String ruleMsg = "Use System.arraycopy to copy arrays";
         int[] startLines = new int[]{
-                68, 73, 80, 89, 102, 111,
-                122, 133, 156, 162, 170, 180,
-                194, 204, 216, 228, 246, 253,
-                262, 273, 288, 299, 312, 325,
-                351, 358, 367, 378, 393, 406,
-                432, 439, 448, 459, 474, 487
+                68, 156, 246, 351, 432
         };
         int[] endLines = new int[]{
-                70, 77, 86, 99, 108, 119,
-                130, 141, 158, 166, 176, 190,
-                200, 212, 224, 236, 249, 258,
-                269, 284, 295, 308, 321, 334,
-                354, 363, 374, 389, 402, 415,
-                435, 444, 455, 470, 483, 496
+                70, 158, 249, 354, 435
         };
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
@@ -433,6 +423,61 @@ class GCIRulesIT extends GCIRulesBase {
     }
 
     @Test
+    void testGCI82_lombok() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForLombok.java";
+        String ruleId = "creedengo-java:GCI82";
+        String ruleMsg = "The variable is never reassigned and can be 'final'";
+        int[] startLines = new int[]{20, 29, 38, 41, 54};
+        int[] endLines = new int[]{21, 30, 39, 42, 54};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+    }
+
+    @Test
+    void testGCI82_lombokWithoutImport() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsWithoutLombokImport.java";
+        String ruleId = "creedengo-java:GCI82";
+        String ruleMsg = "The variable is never reassigned and can be 'final'";
+        int[] startLines = new int[]{11, 13, 34};
+        int[] endLines = new int[]{11, 14, 34};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+    }
+
+    @Test
+    void testGCI82_record() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForRecord.java";
+        String ruleId = "creedengo-java:GCI82";
+        String ruleMsg = "The variable is never reassigned and can be 'final'";
+        int[] startLines = new int[]{};
+        int[] endLines = new int[]{};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+    }
+
+    @Test
+    void testGCI82_instanceOf() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForInstanceOf.java";
+        String ruleId = "creedengo-java:GCI82";
+        String ruleMsg = "The variable is never reassigned and can be 'final'";
+        int[] startLines = new int[]{7};
+        int[] endLines = new int[]{7};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+    }
+
+    @Test
+    void testGCI82_abstractMethods() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForAbstractMethod.java";
+        String ruleId = "creedengo-java:GCI82";
+        String ruleMsg = "The variable is never reassigned and can be 'final'";
+        int[] startLines = new int[]{16, 20};
+        int[] endLines = new int[]{16, 20};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+    }
+
+    @Test
     void testGCI69() {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI69/NoFunctionCallWhenDeclaringForLoop.java";
         String ruleId = "creedengo-java:GCI69";
@@ -523,8 +568,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI94/UseOptionalOrElseGetVsOrElse.java";
         String ruleId = "creedengo-java:GCI94";
         String ruleMsg = "Use optional orElseGet instead of orElse.";
-        int[] startLines = new int[]{27};
-        int[] endLines = new int[]{27};
+        int[] startLines = new int[]{29, 31, 33, 35, 55, 56, 57, 58};
+        int[] endLines = new int[]{29, 31, 33, 35, 55, 56, 57, 58};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }

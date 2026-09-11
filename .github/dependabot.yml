@@ -11,7 +11,8 @@ updates:
       interval: "weekly"
     ignore:
       # Ignore all versions : cf pom.xml comments
-      - dependency-name: "com.mycila:license-maven-plugin"
       - dependency-name: "org.springframework.data:spring-data-commons"
-      - dependency-name: "org.springframework:spring-context"
+      - dependency-name: "org.springframework.data:spring-data-jpa"
       - dependency-name: "org.sonarsource.api.plugin:sonar-plugin-api"
+      - dependency-name: "org.sonarsource.java:sonar-java-plugin"
+
