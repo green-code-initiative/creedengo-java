@@ -30,7 +30,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -52,7 +52,7 @@ jobs:
           echo "release_tag=$RELEASE_TAG" >> $GITHUB_ENV
 
       - name: Checkout tag "${{ env.release_tag }}"
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ env.release_tag }}
 
@@ -79,7 +79,7 @@ jobs:
           echo "jar_path=$JAR_FILE" >> $GITHUB_ENV
 
       - name: Create release and upload asset
-        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           tag_name: ${{ env.release_tag }}
           name: Release ${{ env.release_tag }}
