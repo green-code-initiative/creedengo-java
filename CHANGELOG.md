@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+### Deleted
+
+## [2.3.0] - 2026-09-23
+
+### Changed
+
 - compatibility updates for SonarQube up to 26.7.0
 - update default CI JDK from 17 to 21
 - upgrade internal librairies versions
@@ -20,8 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#199](https://github.com/green-code-initiative/creedengo-java/pull/199) GCI82 : fix rule to handle Lombok generated setters (`@Setter`, `@Data`, `@Setter(AccessLevel.NONE)`), including fully qualified annotations used without any `lombok` import
 - [#200](https://github.com/green-code-initiative/creedengo-java/pull/200) GCI82 : fix rule to accept instanceof pattern
 - [#201](https://github.com/green-code-initiative/creedengo-java/pull/201) GCI82 : fix rule on abstract methods
-
-### Deleted
+- [#193](https://github.com/green-code-initiative/creedengo-java/pull/193) GCI27 - reduce false positives for System.arraycopy suggestions inside conditional and try/catch blocks
 
 ## [2.2.0] - 2026-06-16
 
@@ -133,7 +138,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update ecocode-rules-specifications to 1.4.6
 
-[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.2.0...HEAD)
+[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.3.0...HEAD)
+[2.3.0](https://github.com/green-code-initiative/creedengo-java/compare/2.2.0...2.3.0)
 [2.2.0](https://github.com/green-code-initiative/creedengo-java/compare/2.1.2...2.2.0)
 [2.1.2](https://github.com/green-code-initiative/creedengo-java/compare/2.1.1...2.1.2)
 [2.1.1](https://github.com/green-code-initiative/creedengo-java/compare/2.1.0...2.1.1)

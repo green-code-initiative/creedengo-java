@@ -74,10 +74,12 @@
 
         <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
         <sonarjava.version>8.40.0.46617</sonarjava.version>
-        <!-- last version 8.41.0.47177 is NON OK for JDK 17 because compiled only for JDK 21 -->
+        <!-- versions > 8.40.x is NON OK for JDK 17 because compiled only for JDK 21 -->
 <!--        <sonarjava.version>8.41.0.47177</sonarjava.version>-->
 
         <sonar-analyzer-commons.version>2.30.0.5193</sonar-analyzer-commons.version>
+        <!-- versions > 2.30.x is NON OK for JDK 17 because compiled only for JDK 21 -->
+<!--        <sonar-analyzer-commons.version>2.31.0.5284</sonar-analyzer-commons.version>-->
 
         <sonar-packaging.version>1.25.1.3002</sonar-packaging.version>
 
@@ -287,7 +289,7 @@
                 <!-- plugin to generate a unique build number for sonar-packaging-maven-plugin : usage of buildNumber variable -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -344,7 +346,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.11.0</version>
                 <executions>
                     <execution>
                         <id>copy</id>
@@ -451,7 +453,7 @@
                 <!-- add integration test sources into test classpath -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.6.2</version>
                 <executions>
                     <execution>
                         <id>add-integration-test-sources</id>
