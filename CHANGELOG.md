@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - compatibility updates for SonarQube up to 26.9.0
-- [#194](https://github.com/green-code-initiative/creedengo-java/pull/194) add container manager detection for tools - #195
+- [#194](https://github.com/green-code-initiative/creedengo-java/pull/194) add container manager detection for tools
+- [#186](https://github.com/green-code-initiative/creedengo-java/pull/186) Use correct path for PGDATA variable in docker-compose
 
 ### Deleted
 
