@@ -28,18 +28,15 @@ import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.ArrayAccessExpressionTree;
 import org.sonar.plugins.java.api.tree.AssignmentExpressionTree;
 import org.sonar.plugins.java.api.tree.BlockTree;
-import org.sonar.plugins.java.api.tree.CatchTree;
 import org.sonar.plugins.java.api.tree.DoWhileStatementTree;
 import org.sonar.plugins.java.api.tree.ExpressionStatementTree;
 import org.sonar.plugins.java.api.tree.ExpressionTree;
 import org.sonar.plugins.java.api.tree.ForEachStatement;
 import org.sonar.plugins.java.api.tree.ForStatementTree;
 import org.sonar.plugins.java.api.tree.IdentifierTree;
-import org.sonar.plugins.java.api.tree.IfStatementTree;
 import org.sonar.plugins.java.api.tree.StatementTree;
 import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
-import org.sonar.plugins.java.api.tree.TryStatementTree;
 import org.sonar.plugins.java.api.tree.VariableTree;
 import org.sonar.plugins.java.api.tree.WhileStatementTree;
 import org.sonarsource.analyzer.commons.annotations.DeprecatedRuleKey;
@@ -180,61 +177,27 @@ public class ArrayCopyCheck extends IssuableSubscriptionVisitor {
         } else if (tree instanceof DoWhileStatementTree) {
             DoWhileStatementTree castedDoWhileTree = (DoWhileStatementTree) tree;
             addBloc(blocs, castedDoWhileTree.statement());
-        } else if (tree instanceof IfStatementTree) {
-            IfStatementTree castedIfTree = (IfStatementTree) tree;
-            addBloc(blocs, castedIfTree.thenStatement());
-            addBloc(blocs, castedIfTree.elseStatement());
-        } else if (tree instanceof TryStatementTree) {
-            final TryStatementTree tryTree = (TryStatementTree) tree;
-            addBloc(blocs, tryTree.block());
-            addBloc(blocs, extractCatchBlocks(tryTree));
-            addBloc(blocs, tryTree.finallyBlock());
         }
         return blocs;
     }
 
     /**
-     * Assignments extraction from block of code.
+     * Extract direct assignments from a block of code.
      *
-     * @param tree
-     * @param block
-     * @return
+     * @param tree current tree
+     * @param bloc current block
+     * @return list of assignments
      */
     private List<AssignmentExpressionTree> extractAssignments(final Tree tree, final Bloc bloc) {
         final BlockTree block = bloc.getBlockTree();
 
-        // Prepare useful predicates
-        final Predicate<StatementTree> blocksPredicate = statement -> statement.is(Kind.IF_STATEMENT)
-                || statement.is(Kind.TRY_STATEMENT);
         final Predicate<StatementTree> assignmentPredicate = statement -> statement.is(Kind.EXPRESSION_STATEMENT)
                 && ((ExpressionStatementTree) statement).expression().is(Kind.ASSIGNMENT);
 
-        // Filter expressions to find assignments
-        final List<AssignmentExpressionTree> result = block.body().stream().filter(assignmentPredicate)
+        return block.body().stream()
+                .filter(assignmentPredicate)
                 .map(assign -> (AssignmentExpressionTree) ((ExpressionStatementTree) assign).expression())
                 .collect(Collectors.toList());
-
-        // Recursive loop for nested blocks, add nested assignments to results
-        final List<StatementTree> ifStatements = block.body().stream().filter(blocksPredicate)
-                .collect(Collectors.toList());
-        for (final StatementTree ifstatement : ifStatements) {
-            final List<Bloc> blocs = getBlocsOfCode(ifstatement);
-            for (final Bloc b : blocs) {
-                result.addAll(extractAssignments(tree, b));
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Extract all blocks of code from try/catch statement
-     *
-     * @param tryTree
-     * @return Array of StatementTree
-     */
-    private BlockTree[] extractCatchBlocks(final TryStatementTree tryTree) {
-        final List<CatchTree> catches = tryTree.catches();
-        return catches.stream().map(CatchTree::block).collect(Collectors.toList()).toArray(new BlockTree[0]);
     }
 
     /**
