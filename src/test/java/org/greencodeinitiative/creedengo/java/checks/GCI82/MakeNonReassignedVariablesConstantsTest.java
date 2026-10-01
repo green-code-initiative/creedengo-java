@@ -71,4 +71,12 @@ class MakeNonReassignedVariablesConstantsTest {
                 .verifyIssues();
     }
 
+    @Test
+    void testCatch() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForCatch.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
 }
