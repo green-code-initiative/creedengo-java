@@ -4,7 +4,6 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
-import org.sonar.plugins.java.api.location.Position;
 import org.sonar.plugins.java.api.semantic.Symbol;
 import org.sonar.plugins.java.api.semantic.Type;
 import org.sonar.plugins.java.api.tree.*;
@@ -12,8 +11,10 @@ import org.sonar.plugins.java.api.tree.Tree.Kind;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Rule(key = "GCI82")
 public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVisitor {
@@ -37,20 +38,14 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     public void visitNode(@Nonnull Tree tree) {
         VariableTree variableTree = (VariableTree) tree;
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Variable > {}", getVariableNameForLogger(variableTree));
-            LOGGER.debug("   => isNotFinalAndNotStatic(variableTree) = {}", isNotFinalAndNotStatic(variableTree));
+            LOGGER.debug("Variable > {}", variableTree.simpleName().name());
+            LOGGER.debug("   => isOptimizableOnceFinal = {}", isOptimizableOnceFinal(variableTree));
             LOGGER.debug("   => usages = {}", variableTree.symbol().usages().size());
             LOGGER.debug("   => isNotReassigned = {}", isNotReassigned(variableTree));
-            LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
 
-        if (isParameterOfAbstractMethod(variableTree) || isCatchParameter(variableTree) || isArrayCreatedBySize(variableTree)
-                || isInitializedFromField(variableTree))
-            return;
-
         // the Lombok check is the most expensive predicate : it is evaluated last, on actual candidates only
-        if (isNotFromRecord(variableTree) &&
-                isNotFinalAndNotStatic(variableTree) &&
+        if (isOptimizableOnceFinal(variableTree) &&
                 isNotReassigned(variableTree) &&
                 !isLombokManaged(variableTree)) {
             reportIssue(tree, MESSAGE_RULE);
@@ -59,101 +54,115 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
         }
     }
 
-    private static boolean isParameterOfAbstractMethod(VariableTree variableTree) {
-        Tree parent = variableTree.parent();
-        return parent != null && parent.is(Kind.METHOD) && ((MethodTree) parent).block() == null;
-    }
-
     /**
-     * A catch parameter is out of the scope of the rule : its value is given by the thrown exception,
-     * it can't become a constant, and a multi-catch parameter is already implicitly final.
+     * The rule only targets the variables for which the 'final' keyword brings an actual optimization :
+     * <ul>
+     *     <li>a constant variable (JLS 4.12.4) : javac inlines its value and computes the expressions using it,</li>
+     *     <li>a static final field : the JIT trusts it as a constant once its class is initialized.</li>
+     * </ul>
+     * Anywhere else (parameters, objects, arrays, values computed at runtime...), 'final' doesn't change the bytecode.
+     * A variable without initializer (parameter, catch, for-each, pattern, record component...) is never a candidate.
      */
-    private static boolean isCatchParameter(VariableTree variableTree) {
-        Tree parent = variableTree.parent();
-        return parent != null && parent.is(Kind.CATCH);
-    }
-
-    /**
-     * An array created by its size (e.g. "new byte[1024]") is a buffer whose content is set at runtime :
-     * it can't become a constant. An array declared with its values (e.g. "{"a", "b"}") is still checked.
-     */
-    private static boolean isArrayCreatedBySize(VariableTree variableTree) {
+    private static boolean isOptimizableOnceFinal(VariableTree variableTree) {
         ExpressionTree initializer = variableTree.initializer();
-        return initializer != null && initializer.is(Kind.NEW_ARRAY) && ((NewArrayTree) initializer).openBraceToken() == null;
-    }
-
-    /**
-     * A variable initialized from a field (e.g. "attr", "this.attr", "super.attr", "other.attr") gets a value
-     * that depends on the state of an object : it can't become a constant.
-     * A variable initialized from a constant (static final field) is still checked.
-     */
-    private static boolean isInitializedFromField(VariableTree variableTree) {
-        ExpressionTree initializer = variableTree.initializer();
-        if (initializer == null) return false;
-
-        Symbol readSymbol;
-        if (initializer.is(Kind.IDENTIFIER)) {
-            readSymbol = ((IdentifierTree) initializer).symbol();
-        } else if (initializer.is(Kind.MEMBER_SELECT)) {
-            readSymbol = ((MemberSelectExpressionTree) initializer).identifier().symbol();
-        } else {
+        Symbol symbol = variableTree.symbol();
+        if (initializer == null || symbol.isFinal()) {
             return false;
         }
-
-        Symbol owner = readSymbol.owner();
-        return readSymbol.isVariableSymbol() && owner != null && owner.isTypeSymbol()
-                && !(readSymbol.isStatic() && readSymbol.isFinal());
+        return isConstantVariableCandidate(symbol, initializer) || isStaticField(symbol);
     }
 
-    private static boolean isNotFromRecord(VariableTree variableTree) {
-        Tree parent = variableTree.parent();
-        if (parent == null) return false;
+    private static boolean isConstantVariableCandidate(Symbol symbol, ExpressionTree initializer) {
+        return isPrimitiveOrString(symbol.type()) && isConstantExpression(initializer, new HashSet<>());
+    }
 
-        return !parent.is(Kind.RECORD);
+    private static boolean isPrimitiveOrString(Type type) {
+        return type.isPrimitive() || type.is("java.lang.String");
+    }
+
+    /**
+     * Follows the definition of a constant expression (JLS 15.29) : {@code ExpressionTree#asConstant()} can't be used,
+     * it misses some of them (char literals, floating point divisions, conditional expressions, final local constants).
+     *
+     * @param visited the variables already followed, to stop on circular definitions (e.g. "A = C.B" and "B = C.A")
+     */
+    private static boolean isConstantExpression(ExpressionTree expression, Set<Symbol> visited) {
+        if (expression.is(Kind.INT_LITERAL, Kind.LONG_LITERAL, Kind.FLOAT_LITERAL, Kind.DOUBLE_LITERAL,
+                Kind.BOOLEAN_LITERAL, Kind.CHAR_LITERAL, Kind.STRING_LITERAL, Kind.TEXT_BLOCK)) {
+            return true;
+        }
+        if (expression instanceof ParenthesizedTree parenthesized) {
+            return isConstantExpression(parenthesized.expression(), visited);
+        }
+        if (expression instanceof TypeCastTree typeCast) {
+            return isPrimitiveOrString(typeCast.type().symbolType()) && isConstantExpression(typeCast.expression(), visited);
+        }
+        if (expression.is(Kind.UNARY_PLUS, Kind.UNARY_MINUS, Kind.BITWISE_COMPLEMENT, Kind.LOGICAL_COMPLEMENT)) {
+            return isConstantExpression(((UnaryExpressionTree) expression).expression(), visited);
+        }
+        if (expression instanceof BinaryExpressionTree binary) {
+            return isConstantExpression(binary.leftOperand(), visited) && isConstantExpression(binary.rightOperand(), visited);
+        }
+        if (expression instanceof ConditionalExpressionTree conditional) {
+            return isConstantExpression(conditional.condition(), visited)
+                    && isConstantExpression(conditional.trueExpression(), visited)
+                    && isConstantExpression(conditional.falseExpression(), visited);
+        }
+        if (expression instanceof IdentifierTree identifier) {
+            return isConstantVariable(identifier.symbol(), visited);
+        }
+        // only the "TypeName.Identifier" form is a constant expression, not "this.CONSTANT" or "object.CONSTANT"
+        if (expression instanceof MemberSelectExpressionTree memberSelect) {
+            return isTypeName(memberSelect.expression()) && isConstantVariable(memberSelect.identifier().symbol(), visited);
+        }
+        return false;
+    }
+
+    /**
+     * A constant variable (JLS 4.12.4) is a final variable of primitive or String type, initialized by a constant expression.
+     * The semantic model only gives the constant value of fields : a local variable is checked from its declaration.
+     */
+    private static boolean isConstantVariable(Symbol symbol, Set<Symbol> visited) {
+        if (!(symbol instanceof Symbol.VariableSymbol variableSymbol)) {
+            return false;
+        }
+        if (variableSymbol.constantValue().isPresent()) {
+            return true;
+        }
+        if (!variableSymbol.isFinal() || !isPrimitiveOrString(variableSymbol.type()) || !visited.add(variableSymbol)) {
+            return false;
+        }
+        VariableTree declaration = variableSymbol.declaration();
+        return declaration != null && declaration.initializer() != null
+                && isConstantExpression(declaration.initializer(), visited);
+    }
+
+    private static boolean isTypeName(ExpressionTree expression) {
+        if (expression instanceof IdentifierTree identifier) {
+            return identifier.symbol().isTypeSymbol();
+        }
+        return expression instanceof MemberSelectExpressionTree memberSelect && memberSelect.identifier().symbol().isTypeSymbol();
+    }
+
+    private static boolean isStaticField(Symbol symbol) {
+        Symbol owner = symbol.owner();
+        return symbol.isStatic() && owner != null && owner.isTypeSymbol();
     }
 
     private static boolean isNotReassigned(VariableTree variableTree) {
         return variableTree.symbol()
                 .usages()
                 .stream()
-                .noneMatch(MakeNonReassignedVariablesConstants::parentIsAssignment) 
-            && !isPassedAsNonFinalParameter(variableTree); // if a variable is passed into a method as a non-final parameter, it may have been reassigned
-    }
-
-    private static boolean isPassedAsNonFinalParameter(VariableTree variableTree) {
-        return variableTree.symbol()
-                .usages()
-                .stream()
-                .anyMatch(MakeNonReassignedVariablesConstants::parentIsNonFinalParameter);
-    }
-
-    private static boolean parentIsNonFinalParameter(Tree tree) {
-        // Skip the parent if it is a member select (e.g. "this.myVar")
-        while (tree.parent().is(Kind.MEMBER_SELECT)) {
-            tree = tree.parent();
-        }
-        if(!parentIsKind(tree, Kind.ARGUMENTS))
-            return false;
-        if(tree.parent() == null)
-            return false;
-        Arguments arguments = (Arguments) tree.parent();
-        if (parentIsKind(arguments, Kind.METHOD_INVOCATION, Kind.NEW_CLASS)) {
-            MethodTree methodTree = arguments.parent().is(Kind.METHOD_INVOCATION)
-                ? ((MethodInvocationTree) arguments.parent()).methodSymbol().declaration()
-                : ((NewClassTree) arguments.parent()).methodSymbol().declaration();
-            int argument_idx = arguments.indexOf(tree);
-            return methodTree != null && !hasModifier(methodTree.parameters().get(argument_idx).modifiers(), Modifier.FINAL);
-        }
-        return false;
-        
+                .noneMatch(MakeNonReassignedVariablesConstants::parentIsAssignment);
     }
 
     private static boolean parentIsAssignment(Tree tree) {
         // Skip the parent if it is a member select (e.g. "this.myVar")
         while (tree.parent().is(Kind.MEMBER_SELECT)) {
-            tree = tree.parent();   
+            tree = tree.parent();
         }
-        return parentIsKind(tree,
+        Tree parent = tree.parent();
+        return parent != null && parent.is(
                 Kind.ASSIGNMENT,
                 Kind.MULTIPLY_ASSIGNMENT,
                 Kind.DIVIDE_ASSIGNMENT,
@@ -171,96 +180,6 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
                 Kind.PREFIX_INCREMENT,
                 Kind.PREFIX_DECREMENT
         );
-    }
-
-    private static boolean parentIsKind(Tree tree, Kind... orKind) {
-        Tree parent = tree.parent();
-        if (parent == null) return false;
-
-        for (Kind k : orKind) {
-            if (parent.is(k)) return true;
-        }
-
-        return false;
-    }
-
-    private boolean isNotFinalAndNotStatic(VariableTree variableTree) {
-        return hasNoneOf(variableTree.modifiers(), Modifier.FINAL, Modifier.STATIC) && !isFinalPatternVariable(variableTree);
-    }
-
-    /**
-     * For a pattern variable ({@code instanceof final Type var}), the parser does not attach the
-     * {@code final} keyword to {@link VariableTree#modifiers()} : the keyword sits between the
-     * {@code instanceof} keyword and the pattern type, outside of any tree node's token range.
-     * It is recovered here by reading the raw source in that gap.
-     */
-    private boolean isFinalPatternVariable(VariableTree variableTree) {
-        Tree parent = variableTree.parent();
-        if (parent == null || !parent.is(Kind.TYPE_PATTERN) || !(parent.parent() instanceof PatternInstanceOfTree patternInstanceOf)) {
-            return false;
-        }
-        String textBeforeType = textBetween(
-                patternInstanceOf.instanceofKeyword().range().end(),
-                variableTree.type().firstToken().range().start()
-        );
-        return "final".equals(textBeforeType.trim());
-    }
-
-    private String textBetween(Position start, Position end) {
-        List<String> lines = context.getFileLines();
-        if (start.line() == end.line()) {
-            return lines.get(start.line() - 1).substring(start.columnOffset(), end.columnOffset());
-        }
-        StringBuilder result = new StringBuilder(lines.get(start.line() - 1).substring(start.columnOffset()));
-        for (int line = start.line() + 1; line < end.line(); line++) {
-            result.append(lines.get(line - 1));
-        }
-        result.append(lines.get(end.line() - 1), 0, end.columnOffset());
-        return result.toString();
-    }
-
-    private static boolean hasNoneOf(ModifiersTree modifiersTree, Modifier... unexpectedModifiers) {
-        return !hasAnyOf(modifiersTree, unexpectedModifiers);
-    }
-
-    private static boolean hasAnyOf(ModifiersTree modifiersTree, Modifier... expectedModifiers) {
-        for(Modifier expectedModifier : expectedModifiers) {
-            if (hasModifier(modifiersTree, expectedModifier)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean hasModifier(ModifiersTree modifiersTree, Modifier expectedModifier) {
-        for(ModifierKeywordTree modifierKeywordTree : modifiersTree.modifiers()) {
-            if (modifierKeywordTree.modifier() == expectedModifier) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private String getVariableNameForLogger(VariableTree variableTree) {
-        String name = variableTree.simpleName().name();
-
-        if (variableTree.parent() != null) return name;
-
-        if (variableTree.parent().is(Kind.CLASS)) {
-            ClassTree cTree = (ClassTree) variableTree.parent();
-            name += "  ---  from CLASS '" + cTree.simpleName() + "'";
-        }
-        if (variableTree.parent().is(Kind.BLOCK)) {
-            BlockTree bTree = (BlockTree) variableTree.parent();
-            if (bTree.parent() != null && bTree.parent().is(Kind.METHOD)) {
-                MethodTree mTree = (MethodTree) bTree.parent();
-                name += "  ---  from METHOD '" + mTree.simpleName() + "'";
-            }
-        }
-
-        return name;
-
     }
 
     /**

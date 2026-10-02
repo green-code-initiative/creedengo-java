@@ -416,8 +416,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstants.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
-        int[] startLines = new int[]{9, 14, 15, 20, 26, 29, 48, 75, 108, 121, 146};
-        int[] endLines = new int[]{9, 14, 15, 20, 26, 29, 48, 75, 108, 121, 146};
+        int[] startLines = new int[]{14, 15, 20, 25, 26, 27, 28, 29, 30, 75, 107, 108, 109, 120, 121, 122};
+        int[] endLines = new int[]{14, 15, 20, 25, 26, 27, 28, 29, 30, 75, 107, 108, 109, 120, 121, 122};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
@@ -449,8 +449,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForRecord.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
-        int[] startLines = new int[]{};
-        int[] endLines = new int[]{};
+        int[] startLines = new int[]{9};
+        int[] endLines = new int[]{9};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
@@ -460,8 +460,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForInstanceOf.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
-        int[] startLines = new int[]{7};
-        int[] endLines = new int[]{7};
+        int[] startLines = new int[]{};
+        int[] endLines = new int[]{};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
@@ -471,8 +471,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForAbstractMethod.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
-        int[] startLines = new int[]{16, 20};
-        int[] endLines = new int[]{16, 20};
+        int[] startLines = new int[]{};
+        int[] endLines = new int[]{};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
@@ -493,8 +493,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForArray.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
-        int[] startLines = new int[]{59, 64, 69};
-        int[] endLines = new int[]{59, 64, 69};
+        int[] startLines = new int[]{};
+        int[] endLines = new int[]{};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
@@ -504,8 +504,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForField.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
-        int[] startLines = new int[]{83, 88, 94, 99, 104};
-        int[] endLines = new int[]{83, 88, 94, 99, 104};
+        int[] startLines = new int[]{83, 88, 94, 109};
+        int[] endLines = new int[]{83, 88, 94, 109};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
@@ -515,8 +515,30 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForEnum.java";
         String ruleId = "creedengo-java:GCI82";
         String ruleMsg = "The variable is never reassigned and can be 'final'";
-        int[] startLines = new int[]{50, 53, 59};
-        int[] endLines = new int[]{50, 53, 59};
+        int[] startLines = new int[]{50, 53};
+        int[] endLines = new int[]{50, 53};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+    }
+
+    @Test
+    void testGCI82_constantExpression() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForConstantExpression.java";
+        String ruleId = "creedengo-java:GCI82";
+        String ruleMsg = "The variable is never reassigned and can be 'final'";
+        int[] startLines = new int[]{18, 23, 24, 25, 26, 27, 28, 29, 30, 31, 46, 64, 65};
+        int[] endLines = new int[]{18, 23, 24, 25, 26, 27, 28, 29, 30, 31, 46, 64, 65};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+    }
+
+    @Test
+    void testGCI82_staticField() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/GCI82/MakeNonReassignedVariablesConstantsForStaticField.java";
+        String ruleId = "creedengo-java:GCI82";
+        String ruleMsg = "The variable is never reassigned and can be 'final'";
+        int[] startLines = new int[]{11, 13, 15, 17, 19};
+        int[] endLines = new int[]{11, 13, 15, 17, 19};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }

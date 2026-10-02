@@ -77,7 +77,7 @@ public class MakeNonReassignedVariablesConstantsForField {
         }
     }
 
-    // non-regression : a variable initialized from a constant, a local variable, a parameter or a literal can still be 'final'
+    // a variable initialized from a compile-time constant (constant field, final local constant, literal) is still checked
 
     public void initializedFromConstant() {
         String fromConstant = CONSTANT; // Noncompliant {{The variable is never reassigned and can be 'final'}}
@@ -96,8 +96,13 @@ public class MakeNonReassignedVariablesConstantsForField {
     }
 
     public void initializedFromParameter(final String parameter) {
-        String fromParameter = parameter; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+        String fromParameter = parameter; // Compliant : a parameter is not a compile-time constant
         LOGGER.info(fromParameter);
+    }
+
+    public void initializedFromNonConstantStaticFinalField() {
+        Logger fromLogger = LOGGER; // Compliant : a static final object is not a compile-time constant
+        fromLogger.info("logger");
     }
 
     public void initializedFromLiteral() {

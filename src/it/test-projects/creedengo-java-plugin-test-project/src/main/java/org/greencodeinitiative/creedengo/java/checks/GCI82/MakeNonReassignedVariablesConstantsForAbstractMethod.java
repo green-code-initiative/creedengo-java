@@ -13,11 +13,11 @@ interface EventListenerSample<T> {
 interface InterfaceWithMultipleMethods {
     void abstractMethod(String param); // Compliant
 
-    default void defaultMethod(String param) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    default void defaultMethod(String param) { // Compliant : 'final' on a parameter brings no optimization
         System.out.println(param);
     }
 
-    static void staticMethod(String param) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    static void staticMethod(String param) { // Compliant
         System.out.println(param);
     }
 }

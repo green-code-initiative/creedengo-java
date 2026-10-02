@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#125](https://github.com/green-code-initiative/creedengo-java/issues/125) GCI82 : fix false positive on arrays created by their size (extracted from #194)
 - [#125](https://github.com/green-code-initiative/creedengo-java/issues/125) GCI82 : fix false positive on variables initialized from a field (extracted from #194)
 - [#125](https://github.com/green-code-initiative/creedengo-java/issues/125) GCI82 : add non-regression tests on enums (extracted from #194)
+- [#125](https://github.com/green-code-initiative/creedengo-java/issues/125) GCI82 : only report the variables for which 'final' brings an optimization (javac constant variables, JIT static final fields)
 
 ### Deleted
 
