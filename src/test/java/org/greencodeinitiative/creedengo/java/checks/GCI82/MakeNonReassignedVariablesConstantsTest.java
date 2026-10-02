@@ -95,4 +95,12 @@ class MakeNonReassignedVariablesConstantsTest {
                 .verifyIssues();
     }
 
+    @Test
+    void testEnum() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForEnum.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
 }
