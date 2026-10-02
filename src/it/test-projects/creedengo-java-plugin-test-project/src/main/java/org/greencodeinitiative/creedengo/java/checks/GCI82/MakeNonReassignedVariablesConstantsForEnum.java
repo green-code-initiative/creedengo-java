@@ -56,7 +56,7 @@ public class MakeNonReassignedVariablesConstantsForEnum {
     }
 
     public void localVariableFromEnumConstant() {
-        SimpleEnum value = SimpleEnum.ONE; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+        SimpleEnum value = SimpleEnum.ONE; // Compliant : an enum constant is not a compile-time constant
         LOGGER.info(value.name() + EnumWithArguments.LOW.getLabel() + EnumWithBody.PLUS.apply(1, 2)
                 + EnumWithNonFinalField.FIRST.describe());
     }

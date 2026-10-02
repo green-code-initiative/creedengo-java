@@ -6,7 +6,7 @@ public class MakeNonReassignedVariablesConstants {
 
     private final Logger logger = Logger.getLogger(""); // Compliant
 
-    private Object myNonFinalAndNotReassignedObject = new Object(); // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    private Object myNonFinalAndNotReassignedObject = new Object(); // Compliant : an object is not a compile-time constant, 'final' brings no optimization
     private Object myNonFinalAndReassignedObject = new Object(); // Compliant
     private final Object myFinalAndNotReassignedObject = new Object(); // Compliant
 
@@ -21,13 +21,13 @@ public class MakeNonReassignedVariablesConstants {
     private String varDefinedInClassReassignedByThis = "0"; // Compliant
     private String varDefinedInConstructorReassignedByThis = "1"; // Compliant
 
-    // passing through a method
-    private String varDefinedInClassReassignedInMethod = "0"; // Compliant
+    // passing through a method : a method can't reassign its argument (pass by value), the variable is still checked
+    private String varDefinedInClassReassignedInMethod = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
     private String varDefinedInClassInFinalMethod = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
-    private String varDefinedInClassNotReassignedInMethod = "0"; // Compliant (the String was passed as a non-final parameter to the method)
-    private String varDefinedInClassReassignedInConstructor = "0"; // Compliant
+    private String varDefinedInClassNotReassignedInMethod = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    private String varDefinedInClassReassignedInConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
     private String varDefinedInClassInFinalConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
-    private String varDefinedInClassNotReassignedInConstructor = "0"; // Compliant (the String was passed as a non-final parameter to the constructor)
+    private String varDefinedInClassNotReassignedInConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
 
     public MakeNonReassignedVariablesConstants() {
         varDefinedInConstructorReassigned = "3";
@@ -45,7 +45,7 @@ public class MakeNonReassignedVariablesConstants {
         logger.info(notReassigned);
     }
 
-    public void parameterNotReassignedNotFinal(String notReassigned) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    public void parameterNotReassignedNotFinal(String notReassigned) { // Compliant : 'final' on a parameter brings no optimization
         logger.info(notReassigned);
     }
 
@@ -104,9 +104,9 @@ public class MakeNonReassignedVariablesConstants {
     }
 
     void reassignedInMethod() {
-        String varDefinedInMethodReassignedInMethod = "0"; // Compliant
+        String varDefinedInMethodReassignedInMethod = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
         String varDefinedInMethodInFinalMethod = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
-        String varDefinedInMethodNotReassignedInMethod = "0"; // Compliant (the String was passed as a non-final parameter to the method)
+        String varDefinedInMethodNotReassignedInMethod = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
 
         this.parameterReassigned(varDefinedInMethodReassignedInMethod);
         this.parameterReassigned(this.varDefinedInClassReassignedInMethod);
@@ -117,9 +117,9 @@ public class MakeNonReassignedVariablesConstants {
     }
 
     void reassignedInConstructor(){
-        String varDefinedInMethodReassignedInConstructor = "0"; // Compliant
+        String varDefinedInMethodReassignedInConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
         String varDefinedInMethodInFinalConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
-        String varDefinedInMethodNotReassignedInConstructor = "0"; // Compliant (the String was passed as a non-final parameter to the constructor)
+        String varDefinedInMethodNotReassignedInConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
         Object o = null;
         o = new reassignedInConstructor(varDefinedInMethodReassignedInConstructor);
         o = new reassignedInConstructor(this.varDefinedInClassReassignedInConstructor);
@@ -143,7 +143,7 @@ class notReassignedInConstructor{
     }
 }
 class notReassignedInConstructorNotFinal{
-    notReassignedInConstructorNotFinal(String notReassignedInConstructorNotFinal) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+    notReassignedInConstructorNotFinal(String notReassignedInConstructorNotFinal) { // Compliant
         System.out.println(notReassignedInConstructorNotFinal);
     }
 }
