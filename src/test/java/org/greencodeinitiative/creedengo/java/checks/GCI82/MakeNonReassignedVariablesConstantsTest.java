@@ -60,7 +60,7 @@ class MakeNonReassignedVariablesConstantsTest {
         CheckVerifier.newVerifier()
                 .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForInstanceOf.java")
                 .withCheck(new MakeNonReassignedVariablesConstants())
-                .verifyIssues();
+                .verifyNoIssues();
     }
 
     @Test
@@ -68,7 +68,7 @@ class MakeNonReassignedVariablesConstantsTest {
         CheckVerifier.newVerifier()
                 .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForAbstractMethod.java")
                 .withCheck(new MakeNonReassignedVariablesConstants())
-                .verifyIssues();
+                .verifyNoIssues();
     }
 
     @Test
@@ -84,7 +84,7 @@ class MakeNonReassignedVariablesConstantsTest {
         CheckVerifier.newVerifier()
                 .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForArray.java")
                 .withCheck(new MakeNonReassignedVariablesConstants())
-                .verifyIssues();
+                .verifyNoIssues();
     }
 
     @Test

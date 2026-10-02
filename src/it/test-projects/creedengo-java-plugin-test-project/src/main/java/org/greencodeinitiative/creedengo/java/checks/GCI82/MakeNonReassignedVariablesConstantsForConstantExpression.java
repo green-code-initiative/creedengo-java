@@ -58,6 +58,21 @@ public class MakeNonReassignedVariablesConstantsForConstantExpression {
         }
     }
 
+    private final int finalInstanceConstant = 5; // Compliant
+
+    public void edgeCasesOfConstantExpressions() {
+        int casted = (int) 1.5; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+        int viaSimpleName = finalInstanceConstant; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+        int viaThis = this.finalInstanceConstant; // Compliant : "this.CONSTANT" is not a constant expression (JLS 15.29)
+        int fromCycle = Cycle.CYCLE_A; // Compliant : a circular definition is not a constant expression
+        LOGGER.info(String.valueOf(casted + viaSimpleName + viaThis + fromCycle));
+    }
+
+    static class Cycle {
+        static final int CYCLE_A = Cycle.CYCLE_B; // Compliant
+        static final int CYCLE_B = Cycle.CYCLE_A; // Compliant
+    }
+
     private static int compute() {
         return MAX;
     }
