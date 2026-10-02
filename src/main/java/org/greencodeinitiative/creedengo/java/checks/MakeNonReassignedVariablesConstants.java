@@ -43,7 +43,7 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
 
-        if (isParameterOfAbstractMethod(variableTree))
+        if (isParameterOfAbstractMethod(variableTree) || isCatchParameter(variableTree) || isArrayCreatedBySize(variableTree))
             return;
 
         // the Lombok check is the most expensive predicate : it is evaluated last, on actual candidates only
@@ -60,6 +60,24 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     private static boolean isParameterOfAbstractMethod(VariableTree variableTree) {
         Tree parent = variableTree.parent();
         return parent != null && parent.is(Kind.METHOD) && ((MethodTree) parent).block() == null;
+    }
+
+    /**
+     * A catch parameter is out of the scope of the rule : its value is given by the thrown exception,
+     * it can't become a constant, and a multi-catch parameter is already implicitly final.
+     */
+    private static boolean isCatchParameter(VariableTree variableTree) {
+        Tree parent = variableTree.parent();
+        return parent != null && parent.is(Kind.CATCH);
+    }
+
+    /**
+     * An array created by its size (e.g. "new byte[1024]") is a buffer whose content is set at runtime :
+     * it can't become a constant. An array declared with its values (e.g. "{"a", "b"}") is still checked.
+     */
+    private static boolean isArrayCreatedBySize(VariableTree variableTree) {
+        ExpressionTree initializer = variableTree.initializer();
+        return initializer != null && initializer.is(Kind.NEW_ARRAY) && ((NewArrayTree) initializer).openBraceToken() == null;
     }
 
     private static boolean isNotFromRecord(VariableTree variableTree) {
