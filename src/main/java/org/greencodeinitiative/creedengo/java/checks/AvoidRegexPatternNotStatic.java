@@ -26,7 +26,9 @@ import javax.annotation.Nonnull;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.semantic.MethodMatchers;
+import org.sonar.plugins.java.api.tree.Arguments;
 import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
+import org.sonar.plugins.java.api.tree.BinaryExpressionTree;
 import org.sonar.plugins.java.api.tree.MethodInvocationTree;
 import org.sonar.plugins.java.api.tree.MethodTree;
 import org.sonar.plugins.java.api.tree.Tree;
@@ -67,11 +69,25 @@ public class AvoidRegexPatternNotStatic extends IssuableSubscriptionVisitor {
 
         @Override
         public void visitMethodInvocation(@Nonnull MethodInvocationTree tree) {
-            if (PATTERN_COMPILE.matches(tree)) {
+            Arguments arguments = tree.arguments();
+            boolean isArgumentStringLiteral = !arguments.isEmpty() && isStringLiteralOrConcatenation(arguments.get(0));
+            if (PATTERN_COMPILE.matches(tree) && isArgumentStringLiteral) {
                 reportIssue(tree, MESSAGE_RULE);
             } else {
                 super.visitMethodInvocation(tree);
             }
+        }
+
+        private boolean isStringLiteralOrConcatenation(Tree tree) {
+            if (tree.is(Tree.Kind.STRING_LITERAL)) {
+                return true;
+            }
+            if (tree.is(Tree.Kind.PLUS)) {
+                BinaryExpressionTree binaryExpr = (BinaryExpressionTree) tree;
+                return isStringLiteralOrConcatenation(binaryExpr.leftOperand())
+                        && isStringLiteralOrConcatenation(binaryExpr.rightOperand());
+            }
+            return false;
         }
 
     }

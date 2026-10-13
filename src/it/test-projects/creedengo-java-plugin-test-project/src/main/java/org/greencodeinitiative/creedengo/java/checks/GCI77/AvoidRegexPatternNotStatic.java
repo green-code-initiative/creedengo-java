@@ -23,6 +23,10 @@ public class AvoidRegexPatternNotStatic {
 
     public boolean foo() {
         final Pattern pattern = Pattern.compile("foo"); // Noncompliant {{Avoid using Pattern.compile() in a non-static context.}}
-        return pattern.matcher("foo").find();
+        final Pattern pattern2 = Pattern.compile("foo" + "bar"); // Noncompliant {{Avoid using Pattern.compile() in a non-static context.}}
+        final Pattern pattern3 = Pattern.compile("foo" + "bar" + "baz"); // Noncompliant {{Avoid using Pattern.compile() in a non-static context.}}
+        return pattern.matcher("foo").find()
+            && pattern2.matcher("foo").find()
+            && pattern3.matcher("foo").find();
     }
 }
