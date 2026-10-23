@@ -10,6 +10,7 @@ on:
       - "[0-9]+.[0-9]+.[0-9]+"
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -29,6 +30,13 @@ jobs:
           distribution: "temurin"
           java-version: 17
           cache: maven
+
+      # required so the "sonar:sonar" prefix resolves during the integration
+      # tests (maven-failsafe-plugin), which analyze a test project via Sonar
+      - name: Configure Maven for Sonar
+        run: |
+          mkdir -p ~/.m2
+          echo "<settings><pluginGroups><pluginGroup>org.sonarsource.scanner.maven</pluginGroup></pluginGroups></settings>" > ~/.m2/settings.xml
 
       - name: Verify
         run: ./mvnw -e -B verify -Dtest-it.sonarqube.version=24.12.0.100206

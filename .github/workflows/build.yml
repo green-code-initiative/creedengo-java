@@ -10,6 +10,7 @@ on:
       - "[0-9]+.[0-9]+.[0-9]+"
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -30,6 +31,8 @@ jobs:
           java-version: 21
           cache: maven
 
+      # to be able to use "sonar:sonar" instead of "org.sonarsource.scanner.maven:sonar-maven-plugin:sonar"
+      # inside this build but also when the test project analysis is launched with sonar:sonar
       - name: Configure Maven for Sonar
         run: |
           mkdir -p ~/.m2
