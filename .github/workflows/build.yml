@@ -47,6 +47,7 @@ jobs:
 
       # Maven 3.10 no longer provides MessageUtils, required by maven-git-versioning-extension.
       # Integration tests invoke "mvn" directly, so expose the wrapper distribution in PATH.
+      # Remove once the extension supports Maven 3.10 (see TECH_DEBT.md, TD-1).
       - name: Use Maven wrapper distribution as "mvn"
         run: |
           MVN_HOME="$(./mvnw -B -v | sed -n 's/^Maven home: //p')"

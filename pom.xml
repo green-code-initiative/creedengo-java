@@ -500,6 +500,16 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
+                            <!--
+                                sonar-java-plugin is installed in the SonarQube instance by the integration tests (see "test-it.plugins" below),
+                                so it is not needed on the Failsafe test classpath. Exclude its bundled dependencies to prevent them from
+                                shadowing those required by sonar-orchestrator (creedengo-integration-test >= 0.7.0), notably commons-lang3:
+                                ObjectUtils.getIfNull(Object, Object) requires commons-lang3 >= 3.18.
+                                This exclusion only affects integration tests; unit tests still use sonar-java-plugin through java-checks-testkit.
+                            -->
+                            <classpathDependencyExcludes>
+                                <classpathDependencyExclude>org.sonarsource.java:sonar-java-plugin</classpathDependencyExclude>
+                            </classpathDependencyExcludes>
                             <systemPropertyVariables>
                                 <test-it.sonarqube.keepRunning>${test-it.sonarqube.keepRunning}</test-it.sonarqube.keepRunning>
                                 <test-it.orchestrator.artifactory.url>${test-it.orchestrator.artifactory.url}</test-it.orchestrator.artifactory.url>
