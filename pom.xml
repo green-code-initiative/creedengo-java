@@ -81,7 +81,7 @@
         <!-- versions > 2.30.x is NON OK for JDK 17 because compiled only for JDK 21 -->
 <!--        <sonar-analyzer-commons.version>2.31.0.5284</sonar-analyzer-commons.version>-->
 
-        <sonar-packaging.version>1.25.1.3002</sonar-packaging.version>
+        <sonar-packaging.version>2.0.0.3035</sonar-packaging.version>
 
         <!-- Version of creedengo rules specifications implemented by this plugin -->
         <creedengo-rules-specifications.version>3.2.0</creedengo-rules-specifications.version>
