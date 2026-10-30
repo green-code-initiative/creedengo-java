@@ -65,7 +65,7 @@ jobs:
           # the plugin maven-release-plugin uses the environment variable VERSIONING_GIT_REF to determine the version to use when building the project.
           # By setting this variable to refs/tags/${{ env.release_tag }}, we are telling the plugin to use the specified tag as the project version.
           VERSIONING_GIT_REF: refs/tags/${{ env.release_tag }}
-        run: mvn -e -B clean package -DskipTests -Drevision=${{ env.release_tag }}
+        run: ./mvnw -e -B clean package -DskipTests -Drevision=${{ env.release_tag }}
 
       - name: Resolve JAR filename
         id: resolve_jar
