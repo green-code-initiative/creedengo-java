@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [#234](https://github.com/green-code-initiative/creedengo-java/pull/234) Fix Maven CI compatibility with Maven 3.10 by using the pinned wrapper for builds and dependency submission, isolating integration-test Maven roots and the Failsafe classpath.
 - compatibility updates for SonarQube up to 26.9.0
 - upgrade internal librairies versions
 - [#194](https://github.com/green-code-initiative/creedengo-java/pull/194) add container manager detection for tools
