@@ -53,20 +53,20 @@ public class MakeNonReassignedVariablesConstantsForArray {
         LOGGER.info(String.valueOf(reassigned.length));
     }
 
-    // non-regression : an array declared with its values can still be 'final'
+    // an array declared with its values is not a compile-time constant either
 
     public void arrayInitializedWithValues() {
-        String[] literal = {"a", "b", "c"}; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+        String[] literal = {"a", "b", "c"}; // Compliant : an array is never a compile-time constant
         LOGGER.info(literal[0]);
     }
 
     public void arrayCreatedWithValues() {
-        String[] withNew = new String[]{"a", "b"}; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+        String[] withNew = new String[]{"a", "b"}; // Compliant
         LOGGER.info(withNew[0]);
     }
 
     public void arrayCreatedWithEmptyInitializer() {
-        int[] emptyInitializer = new int[]{}; // Noncompliant {{The variable is never reassigned and can be 'final'}}
+        int[] emptyInitializer = new int[]{}; // Compliant
         LOGGER.info(String.valueOf(emptyInitializer.length));
     }
 

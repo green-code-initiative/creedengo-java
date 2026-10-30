@@ -4,7 +4,7 @@ public class MakeNonReassignedVariablesConstantsForInstanceOf {
 
     public String nonReasignedVariableWithPatternInstanceOfShouldBeNonCompliant() {
         final Object o = "NON-COMPLIANT";
-        if (o instanceof String var) { // Noncompliant {{The variable is never reassigned and can be 'final'}}
+        if (o instanceof String var) { // Compliant : a pattern variable is not a compile-time constant
             return var;
         }
         return "";
