@@ -10,6 +10,7 @@ on:
       - "[0-9]+.[0-9]+.[0-9]+"
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -30,6 +31,8 @@ jobs:
           java-version: 21
           cache: maven
 
+      # to be able to use "sonar:sonar" instead of "org.sonarsource.scanner.maven:sonar-maven-plugin:sonar"
+      # inside this build but also when the test project analysis is launched with sonar:sonar
       - name: Configure Maven for Sonar
         run: |
           mkdir -p ~/.m2
@@ -41,6 +44,18 @@ jobs:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
+      # Maven 3.10 no longer provides MessageUtils, required by maven-git-versioning-extension.
+      # Integration tests invoke "mvn" directly, so expose the wrapper distribution in PATH.
+      # Remove once the extension supports Maven 3.10 (see TECH_DEBT.md, TD-1).
+      - name: Use Maven wrapper distribution as "mvn"
+        run: |
+          MVN_HOME="$(./mvnw -B -v | sed -n 's/^Maven home: //p')"
+          test -x "$MVN_HOME/bin/mvn"
+          echo "$MVN_HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Check Maven version
+        run: mvn -v
 
       - name: Verify
         run: ./mvnw -e -B verify

@@ -5,6 +5,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.location.Position;
+import org.sonar.plugins.java.api.semantic.Symbol;
 import org.sonar.plugins.java.api.semantic.Type;
 import org.sonar.plugins.java.api.tree.*;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
@@ -43,7 +44,8 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
 
-        if (isParameterOfAbstractMethod(variableTree) || isCatchParameter(variableTree) || isArrayCreatedBySize(variableTree))
+        if (isParameterOfAbstractMethod(variableTree) || isCatchParameter(variableTree) || isArrayCreatedBySize(variableTree)
+                || isInitializedFromField(variableTree))
             return;
 
         // the Lombok check is the most expensive predicate : it is evaluated last, on actual candidates only
@@ -78,6 +80,29 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     private static boolean isArrayCreatedBySize(VariableTree variableTree) {
         ExpressionTree initializer = variableTree.initializer();
         return initializer != null && initializer.is(Kind.NEW_ARRAY) && ((NewArrayTree) initializer).openBraceToken() == null;
+    }
+
+    /**
+     * A variable initialized from a field (e.g. "attr", "this.attr", "super.attr", "other.attr") gets a value
+     * that depends on the state of an object : it can't become a constant.
+     * A variable initialized from a constant (static final field) is still checked.
+     */
+    private static boolean isInitializedFromField(VariableTree variableTree) {
+        ExpressionTree initializer = variableTree.initializer();
+        if (initializer == null) return false;
+
+        Symbol readSymbol;
+        if (initializer.is(Kind.IDENTIFIER)) {
+            readSymbol = ((IdentifierTree) initializer).symbol();
+        } else if (initializer.is(Kind.MEMBER_SELECT)) {
+            readSymbol = ((MemberSelectExpressionTree) initializer).identifier().symbol();
+        } else {
+            return false;
+        }
+
+        Symbol owner = readSymbol.owner();
+        return readSymbol.isVariableSymbol() && owner != null && owner.isTypeSymbol()
+                && !(readSymbol.isStatic() && readSymbol.isFinal());
     }
 
     private static boolean isNotFromRecord(VariableTree variableTree) {
