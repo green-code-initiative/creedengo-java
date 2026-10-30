@@ -38,5 +38,15 @@ jobs:
           mkdir -p ~/.m2
           echo "<settings><pluginGroups><pluginGroup>org.sonarsource.scanner.maven</pluginGroup></pluginGroups></settings>" > ~/.m2/settings.xml
 
+      # See build.yml: integration tests must use the wrapper Maven, not the runner Maven.
+      - name: Use Maven wrapper distribution as "mvn"
+        run: |
+          MVN_HOME="$(./mvnw -B -v | sed -n 's/^Maven home: //p')"
+          test -x "$MVN_HOME/bin/mvn"
+          echo "$MVN_HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Check Maven version
+        run: mvn -v
+
       - name: Verify
         run: ./mvnw -e -B verify -Dtest-it.sonarqube.version=24.12.0.100206
