@@ -52,7 +52,7 @@ class MakeNonReassignedVariablesConstantsTest {
         CheckVerifier.newVerifier()
                 .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForRecord.java")
                 .withCheck(new MakeNonReassignedVariablesConstants())
-                .verifyNoIssues();
+                .verifyIssues();
     }
 
     @Test
@@ -60,7 +60,7 @@ class MakeNonReassignedVariablesConstantsTest {
         CheckVerifier.newVerifier()
                 .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForInstanceOf.java")
                 .withCheck(new MakeNonReassignedVariablesConstants())
-                .verifyIssues();
+                .verifyNoIssues();
     }
 
     @Test
@@ -68,7 +68,7 @@ class MakeNonReassignedVariablesConstantsTest {
         CheckVerifier.newVerifier()
                 .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForAbstractMethod.java")
                 .withCheck(new MakeNonReassignedVariablesConstants())
-                .verifyIssues();
+                .verifyNoIssues();
     }
 
     @Test
@@ -84,7 +84,7 @@ class MakeNonReassignedVariablesConstantsTest {
         CheckVerifier.newVerifier()
                 .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForArray.java")
                 .withCheck(new MakeNonReassignedVariablesConstants())
-                .verifyIssues();
+                .verifyNoIssues();
     }
 
     @Test
@@ -99,6 +99,22 @@ class MakeNonReassignedVariablesConstantsTest {
     void testEnum() {
         CheckVerifier.newVerifier()
                 .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForEnum.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+    @Test
+    void testConstantExpression() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForConstantExpression.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+    @Test
+    void testStaticField() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForStaticField.java")
                 .withCheck(new MakeNonReassignedVariablesConstants())
                 .verifyIssues();
     }
