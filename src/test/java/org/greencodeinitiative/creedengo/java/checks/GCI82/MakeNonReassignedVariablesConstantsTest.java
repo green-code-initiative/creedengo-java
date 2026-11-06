@@ -71,4 +71,36 @@ class MakeNonReassignedVariablesConstantsTest {
                 .verifyIssues();
     }
 
+    @Test
+    void testCatch() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForCatch.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+    @Test
+    void testArray() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForArray.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+    @Test
+    void testField() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForField.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
+    @Test
+    void testEnum() {
+        CheckVerifier.newVerifier()
+                .onFile(System.getProperty("testfiles.path") + "/GCI82/MakeNonReassignedVariablesConstantsForEnum.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
+    }
+
 }

@@ -15,4 +15,5 @@ updates:
       - dependency-name: "org.springframework.data:spring-data-jpa"
       - dependency-name: "org.sonarsource.api.plugin:sonar-plugin-api"
       - dependency-name: "org.sonarsource.java:sonar-java-plugin"
+      - dependency-name: "org.sonarsource.analyzer-commons:sonar-analyzer-commons"
 

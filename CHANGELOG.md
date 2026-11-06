@@ -11,6 +11,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [#234](https://github.com/green-code-initiative/creedengo-java/pull/234) Fix Maven CI compatibility with Maven 3.10 by using the pinned wrapper for builds and dependency submission, isolating integration-test Maven roots and the Failsafe classpath.
+- compatibility updates for SonarQube up to 26.9.0
+- upgrade internal librairies versions
+- [#194](https://github.com/green-code-initiative/creedengo-java/pull/194) add container manager detection for tools
+- [#186](https://github.com/green-code-initiative/creedengo-java/pull/186) Use correct path for PGDATA variable in docker-compose
+- [#125](https://github.com/green-code-initiative/creedengo-java/issues/125) GCI82 : fix false positive on catch parameters (extracted from #194)
+- [#125](https://github.com/green-code-initiative/creedengo-java/issues/125) GCI82 : fix false positive on arrays created by their size (extracted from #194)
+- [#125](https://github.com/green-code-initiative/creedengo-java/issues/125) GCI82 : fix false positive on variables initialized from a field (extracted from #194)
+- [#125](https://github.com/green-code-initiative/creedengo-java/issues/125) GCI82 : add non-regression tests on enums (extracted from #194)
+
+### Deleted
+
+## [2.3.0] - 2026-09-23
+
+### Changed
+
 - compatibility updates for SonarQube up to 26.7.0
 - update default CI JDK from 17 to 21
 - upgrade internal librairies versions
@@ -21,8 +37,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#200](https://github.com/green-code-initiative/creedengo-java/pull/200) GCI82 : fix rule to accept instanceof pattern
 - [#201](https://github.com/green-code-initiative/creedengo-java/pull/201) GCI82 : fix rule on abstract methods
 - [#193](https://github.com/green-code-initiative/creedengo-java/pull/193) GCI27 - reduce false positives for System.arraycopy suggestions inside conditional and try/catch blocks
-
-### Deleted
 
 ## [2.2.0] - 2026-06-16
 
@@ -134,7 +148,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update ecocode-rules-specifications to 1.4.6
 
-[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.2.0...HEAD)
+[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.3.0...HEAD)
+[2.3.0](https://github.com/green-code-initiative/creedengo-java/compare/2.2.0...2.3.0)
 [2.2.0](https://github.com/green-code-initiative/creedengo-java/compare/2.1.2...2.2.0)
 [2.1.2](https://github.com/green-code-initiative/creedengo-java/compare/2.1.1...2.1.2)
 [2.1.1](https://github.com/green-code-initiative/creedengo-java/compare/2.1.0...2.1.1)

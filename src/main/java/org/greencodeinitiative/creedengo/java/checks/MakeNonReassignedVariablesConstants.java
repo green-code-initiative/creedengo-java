@@ -5,6 +5,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.location.Position;
+import org.sonar.plugins.java.api.semantic.Symbol;
 import org.sonar.plugins.java.api.semantic.Type;
 import org.sonar.plugins.java.api.tree.*;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
@@ -43,7 +44,8 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
             LOGGER.debug("   => isPassedAsNonFinalParameter = {}", isPassedAsNonFinalParameter(variableTree));
         }
 
-        if (isParameterOfAbstractMethod(variableTree))
+        if (isParameterOfAbstractMethod(variableTree) || isCatchParameter(variableTree) || isArrayCreatedBySize(variableTree)
+                || isInitializedFromField(variableTree))
             return;
 
         // the Lombok check is the most expensive predicate : it is evaluated last, on actual candidates only
@@ -60,6 +62,47 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     private static boolean isParameterOfAbstractMethod(VariableTree variableTree) {
         Tree parent = variableTree.parent();
         return parent != null && parent.is(Kind.METHOD) && ((MethodTree) parent).block() == null;
+    }
+
+    /**
+     * A catch parameter is out of the scope of the rule : its value is given by the thrown exception,
+     * it can't become a constant, and a multi-catch parameter is already implicitly final.
+     */
+    private static boolean isCatchParameter(VariableTree variableTree) {
+        Tree parent = variableTree.parent();
+        return parent != null && parent.is(Kind.CATCH);
+    }
+
+    /**
+     * An array created by its size (e.g. "new byte[1024]") is a buffer whose content is set at runtime :
+     * it can't become a constant. An array declared with its values (e.g. "{"a", "b"}") is still checked.
+     */
+    private static boolean isArrayCreatedBySize(VariableTree variableTree) {
+        ExpressionTree initializer = variableTree.initializer();
+        return initializer != null && initializer.is(Kind.NEW_ARRAY) && ((NewArrayTree) initializer).openBraceToken() == null;
+    }
+
+    /**
+     * A variable initialized from a field (e.g. "attr", "this.attr", "super.attr", "other.attr") gets a value
+     * that depends on the state of an object : it can't become a constant.
+     * A variable initialized from a constant (static final field) is still checked.
+     */
+    private static boolean isInitializedFromField(VariableTree variableTree) {
+        ExpressionTree initializer = variableTree.initializer();
+        if (initializer == null) return false;
+
+        Symbol readSymbol;
+        if (initializer.is(Kind.IDENTIFIER)) {
+            readSymbol = ((IdentifierTree) initializer).symbol();
+        } else if (initializer.is(Kind.MEMBER_SELECT)) {
+            readSymbol = ((MemberSelectExpressionTree) initializer).identifier().symbol();
+        } else {
+            return false;
+        }
+
+        Symbol owner = readSymbol.owner();
+        return readSymbol.isVariableSymbol() && owner != null && owner.isTypeSymbol()
+                && !(readSymbol.isStatic() && readSymbol.isFinal());
     }
 
     private static boolean isNotFromRecord(VariableTree variableTree) {

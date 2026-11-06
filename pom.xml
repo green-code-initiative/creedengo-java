@@ -74,10 +74,12 @@
 
         <!-- Version of `sonar-java-plugin` that `creedengo-java-plugin` depends on  -->
         <sonarjava.version>8.40.0.46617</sonarjava.version>
-        <!-- last version 8.41.0.47177 is NON OK for JDK 17 because compiled only for JDK 21 -->
+        <!-- versions > 8.40.x is NON OK for JDK 17 because compiled only for JDK 21 -->
 <!--        <sonarjava.version>8.41.0.47177</sonarjava.version>-->
 
         <sonar-analyzer-commons.version>2.30.0.5193</sonar-analyzer-commons.version>
+        <!-- versions > 2.30.x is NON OK for JDK 17 because compiled only for JDK 21 -->
+<!--        <sonar-analyzer-commons.version>2.31.0.5284</sonar-analyzer-commons.version>-->
 
         <sonar-packaging.version>1.25.1.3002</sonar-packaging.version>
 
@@ -121,7 +123,8 @@
         <!-- <test-it.sonarqube.version>26.1.0.118079</test-it.sonarqube.version> -->
         <!-- <test-it.sonarqube.version>26.2.0.119303</test-it.sonarqube.version> -->
         <!-- <test-it.sonarqube.version>26.6.0.123539</test-it.sonarqube.version> -->
-        <test-it.sonarqube.version>26.7.0.124771</test-it.sonarqube.version>
+        <!-- <test-it.sonarqube.version>26.7.0.124771</test-it.sonarqube.version> -->
+        <test-it.sonarqube.version>26.9.0.129388</test-it.sonarqube.version>
 
         <!-- Version of `sonar-java-plugin` used by integration tests (you can override this value to perform matrix compatibility tests) -->
         <test-it.sonarjava.version>${sonarjava.version}</test-it.sonarjava.version>
@@ -170,7 +173,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.19</version>
+            <version>2.0.20</version>
             <!-- To keep with this scope otherwise logging system will be not ok on custom plugins -->
             <scope>provided</scope>
         </dependency>
@@ -203,7 +206,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.23.0</version>
+            <version>5.24.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -287,7 +290,7 @@
                 <!-- plugin to generate a unique build number for sonar-packaging-maven-plugin : usage of buildNumber variable -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -357,7 +360,7 @@
                                 <artifactItem>
                                     <groupId>org.slf4j</groupId>
                                     <artifactId>slf4j-api</artifactId>
-                                    <version>2.0.19</version>
+                                    <version>2.0.20</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
@@ -387,7 +390,7 @@
                                 <artifactItem>
                                     <groupId>org.springframework</groupId>
                                     <artifactId>spring-context</artifactId>
-                                    <version>7.0.9</version>
+                                    <version>7.0.10</version>
                                     <type>jar</type>
                                 </artifactItem>
                                 <artifactItem>
@@ -451,7 +454,7 @@
                 <!-- add integration test sources into test classpath -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.6.2</version>
                 <executions>
                     <execution>
                         <id>add-integration-test-sources</id>
@@ -489,7 +492,7 @@
                 <!-- Execute integration tests -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -497,6 +500,16 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
+                            <!--
+                                sonar-java-plugin is installed in the SonarQube instance by the integration tests (see "test-it.plugins" below),
+                                so it is not needed on the Failsafe test classpath. Exclude its bundled dependencies to prevent them from
+                                shadowing those required by sonar-orchestrator (creedengo-integration-test >= 0.7.0), notably commons-lang3:
+                                ObjectUtils.getIfNull(Object, Object) requires commons-lang3 >= 3.18.
+                                This exclusion only affects integration tests; unit tests still use sonar-java-plugin through java-checks-testkit.
+                            -->
+                            <classpathDependencyExcludes>
+                                <classpathDependencyExclude>org.sonarsource.java:sonar-java-plugin</classpathDependencyExclude>
+                            </classpathDependencyExcludes>
                             <systemPropertyVariables>
                                 <test-it.sonarqube.keepRunning>${test-it.sonarqube.keepRunning}</test-it.sonarqube.keepRunning>
                                 <test-it.orchestrator.artifactory.url>${test-it.orchestrator.artifactory.url}</test-it.orchestrator.artifactory.url>
