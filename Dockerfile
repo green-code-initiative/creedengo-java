@@ -1,4 +1,6 @@
-ARG MAVEN_BUILDER=3-openjdk-17-slim
+# "openjdk" images are deprecated and frozen on an old JDK 17 (NPE "CgroupInfo.getMountPoint() ... anyController is null" on cgroup v2 hosts)
+# => use a maintained Temurin JDK 17 (JDK 17 required by the project, see pom.xml)
+ARG MAVEN_BUILDER=3-eclipse-temurin-17
 
 #ARG SONARQUBE_VERSION=9.9.0-community
 #ARG SONARQUBE_VERSION=24.12.0.100206-community
