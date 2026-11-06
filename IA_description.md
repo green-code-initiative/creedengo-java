@@ -31,7 +31,7 @@ Implementation Structure
   - "@Rule" annotation: gives the rule id (ex: `@Rule(key = "GCI67")`)
     - the rule id (and its metadata: description, severity, tags...) is previously defined in another maven component named "creedengo-rules-specifications" (dependency with classifier `java`)
     - "@DeprecatedRuleKey" annotations keep the former rule keys (ex: repository "ecocode-java" key "EC67", repository "greencodeinitiative-java" key "S67")
-    - to enable a rule in the default quality profile, the rule id must be added in the resource file `src/main/resources/org/greencodeinitiative/creedengo/java/creedengo_way_profile.json`
+    - to enable a rule in the "creedengo way" quality profile, the rule id must be added in the resource file `src/main/resources/org/greencodeinitiative/creedengo/java/creedengo_way_profile.json`
   - extends the SonarQube API class "IssuableSubscriptionVisitor"
   - overrides "nodesToVisit()" to declare the list of AST node kinds (`Tree.Kind`) to be analysed
   - overrides "visitNode(Tree)" (and optionally "leaveNode(Tree)") to implement the analysis and call "reportIssue" when a bad practice is detected
@@ -40,7 +40,7 @@ Implementation Structure
   - "JavaPlugin": entry point, declares the extensions "JavaRulesDefinition" (server side) and "JavaCheckRegistrar" (analysis side)
   - "JavaRulesDefinition": creates the SonarQube rule repository "creedengo-java" (language "java") and loads the rule metadata from the annotated rule classes
   - "JavaCheckRegistrar": registers the list of implemented rule classes (`checkClasses()`) for the Java analyzer. Every new rule class must be added here
-  - "JavaCreedengoWayProfile": defines the quality profile "creedengo way" (rules activated come from creedengo_way_profile.json)
+  - "JavaCreedengoWayProfile": defines the quality profile "creedengo way" (rules activated come from creedengo_way_profile.json). It is intentionally NOT registered as an extension in "JavaPlugin" (JavaPluginTest expects exactly 2 extensions), so that this profile is not created when the plugin is installed in a real SonarQube. It is only used for tests: the integration tests load the profile on their own through the property `test-it.additional-profile-uris` (see pom.xml)
 
 Unit Tests Implementation Structure
 ---
